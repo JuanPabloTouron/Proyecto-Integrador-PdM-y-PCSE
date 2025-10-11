@@ -26,24 +26,103 @@ static menu_t menu;
 char datetext[64];
 char timetext[64];
 
+uint16_t buttonBuffer[100];
+
 static void showTimeMode();
-static void setTimeMode();
-static void setAlarmMode();
+static void setTimeMode(uint16_t currentButton);
+static void setAlarmMode(uint16_t currentButton);
 static void showOptions();
 DS3231_DateTime time;
+
+
+uint16_t buffer[MAX_BUFFER];
+int head = 0;
+int tail = 0;
+
+//Agrego un valor al buffer
+int enqueue(uint16_t value) {
+    int next_tail = (tail + 1) % MAX_BUFFER;
+    if (next_tail == head) {
+        // Buffer full
+        return -1;
+    }
+    buffer[tail] = value;
+    tail = next_tail;
+    return 0;
+}
+
+// Saco un valor de la fila
+int pop(void) {
+    if (head == tail) {
+        // Buffer empty
+        return -1;
+    }
+    uint16_t val = buffer[head];
+    head = (head + 1) % MAX_BUFFER;
+    return val;
+}
+
+// Obtengo un valor de la fila
+int peek(uint16_t* value) {
+    if (head == tail) {
+        return -1; // empty
+    }
+    *value = buffer[head];
+    return 0;
+}
+
 
 static void menuInit(){
 	menu = SHOWTIME_M;
 }
 
-static void menuUpdate(){
+static void menuUpdate(uint16_t button){
 	showOptions();
 	switch(menu){
 	case SHOWTIME_M:
+		if (button == rightButton){
+			menu = SETTIME_M;
+		}
+		else{
+			if (button == leftButton){
+				menu = SETALARM_M;
+			}
+			else{
+				if (button == enterButton){
+					app = SHOWTIME;
+				}
+			}
+		}
 		break;
 	case SETTIME_M:
+		if (button == rightButton){
+			menu = SETALARM_M;
+		}
+		else{
+			if (button == leftButton){
+				menu = SHOWTIME_M;
+			}
+			else{
+				if (button == enterButton){
+					app = SETTIME;
+				}
+			}
+		}
 		break;
 	case SETALARM_M:
+		if (button == rightButton){
+			menu = SHOWTIME_M;
+		}
+		else{
+			if (button == leftButton){
+				menu = SETTIME_M;
+			}
+			else{
+				if (button == enterButton){
+					app = SETALARM;
+				}
+			}
+		}
 		break;
 	default:
 		break;
@@ -66,22 +145,42 @@ void appInit(){
 }
 
 void appUpdate(){
+	uint16_t currentButton;
+	if (peek(&currentButton)){
+		currentButton = 0;
+	}
 	switch(app){
 	case SHOWTIME:
-		showTimeMode();
+		if (currentButton == menuButton){
+			app = MENU;
+		}
+		else{
+			showTimeMode();
+		}
 		break;
 	case SETTIME:
-		setTimeMode();
+		if (currentButton == menuButton){
+			app = MENU;
+		}
+		else{
+			setTimeMode(currentButton);
+		}
 		break;
 	case SETALARM:
-		setAlarmMode();
+		if (currentButton == menuButton){
+			app = MENU;
+		}
+		else{
+			setAlarmMode(currentButton);
+		}
 		break;
 	case MENU:
-		menuUpdate();
+		menuUpdate(currentButton);
 		break;
 	default:
 		break;
 	}
+	pop();
 }
 
 static void showTimeMode(){
@@ -93,15 +192,9 @@ static void showTimeMode(){
 
 	  LCD_Clear_Write(timetext,0,4);
 	  LCD_Clear_Write(datetext,1,3);
-	  /*
-	  LCD_I2C_SetCursor(0, 4);
-	  LCD_I2C_WriteString(timetext);
-	  LCD_I2C_SetCursor(1, 3);
-	  LCD_I2C_WriteString(datetext);
-	  */
 }
 
-static void setTimeMode(){
+static void setTimeMode(uint16_t currentButton){
 	  GetTime(&time);
 
 
@@ -110,15 +203,9 @@ static void setTimeMode(){
 
 	  LCD_Clear_Write(timetext,0,4);
 	  LCD_Clear_Write(datetext,1,3);
-	  /*
-	  LCD_I2C_SetCursor(0, 4);
-	  LCD_I2C_WriteString(timetext);
-	  LCD_I2C_SetCursor(1, 3);
-	  LCD_I2C_WriteString(datetext);
-	  */
 }
 
-static void setAlarmMode(){
+static void setAlarmMode(uint16_t currentButton){
 	  GetTime(&time);
 
 
@@ -127,12 +214,6 @@ static void setAlarmMode(){
 
 	  LCD_Clear_Write(timetext,0,4);
 	  LCD_Clear_Write(datetext,1,3);
-	  /*
-	  LCD_I2C_SetCursor(0, 4);
-	  LCD_I2C_WriteString(timetext);
-	  LCD_I2C_SetCursor(1, 3);
-	  LCD_I2C_WriteString(datetext);
-	  */
 }
 
 static void showOptions(){
@@ -154,7 +235,12 @@ static void showOptions(){
 	}
 }
 
-void buttonPressed(uint16_t GPIO_Pin)
+void buttonPressed(uint16_t GPIO_Pin){
+	enqueue(GPIO_Pin);
+}
+
+/*
+void buttonPressed2(uint16_t GPIO_Pin)
 {
     switch(GPIO_Pin)
     {
@@ -230,3 +316,4 @@ void buttonPressed(uint16_t GPIO_Pin)
             break;
     }
 }
+*/

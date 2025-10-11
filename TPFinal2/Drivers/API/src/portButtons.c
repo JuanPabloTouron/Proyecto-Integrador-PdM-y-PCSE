@@ -48,38 +48,29 @@ void buttonsInit(void)
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
+    // Map GPIO_Pin to index
+    if (GPIO_Pin == GPIO_PIN_6) pos = 0;
+    else if (GPIO_Pin == GPIO_PIN_7) pos = 1;
+    else if (GPIO_Pin == GPIO_PIN_8) pos = 2;
+    else if (GPIO_Pin == GPIO_PIN_9) pos = 3;
+    else return; // Not one of our buttons
 
-    // Find the button index
-	if (GPIO_Pin == GPIO_PIN_6){
-		pos = 0;
-	}
-	if (GPIO_Pin == GPIO_PIN_7){
-		pos = 1;
-	}
-	if (GPIO_Pin == GPIO_PIN_8){
-		pos = 2;
-	}
-	if (GPIO_Pin == GPIO_PIN_9){
-		pos = 3;
-	}
-
-    // Only start debounce if not already pressed and debounce delay not active
+    // If button not already marked as pressed, start debounce timer
     if (!buttons[pos].pressed) {
-        buttons[pos].pressed = true;
-        delayRead(&(buttons[pos].delay)); // Start debounce timer
-        return; // Exit, wait for debounce delay to expire
+        buttons[pos].pressed = true; // Prevent re-triggering
+        delayRead(&(buttons[pos].delay)); // Start 20-50ms debounce timer
+        return; // Wait for debounce to expire
     }
 
-    // Check if the debounce delay expired before confirming button
+    // When the callback fires again, check if debounce time elapsed
     if (delayRead(&(buttons[pos].delay))) {
-        // Delay expired, verify the button is still pressed
-        // For safety, you can directly read pin state
-        if (HAL_GPIO_ReadPin(GPIOA, GPIO_Pin) == GPIO_PIN_RESET) { // adjust GPIO and pin accordingly
-            buttonPressed(GPIO_Pin);
+        // Example: assuming all on GPIOA
+        if (HAL_GPIO_ReadPin(GPIOA, GPIO_Pin) == GPIO_PIN_RESET) {
+            buttonPressed(GPIO_Pin); // Confirmed button press
         }
-        // Reset button state for next press
+
+        // Reset for next event
         buttonReset(pos);
     }
 }
-
 

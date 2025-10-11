@@ -14,6 +14,7 @@
 #include "stdio.h"
 #include "portButtons.h"
 
+#define MAX_BUFFER 100
 #define rightButton GPIO_PIN_6 //PA6, D12
 #define menuButton GPIO_PIN_7 //PA7, D11
 #define leftButton GPIO_PIN_8 //PA8, D7

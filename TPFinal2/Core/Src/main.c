@@ -101,7 +101,7 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 	  appUpdate();
-	  I2CDelay(100);
+	  I2CDelay(200);
   }
   /* USER CODE END 3 */
 }

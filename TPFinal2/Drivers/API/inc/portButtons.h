@@ -8,7 +8,7 @@
 
 #define MIN_DEPHASE 6
 
-#define DELAY 20
+#define DELAY 40
 
 extern void buttonPressed(uint16_t GPIO_Pin);
 
