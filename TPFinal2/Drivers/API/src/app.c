@@ -40,13 +40,114 @@ static void menuUpdate(){
 	showOptions();
 	switch(menu){
 	case SHOWTIME_M:
-
 		break;
 	case SETTIME_M:
-
 		break;
 	case SETALARM_M:
+		break;
+	default:
+		break;
+	}
+}
 
+
+
+void appInit(){
+
+	LCD_I2C_Init();
+	HAL_Delay(1000);
+
+	LCD_Clear_Write("Bienvenido",0,3);
+	HAL_Delay(2000);
+	LCD_Clear_Write("",0,0);
+	LCD_Clear_Write("",1,0);
+	menuInit();
+	app = SHOWTIME;
+}
+
+void appUpdate(){
+	switch(app){
+	case SHOWTIME:
+		showTimeMode();
+		break;
+	case SETTIME:
+		setTimeMode();
+		break;
+	case SETALARM:
+		setAlarmMode();
+		break;
+	case MENU:
+		menuUpdate();
+		break;
+	default:
+		break;
+	}
+}
+
+static void showTimeMode(){
+	  GetTime(&time);
+
+
+	  sprintf(timetext, "%02d:%02d:%02d",time.Hours, time.Minutes, time.Seconds);
+	  sprintf(datetext, "%02d/%02d/%04d",time.Date, time.Month, time.Year);
+
+	  LCD_Clear_Write(timetext,0,4);
+	  LCD_Clear_Write(datetext,1,3);
+	  /*
+	  LCD_I2C_SetCursor(0, 4);
+	  LCD_I2C_WriteString(timetext);
+	  LCD_I2C_SetCursor(1, 3);
+	  LCD_I2C_WriteString(datetext);
+	  */
+}
+
+static void setTimeMode(){
+	  GetTime(&time);
+
+
+	  sprintf(timetext, "%02d:%02d:%02d", time.Seconds, time.Hours, time.Minutes);
+	  sprintf(datetext, "%02d/%02d/%04d",time.Date, time.Month, time.Year);
+
+	  LCD_Clear_Write(timetext,0,4);
+	  LCD_Clear_Write(datetext,1,3);
+	  /*
+	  LCD_I2C_SetCursor(0, 4);
+	  LCD_I2C_WriteString(timetext);
+	  LCD_I2C_SetCursor(1, 3);
+	  LCD_I2C_WriteString(datetext);
+	  */
+}
+
+static void setAlarmMode(){
+	  GetTime(&time);
+
+
+	  sprintf(timetext, "%02d:%02d:%02d", time.Minutes, time.Seconds, time.Hours);
+	  sprintf(datetext, "%02d/%02d/%04d",time.Date, time.Month, time.Year);
+
+	  LCD_Clear_Write(timetext,0,4);
+	  LCD_Clear_Write(datetext,1,3);
+	  /*
+	  LCD_I2C_SetCursor(0, 4);
+	  LCD_I2C_WriteString(timetext);
+	  LCD_I2C_SetCursor(1, 3);
+	  LCD_I2C_WriteString(datetext);
+	  */
+}
+
+static void showOptions(){
+	switch(menu){
+	case SHOWTIME_M:
+		LCD_Clear_Write("1) Ver",0,5);
+		LCD_Clear_Write("fecha y hora",1,2);
+		break;
+	case SETTIME_M:
+		LCD_Clear_Write("2) Ajsutar",1,2);
+		LCD_Clear_Write("fecha y hora",1,2);
+		break;
+	case SETALARM_M:
+		LCD_Clear_Write("3) Poner",0,4);
+		LCD_Clear_Write("alarma",1,5);
 		break;
 	default:
 		break;
@@ -128,103 +229,4 @@ void buttonPressed(uint16_t GPIO_Pin)
         default:
             break;
     }
-}
-
-void appInit(){
-
-	LCD_I2C_Init();
-	HAL_Delay(1000);
-
-	LCD_I2C_SetCursor(0, 3);
-	LCD_I2C_WriteString("Bienvenido");
-	HAL_Delay(2000);
-	LCD_I2C_SetCursor(0, 0);
-	LCD_I2C_WriteString("                ");
-	LCD_I2C_SetCursor(1, 0);
-	LCD_I2C_WriteString("                ");
-	menuInit();
-	app = SHOWTIME;
-}
-
-void appUpdate(){
-	switch(app){
-	case SHOWTIME:
-		showTimeMode();
-		break;
-	case SETTIME:
-		setTimeMode();
-		break;
-	case SETALARM:
-		setAlarmMode();
-		break;
-	case MENU:
-		menuUpdate();
-		break;
-	default:
-		break;
-	}
-}
-
-static void showTimeMode(){
-	  GetTime(&time);
-
-
-	  sprintf(timetext, "%02d:%02d:%02d",time.Hours, time.Minutes, time.Seconds);
-	  sprintf(datetext, "%02d/%02d/%04d",time.Date, time.Month, time.Year);
-
-	  LCD_I2C_SetCursor(0, 4);
-	  LCD_I2C_WriteString(timetext);
-	  LCD_I2C_SetCursor(1, 3);
-	  LCD_I2C_WriteString(datetext);
-}
-
-static void setTimeMode(){
-	  GetTime(&time);
-
-
-	  sprintf(timetext, "%02d:%02d:%02d", time.Seconds, time.Hours, time.Minutes);
-	  sprintf(datetext, "%02d/%02d/%04d",time.Date, time.Month, time.Year);
-
-	  LCD_I2C_SetCursor(0, 4);
-	  LCD_I2C_WriteString(timetext);
-	  LCD_I2C_SetCursor(1, 3);
-	  LCD_I2C_WriteString(datetext);
-}
-
-static void setAlarmMode(){
-	  GetTime(&time);
-
-
-	  sprintf(timetext, "%02d:%02d:%02d", time.Minutes, time.Seconds, time.Hours);
-	  sprintf(datetext, "%02d/%02d/%04d",time.Date, time.Month, time.Year);
-
-	  LCD_I2C_SetCursor(0, 4);
-	  LCD_I2C_WriteString(timetext);
-	  LCD_I2C_SetCursor(1, 3);
-	  LCD_I2C_WriteString(datetext);
-}
-
-static void showOptions(){
-	switch(menu){
-	case SHOWTIME_M:
-		LCD_I2C_SetCursor(0, 5);
-		LCD_I2C_WriteString("1) Ver");
-		LCD_I2C_SetCursor(1, 2);
-		LCD_I2C_WriteString("fecha y hora");
-		break;
-	case SETTIME_M:
-		LCD_I2C_SetCursor(0, 3);
-		LCD_I2C_WriteString("2) Ajustar");
-		LCD_I2C_SetCursor(1, 2);
-		LCD_I2C_WriteString("fecha y hora");
-		break;
-	case SETALARM_M:
-		LCD_I2C_SetCursor(0, 4);
-		LCD_I2C_WriteString("3) Poner");
-		LCD_I2C_SetCursor(1, 5);
-		LCD_I2C_WriteString("alarma");
-		break;
-	default:
-		break;
-	}
 }

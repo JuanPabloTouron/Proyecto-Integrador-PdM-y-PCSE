@@ -1,9 +1,9 @@
 ../Drivers/API/src/app.c:35:13:menuInit	4	static
 ../Drivers/API/src/app.c:39:13:menuUpdate	8	static
-../Drivers/API/src/app.c:56:6:buttonPressed	16	static
-../Drivers/API/src/app.c:133:6:appInit	8	static
-../Drivers/API/src/app.c:149:6:appUpdate	8	static
-../Drivers/API/src/app.c:168:13:showTimeMode	16	static
-../Drivers/API/src/app.c:181:13:setTimeMode	16	static
-../Drivers/API/src/app.c:194:13:setAlarmMode	16	static
-../Drivers/API/src/app.c:207:13:showOptions	8	static
+../Drivers/API/src/app.c:55:6:appInit	8	static
+../Drivers/API/src/app.c:68:6:appUpdate	8	static
+../Drivers/API/src/app.c:87:13:showTimeMode	16	static
+../Drivers/API/src/app.c:104:13:setTimeMode	16	static
+../Drivers/API/src/app.c:121:13:setAlarmMode	16	static
+../Drivers/API/src/app.c:138:13:showOptions	8	static
+../Drivers/API/src/app.c:157:6:buttonPressed	16	static

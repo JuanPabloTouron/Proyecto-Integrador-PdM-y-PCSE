@@ -110,6 +110,8 @@ void LCD_I2C_Clear();
  */
 void LCD_I2C_WriteString(char *str);
 
+void LCD_Clear_Write(char *str,uint8_t row, uint8_t col);
+
 /**
  * @function LCD_I2C_SetCursor
  * @brief Function to set the cursor on the display.

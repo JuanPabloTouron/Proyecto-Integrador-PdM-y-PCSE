@@ -14,10 +14,10 @@
 #include "stdio.h"
 #include "portButtons.h"
 
-#define rightButton GPIO_PIN_6 //D3, PB3, GPIO3
-#define menuButton GPIO_PIN_7 //D4, PB5, GPIO4
-#define leftButton GPIO_PIN_8 //D5, PB4, GPIO5
-#define enterButton GPIO_PIN_9 //D6, PB10, GPIO10
+#define rightButton GPIO_PIN_6 //PA6, D12
+#define menuButton GPIO_PIN_7 //PA7, D11
+#define leftButton GPIO_PIN_8 //PA8, D7
+#define enterButton GPIO_PIN_9 //PA9, D8
 
 void appInit();
 void appUpdate();

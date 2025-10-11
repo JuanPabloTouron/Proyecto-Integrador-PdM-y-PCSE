@@ -61,8 +61,8 @@ all: main-build
 main-build: TPFinal2.elf secondary-outputs
 
 # Tool invocations
-TPFinal2.elf TPFinal2.map: $(OBJS) $(USER_OBJS) C:\Users\Juan\ Pablo\Downloads\PdM_Practicas\TPFinal2\STM32F446RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "TPFinal2.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\Juan Pablo\Downloads\PdM_Practicas\TPFinal2\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="TPFinal2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+TPFinal2.elf TPFinal2.map: $(OBJS) $(USER_OBJS) C:\Users\Juan\ Pablo\Desktop\Proyecto\ Integrador\ PdM\ y\ PCSE\TPFinal2\STM32F446RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "TPFinal2.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\Juan Pablo\Desktop\Proyecto Integrador PdM y PCSE\TPFinal2\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="TPFinal2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

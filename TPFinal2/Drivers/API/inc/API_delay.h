@@ -12,8 +12,9 @@ typedef struct{
 	tick_t startTime;
 	tick_t duration;
 	bool_t running;
-
 } delay_t;
+
+extern void Error_Handler();
 
 /* USER CODE END ET */
 

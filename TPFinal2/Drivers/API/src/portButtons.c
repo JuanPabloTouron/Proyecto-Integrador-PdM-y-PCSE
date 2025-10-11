@@ -1,5 +1,27 @@
 #include "portButtons.h"
 
+typedef struct{
+	bool_t pressed;
+	delay_t delay;
+} buttonDebounce;
+
+static buttonDebounce buttons[NUMBER_OF_BUTTONS];
+static tick_t pos = 0;
+
+static void buttonReset(tick_t buttonNumber);
+
+static void buttonReset(tick_t buttonNumber){
+	buttons[buttonNumber].pressed = false;
+	delayInit(&(buttons[buttonNumber].delay),DELAY);
+}
+
+static void buttonsReset(void){
+	for (tick_t i = 0;i<NUMBER_OF_BUTTONS;i++){
+		buttonReset(i);
+	}
+}
+
+
 
 void buttonsInit(void)
 {
@@ -20,11 +42,44 @@ void buttonsInit(void)
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI9_5_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
+
+  buttonsReset();
 }
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-	HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-    buttonPressed(GPIO_Pin); //Call the method
+
+    // Find the button index
+	if (GPIO_Pin == GPIO_PIN_6){
+		pos = 0;
+	}
+	if (GPIO_Pin == GPIO_PIN_7){
+		pos = 1;
+	}
+	if (GPIO_Pin == GPIO_PIN_8){
+		pos = 2;
+	}
+	if (GPIO_Pin == GPIO_PIN_9){
+		pos = 3;
+	}
+
+    // Only start debounce if not already pressed and debounce delay not active
+    if (!buttons[pos].pressed) {
+        buttons[pos].pressed = true;
+        delayRead(&(buttons[pos].delay)); // Start debounce timer
+        return; // Exit, wait for debounce delay to expire
+    }
+
+    // Check if the debounce delay expired before confirming button
+    if (delayRead(&(buttons[pos].delay))) {
+        // Delay expired, verify the button is still pressed
+        // For safety, you can directly read pin state
+        if (HAL_GPIO_ReadPin(GPIOA, GPIO_Pin) == GPIO_PIN_RESET) { // adjust GPIO and pin accordingly
+            buttonPressed(GPIO_Pin);
+        }
+        // Reset button state for next press
+        buttonReset(pos);
+    }
 }
+
 

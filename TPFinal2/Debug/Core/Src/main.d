@@ -27,12 +27,13 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- C:/Users/Juan\ Pablo/Downloads/PdM_Practicas/TPFinal2/Drivers/API/inc/app.h \
- C:/Users/Juan\ Pablo/Downloads/PdM_Practicas/TPFinal2/Drivers/API/inc/ds3231.h \
- C:/Users/Juan\ Pablo/Downloads/PdM_Practicas/TPFinal2/Drivers/API/inc/portI2C.h \
- C:/Users/Juan\ Pablo/Downloads/PdM_Practicas/TPFinal2/Drivers/API/inc/lcd_i2c.h \
- C:/Users/Juan\ Pablo/Downloads/PdM_Practicas/TPFinal2/Drivers/API/inc/portButtons.h \
- C:/Users/Juan\ Pablo/Downloads/PdM_Practicas/TPFinal2/Drivers/API/inc/portButtons.h
+ C:/Users/Juan\ Pablo/Desktop/Proyecto\ Integrador\ PdM\ y\ PCSE/TPFinal2/Drivers/API/inc/app.h \
+ C:/Users/Juan\ Pablo/Desktop/Proyecto\ Integrador\ PdM\ y\ PCSE/TPFinal2/Drivers/API/inc/ds3231.h \
+ C:/Users/Juan\ Pablo/Desktop/Proyecto\ Integrador\ PdM\ y\ PCSE/TPFinal2/Drivers/API/inc/portI2C.h \
+ C:/Users/Juan\ Pablo/Desktop/Proyecto\ Integrador\ PdM\ y\ PCSE/TPFinal2/Drivers/API/inc/lcd_i2c.h \
+ C:/Users/Juan\ Pablo/Desktop/Proyecto\ Integrador\ PdM\ y\ PCSE/TPFinal2/Drivers/API/inc/portButtons.h \
+ C:/Users/Juan\ Pablo/Desktop/Proyecto\ Integrador\ PdM\ y\ PCSE/TPFinal2/Drivers/API/inc/API_delay.h \
+ C:/Users/Juan\ Pablo/Desktop/Proyecto\ Integrador\ PdM\ y\ PCSE/TPFinal2/Drivers/API/inc/portButtons.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -62,9 +63,10 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
-C:/Users/Juan\ Pablo/Downloads/PdM_Practicas/TPFinal2/Drivers/API/inc/app.h:
-C:/Users/Juan\ Pablo/Downloads/PdM_Practicas/TPFinal2/Drivers/API/inc/ds3231.h:
-C:/Users/Juan\ Pablo/Downloads/PdM_Practicas/TPFinal2/Drivers/API/inc/portI2C.h:
-C:/Users/Juan\ Pablo/Downloads/PdM_Practicas/TPFinal2/Drivers/API/inc/lcd_i2c.h:
-C:/Users/Juan\ Pablo/Downloads/PdM_Practicas/TPFinal2/Drivers/API/inc/portButtons.h:
-C:/Users/Juan\ Pablo/Downloads/PdM_Practicas/TPFinal2/Drivers/API/inc/portButtons.h:
+C:/Users/Juan\ Pablo/Desktop/Proyecto\ Integrador\ PdM\ y\ PCSE/TPFinal2/Drivers/API/inc/app.h:
+C:/Users/Juan\ Pablo/Desktop/Proyecto\ Integrador\ PdM\ y\ PCSE/TPFinal2/Drivers/API/inc/ds3231.h:
+C:/Users/Juan\ Pablo/Desktop/Proyecto\ Integrador\ PdM\ y\ PCSE/TPFinal2/Drivers/API/inc/portI2C.h:
+C:/Users/Juan\ Pablo/Desktop/Proyecto\ Integrador\ PdM\ y\ PCSE/TPFinal2/Drivers/API/inc/lcd_i2c.h:
+C:/Users/Juan\ Pablo/Desktop/Proyecto\ Integrador\ PdM\ y\ PCSE/TPFinal2/Drivers/API/inc/portButtons.h:
+C:/Users/Juan\ Pablo/Desktop/Proyecto\ Integrador\ PdM\ y\ PCSE/TPFinal2/Drivers/API/inc/API_delay.h:
+C:/Users/Juan\ Pablo/Desktop/Proyecto\ Integrador\ PdM\ y\ PCSE/TPFinal2/Drivers/API/inc/portButtons.h:
