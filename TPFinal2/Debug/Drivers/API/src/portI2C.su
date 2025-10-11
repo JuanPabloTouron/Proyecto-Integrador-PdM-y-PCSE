@@ -1,0 +1,4 @@
+../Drivers/API/src/portI2C.c:19:6:I2CInit	16	static
+../Drivers/API/src/portI2C.c:39:6:I2CDelay	16	static
+../Drivers/API/src/portI2C.c:44:6:I2CMasterTransmit	24	static
+../Drivers/API/src/portI2C.c:49:6:I2CReadMemory	40	static

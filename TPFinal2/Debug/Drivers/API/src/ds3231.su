@@ -1,0 +1,4 @@
+../Drivers/API/src/ds3231.c:16:9:BcdToDec	16	static
+../Drivers/API/src/ds3231.c:21:9:DecToBcd	16	static
+../Drivers/API/src/ds3231.c:26:6:SetTime	24	static
+../Drivers/API/src/ds3231.c:42:6:GetTime	24	static

@@ -1,0 +1,2 @@
+../Drivers/API/src/portButtons.c:4:6:buttonsInit	48	static
+../Drivers/API/src/portButtons.c:25:6:HAL_GPIO_EXTI_Callback	16	static
