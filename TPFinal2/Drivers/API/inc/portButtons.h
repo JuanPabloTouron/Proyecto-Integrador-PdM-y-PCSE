@@ -8,7 +8,20 @@
 
 #define MIN_DEPHASE 6
 
-#define DELAY 40
+#define DELAY 60
+
+#define Right_Pin GPIO_PIN_6
+#define Right_GPIO_Port GPIOA
+#define Right_EXTI_IRQn EXTI9_5_IRQn
+#define Menu_Pin GPIO_PIN_7
+#define Menu_GPIO_Port GPIOA
+#define Menu_EXTI_IRQn EXTI9_5_IRQn
+#define Left_Pin GPIO_PIN_8
+#define Left_GPIO_Port GPIOA
+#define Left_EXTI_IRQn EXTI9_5_IRQn
+#define Enter_Pin GPIO_PIN_9
+#define Enter_GPIO_Port GPIOA
+#define Enter_EXTI_IRQn EXTI9_5_IRQn
 
 extern void buttonPressed(uint16_t GPIO_Pin);
 

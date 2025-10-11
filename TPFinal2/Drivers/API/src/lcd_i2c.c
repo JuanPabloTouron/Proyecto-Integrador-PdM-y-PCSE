@@ -88,9 +88,13 @@ void LCD_I2C_WriteString(char *str) {
 
 void LCD_Clear_Write(char *str,uint8_t row, uint8_t col){
 	LCD_I2C_SetCursor(row, 0);
+	I2CDelay(5);
 	LCD_I2C_WriteString("                ");
+	I2CDelay(5);
 	LCD_I2C_SetCursor(row,col);
+	I2CDelay(5);
 	LCD_I2C_WriteString(str);
+	I2CDelay(5);
 }
 
 /*Sets the cursor. Declared in header file*/

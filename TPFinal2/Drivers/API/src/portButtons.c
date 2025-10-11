@@ -26,6 +26,9 @@ static void buttonsReset(void){
 void buttonsInit(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
+  /* USER CODE BEGIN MX_GPIO_Init_1 */
+
+  /* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOC_CLK_ENABLE();
@@ -33,8 +36,8 @@ void buttonsInit(void)
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
-  /*Configure GPIO pins : PA6 PA7 PA8 PA9 */
-  GPIO_InitStruct.Pin = GPIO_PIN_6|GPIO_PIN_7|GPIO_PIN_8|GPIO_PIN_9;
+  /*Configure GPIO pins : Right_Pin Menu_Pin Left_Pin Enter_Pin */
+  GPIO_InitStruct.Pin = Right_Pin|Menu_Pin|Left_Pin|Enter_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
@@ -43,7 +46,9 @@ void buttonsInit(void)
   HAL_NVIC_SetPriority(EXTI9_5_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
 
+  /* USER CODE BEGIN MX_GPIO_Init_2 */
   buttonsReset();
+  /* USER CODE END MX_GPIO_Init_2 */
 }
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)

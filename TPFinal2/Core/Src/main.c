@@ -101,7 +101,7 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 	  appUpdate();
-	  I2CDelay(200);
+	  I2CDelay(20);
   }
   /* USER CODE END 3 */
 }
@@ -153,12 +153,6 @@ void SystemClock_Config(void)
   }
 }
 
-/**
-  * @brief I2C1 Initialization Function
-  * @param None
-  * @retval None
-  */
-
 
 /**
   * @brief USART2 Initialization Function
@@ -192,7 +186,6 @@ static void MX_USART2_UART_Init(void)
   /* USER CODE END USART2_Init 2 */
 
 }
-
 
 /* USER CODE BEGIN 4 */
 

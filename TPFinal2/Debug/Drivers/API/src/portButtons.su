@@ -1,4 +1,4 @@
 ../Drivers/API/src/portButtons.c:13:13:buttonReset	16	static
 ../Drivers/API/src/portButtons.c:18:13:buttonsReset	16	static
 ../Drivers/API/src/portButtons.c:26:6:buttonsInit	48	static
-../Drivers/API/src/portButtons.c:49:6:HAL_GPIO_EXTI_Callback	16	static
+../Drivers/API/src/portButtons.c:54:6:HAL_GPIO_EXTI_Callback	16	static
