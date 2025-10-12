@@ -138,7 +138,15 @@ static void menuUpdate(uint16_t button){
 	}
 }
 
+bool_t checkLeapYear(uint8_t year){
+	//chequear año bisiesto
+	if ((year%400 ==0)|((year%4==0)&(year%100 !=0))) return true;
+	else return false;
+}
+
 bool_t timeSetUpdate(DS3231_DateTime *timeSet, uint16_t button){
+	uint8_t maxDay[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
+	if (checkLeapYear(timeSet->Year)) maxDay[1] = 29;
 	switch(datetimeSet){
 	case HOUR_DT:
 		if (button == enterButton) datetimeSet = MINUTE_DT;
@@ -171,7 +179,7 @@ bool_t timeSetUpdate(DS3231_DateTime *timeSet, uint16_t button){
 		}
 		break;
 	case SECOND_DT:
-		if (button == enterButton) datetimeSet = DATE_DT;
+		if (button == enterButton) datetimeSet = YEAR_DT;
 		else if (button == rightButton){
 			if (timeSet->Seconds == 59){
 				timeSet->Seconds = 0;
@@ -185,14 +193,51 @@ bool_t timeSetUpdate(DS3231_DateTime *timeSet, uint16_t button){
 			else timeSet->Seconds--;
 		}
 		break;
-	case DATE_DT:
+	case YEAR_DT:
 		if (button == enterButton) datetimeSet = MONTH_DT;
+		else if (button == rightButton){
+			if (timeSet->Year == 99){
+				timeSet->Year = 0;
+			}
+			else timeSet->Year++;
+		}
+		else if (button == leftButton){
+			if (timeSet->Year == 0){
+				timeSet->Year = 99;
+			}
+			else timeSet->Year--;
+		}
 		break;
 	case MONTH_DT:
-		if (button == enterButton) datetimeSet = YEAR_DT;
+		if (button == enterButton) datetimeSet = DATE_DT;
+		else if (button == rightButton){
+			if (timeSet->Month == 12){
+				timeSet->Month = 1;
+			}
+			else timeSet->Month++;
+		}
+		else if (button == leftButton){
+			if (timeSet->Month == 1){
+				timeSet->Month = 12;
+			}
+			else timeSet->Month--;
+		}
 		break;
-	case YEAR_DT:
+	case DATE_DT:
 		if (button == enterButton) return true;
+		else if (button == rightButton){
+			if (timeSet->Date == maxDay[(timeSet->Month)-1]){
+				timeSet->Date = 1;
+			}
+			else timeSet->Date++;
+		}
+		else if (button == leftButton){
+			if (timeSet->Date == 1){
+				timeSet->Date = maxDay[(timeSet->Month)-1];
+			}
+			else timeSet->Date--;
+		}
+		break;
 		break;
 	}
 	return false;
@@ -266,12 +311,15 @@ static void setTimeMode(uint16_t currentButton){
 		SetTime(&timeToSet);
 		LCD_Clear_Write("Hora",0,6);
 		LCD_Clear_Write("actualizada.",1,2);
+		I2CDelay(1000);
 
 		char msg[20];
 		int len = snprintf(msg, sizeof(msg), "Hora actualizada\r\n");	HAL_UART_Transmit(&huart2, (uint8_t*)msg, len, HAL_MAX_DELAY);
 
 		app = SHOWTIME;
 		menu = SHOWTIME_M;
+		lastTime[64] = " "; //
+		lastDate[64] = " "; //Porque la fecha queda guardada y si no
 	}
 
 }
