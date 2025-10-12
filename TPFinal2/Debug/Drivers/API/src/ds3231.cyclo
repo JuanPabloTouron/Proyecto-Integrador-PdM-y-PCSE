@@ -2,3 +2,4 @@
 ../Drivers/API/src/ds3231.c:21:9:DecToBcd	1
 ../Drivers/API/src/ds3231.c:26:6:SetTime	1
 ../Drivers/API/src/ds3231.c:42:6:GetTime	1
+../Drivers/API/src/ds3231.c:55:6:CopyTime	1

@@ -100,7 +100,6 @@ uint8_t DecToBcd(uint8_t val);
 /**
  * @function DecToBcd
  * @brief Function that sets the date and time of the DS3231.
- * @param hi2c: pointer to the I2C handle that will communicate STM32 to DS3231
  * @param time: pointer to the DateTime struct that store the date and time to set
  * @retval none
  */
@@ -109,10 +108,18 @@ void SetTime(DS3231_DateTime *time);
 /**
  * @function GetTime
  * @brief Function that get the date and time from the DS3231.
- * @param hi2c: pointer to the I2C handle that will communicate STM32 to DS3231
  * @param time: pointer to the DateTime struct that will store the date and time
  * @retval none
  */
 void GetTime(DS3231_DateTime *time);
+
+/**
+ * @function CopyTime
+ * @brief Function that copies the fields of one Datetime object to another.
+ * @param timeToCopy: pointer to the DS3231_DateTime to be copied
+ * @param timeToPaste: pointer to the DS3231_DateTime to complete
+ * @retval none
+ */
+void CopyTime(DS3231_DateTime *timeToCopy, DS3231_DateTime *timeToPaste);
 
 #endif

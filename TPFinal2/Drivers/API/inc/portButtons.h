@@ -8,7 +8,7 @@
 
 #define MIN_DEPHASE 6
 
-#define DELAY 60
+#define DELAY 40
 
 #define Right_Pin GPIO_PIN_6
 #define Right_GPIO_Port GPIOA

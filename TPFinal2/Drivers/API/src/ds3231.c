@@ -51,3 +51,13 @@ void GetTime(DS3231_DateTime *time) {
     time->Month   = BcdToDec(buffer[5] & CENTURY_MASK);
     time->Year    = YEAR_CORRECTION + BcdToDec(buffer[6]);
 }
+
+void CopyTime(DS3231_DateTime *timeToCopy, DS3231_DateTime *timeToPaste){
+	timeToPaste->Seconds = timeToCopy->Seconds;
+	timeToPaste->Minutes = timeToCopy->Minutes;
+	timeToPaste->Hours = timeToCopy->Hours;
+	timeToPaste->Day = timeToCopy->Day;
+	timeToPaste->Date = timeToCopy->Date;
+	timeToPaste->Month = timeToCopy->Month;
+	timeToPaste->Year = timeToCopy->Year;
+}
