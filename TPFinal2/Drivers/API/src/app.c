@@ -25,6 +25,8 @@ static app_t app;
 static menu_t menu;
 char datetext[64];
 char timetext[64];
+char lastTime[64] = "";
+char lastDate[64] = "";
 
 uint16_t buttonBuffer[100];
 
@@ -32,27 +34,27 @@ static void showTimeMode();
 static void setTimeMode(uint16_t currentButton);
 static void setAlarmMode(uint16_t currentButton);
 static void showOptions();
+
 DS3231_DateTime time;
 
 
 uint16_t buffer[MAX_BUFFER];
-int head = 0;
-int tail = 0;
+int head = 0, tail = 0;
 
 //Agrego un valor al buffer
-int enqueue(uint16_t value) {
-    int next_tail = (tail + 1) % MAX_BUFFER;
-    if (next_tail == head) {
+int addToQueue(uint16_t value) {
+    int nextTail = (tail + 1) % MAX_BUFFER;
+    if (nextTail == head) {
         // Buffer full
         return -1;
     }
     buffer[tail] = value;
-    tail = next_tail;
+    tail = nextTail;
     return 0;
 }
 
 // Saco un valor de la fila
-int pop(void) {
+int removeFromQueue(void) {
     if (head == tail) {
         // Buffer empty
         return -1;
@@ -63,7 +65,7 @@ int pop(void) {
 }
 
 // Obtengo un valor de la fila
-int peek(uint16_t* value) {
+int getFromQueue(uint16_t* value) {
     if (head == tail) {
         return -1; // empty
     }
@@ -77,52 +79,28 @@ static void menuInit(){
 }
 
 static void menuUpdate(uint16_t button){
-	showOptions();
 	switch(menu){
 	case SHOWTIME_M:
-		if (button == rightButton){
-			menu = SETTIME_M;
-		}
-		else{
-			if (button == leftButton){
-				menu = SETALARM_M;
-			}
-			else{
-				if (button == enterButton){
-					app = SHOWTIME;
-				}
-			}
+		showOptions();
+		if (button == rightButton) menu = SETTIME_M;
+		else if (button == leftButton) menu = SETALARM_M;
+		else if (button == enterButton){
+			app = SHOWTIME;
+			lastTime[64] = " "; //
+			lastDate[64] = " "; //Porque la fecha queda guardada y si no
 		}
 		break;
 	case SETTIME_M:
-		if (button == rightButton){
-			menu = SETALARM_M;
-		}
-		else{
-			if (button == leftButton){
-				menu = SHOWTIME_M;
-			}
-			else{
-				if (button == enterButton){
-					app = SETTIME;
-				}
-			}
-		}
+		showOptions();
+		if (button == rightButton) menu = SETALARM_M;
+		else if (button == leftButton) menu = SHOWTIME_M;
+		else if (button == enterButton)	app = SETTIME;
 		break;
 	case SETALARM_M:
-		if (button == rightButton){
-			menu = SHOWTIME_M;
-		}
-		else{
-			if (button == leftButton){
-				menu = SETTIME_M;
-			}
-			else{
-				if (button == enterButton){
-					app = SETALARM;
-				}
-			}
-		}
+		showOptions();
+		if (button == rightButton) menu = SHOWTIME_M;
+		else if (button == leftButton) menu = SETTIME_M;
+		else if (button == enterButton)	app = SETALARM;
 		break;
 	default:
 		break;
@@ -146,33 +124,19 @@ void appInit(){
 
 void appUpdate(){
 	uint16_t currentButton;
-	if (peek(&currentButton)){
-		currentButton = 0;
-	}
+	if (getFromQueue(&currentButton)) currentButton = 0;
 	switch(app){
 	case SHOWTIME:
-		if (currentButton == menuButton){
-			app = MENU;
-		}
-		else{
-			showTimeMode();
-		}
+		if (currentButton == menuButton) app = MENU;
+		else showTimeMode();
 		break;
 	case SETTIME:
-		if (currentButton == menuButton){
-			app = MENU;
-		}
-		else{
-			setTimeMode(currentButton);
-		}
+		if (currentButton == menuButton) app = MENU;
+		else setTimeMode(currentButton);
 		break;
 	case SETALARM:
-		if (currentButton == menuButton){
-			app = MENU;
-		}
-		else{
-			setAlarmMode(currentButton);
-		}
+		if (currentButton == menuButton) app = MENU;
+		else setAlarmMode(currentButton);
 		break;
 	case MENU:
 		menuUpdate(currentButton);
@@ -180,7 +144,7 @@ void appUpdate(){
 	default:
 		break;
 	}
-	pop();
+	removeFromQueue();
 }
 
 static void showTimeMode(){
@@ -190,30 +154,25 @@ static void showTimeMode(){
 	  sprintf(timetext, "%02d:%02d:%02d",time.Hours, time.Minutes, time.Seconds);
 	  sprintf(datetext, "%02d/%02d/%04d",time.Date, time.Month, time.Year);
 
-	  LCD_Clear_Write(timetext,0,4);
-	  LCD_Clear_Write(datetext,1,3);
+	  if (strcmp(timetext, lastTime) != 0) {
+		  LCD_Clear_Write(timetext, 0, 4);
+	      strcpy(lastTime, timetext);
+	  }
+
+	  if (strcmp(datetext, lastDate) != 0) {
+	      LCD_Clear_Write(datetext, 1, 3);
+	      strcpy(lastDate, datetext);
+	  }
 }
 
 static void setTimeMode(uint16_t currentButton){
-	  GetTime(&time);
-
-
-	  sprintf(timetext, "%02d:%02d:%02d", time.Seconds, time.Hours, time.Minutes);
-	  sprintf(datetext, "%02d/%02d/%04d",time.Date, time.Month, time.Year);
-
-	  LCD_Clear_Write(timetext,0,4);
-	  LCD_Clear_Write(datetext,1,3);
+	  LCD_Clear_Write("Proxima-",0,4);
+	  LCD_Clear_Write("mente.",1,5);
 }
 
 static void setAlarmMode(uint16_t currentButton){
-	  GetTime(&time);
-
-
-	  sprintf(timetext, "%02d:%02d:%02d", time.Minutes, time.Seconds, time.Hours);
-	  sprintf(datetext, "%02d/%02d/%04d",time.Date, time.Month, time.Year);
-
-	  LCD_Clear_Write(timetext,0,4);
-	  LCD_Clear_Write(datetext,1,3);
+	  LCD_Clear_Write("Por el momento",0,0);
+	  LCD_Clear_Write("no disponible.",1,1);
 }
 
 static void showOptions(){
@@ -223,8 +182,8 @@ static void showOptions(){
 		LCD_Clear_Write("fecha y hora",1,2);
 		break;
 	case SETTIME_M:
-		LCD_Clear_Write("2) Ajsutar",1,2);
-		LCD_Clear_Write("fecha y hora",1,2);
+		LCD_Clear_Write("2) Ajsutar",0,2);
+		LCD_Clear_Write("hora y fecha",1,2);
 		break;
 	case SETALARM_M:
 		LCD_Clear_Write("3) Poner",0,4);
@@ -236,84 +195,7 @@ static void showOptions(){
 }
 
 void buttonPressed(uint16_t GPIO_Pin){
-	enqueue(GPIO_Pin);
+	char msg[50];
+	int len = snprintf(msg, sizeof(msg), "GPIO_Pin: %u, Menu: %d, App: %d\r\n", GPIO_Pin, menu, app);	HAL_UART_Transmit(&huart2, (uint8_t*)msg, len, HAL_MAX_DELAY);
+	addToQueue(GPIO_Pin);
 }
-
-/*
-void buttonPressed2(uint16_t GPIO_Pin)
-{
-    switch(GPIO_Pin)
-    {
-        case rightButton:
-        	LCD_I2C_SetCursor(0, 14);
-        	LCD_I2C_WriteString("AB");
-        	if (app == MENU){
-            	if (menu == SHOWTIME_M){
-            		menu = SETTIME_M;
-            	}
-            	if (menu == SETTIME_M){
-            		menu = SETALARM_M;
-            	}
-            	if (menu == SETALARM_M){
-            		menu = SHOWTIME_M;
-            	}
-            }
-            if (app == SETTIME){
-               	//Do something
-            }
-            if (app == SETALARM){
-            	//Do something
-            }
-            break;
-        case leftButton:
-        	LCD_I2C_SetCursor(0, 14);
-        	LCD_I2C_WriteString("CD");
-            if (app == MENU){
-            	if (menu == SHOWTIME_M){
-            		menu = SETALARM_M;
-            	}
-            	if (menu == SETTIME_M){
-            		menu = SHOWTIME_M;
-            	}
-            	if (menu == SETALARM_M){
-            		menu = SETTIME_M;
-            	}
-            }
-            if (app == SETTIME){
-               	//Do something
-            }
-            if (app == SETALARM){
-            	//Do something
-            }
-            break;
-        case menuButton:
-        	LCD_I2C_SetCursor(0, 14);
-        	LCD_I2C_WriteString("EF");
-            app = MENU;
-            break;
-        case enterButton:
-        	LCD_I2C_SetCursor(0, 14);
-        	LCD_I2C_WriteString("GH");
-            if (app == MENU){
-                if (menu == SHOWTIME_M){
-                	app = SHOWTIME;
-                }
-                if (menu == SETTIME_M){
-                	app = SETTIME;
-                }
-                if (menu == SETALARM_M){
-                	app = SETALARM;
-                }
-            }
-            if (app == SETTIME){
-               	//Do something
-            }
-            if (app == SETALARM){
-            	//Do something
-            }
-            break;
-        default:
-            break;
-    }
-}
-*/

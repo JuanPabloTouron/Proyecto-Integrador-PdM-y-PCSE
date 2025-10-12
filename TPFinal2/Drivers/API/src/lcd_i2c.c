@@ -50,9 +50,10 @@ void LCD_I2C_Init() {
     LCD_I2C_SendControlByte(0x30);  // Function set: 8-bit mode (initialization)
     I2CDelay(5);
     LCD_I2C_SendControlByte(0x30);  // Function set: 8-bit mode (initialization)
-    I2CDelay(1);
+    I2CDelay(5);
     LCD_I2C_SendControlByte(0x30);  // Function set: 8-bit mode (initialization)
-    I2CDelay(1);
+    I2CDelay(5);
+
     LCD_I2C_SendControlByte(0x20);  // Function set: 4-bit mode
     I2CDelay(1);
 
@@ -74,8 +75,9 @@ void LCD_I2C_Init() {
 /*Clears the display. Declared in header file*/
 void LCD_I2C_Clear() {
     LCD_I2C_SendControlByte(0x00); // Clear display command
-    LCD_I2C_SendControlByte(0x10);
-    I2CDelay(20);
+    //LCD_I2C_SendControlByte(0x10);
+    LCD_I2C_SendControlByte(0x01);
+    I2CDelay(2);
 }
 
 /*Writes a string in the display. Declared in header file*/
@@ -88,13 +90,13 @@ void LCD_I2C_WriteString(char *str) {
 
 void LCD_Clear_Write(char *str,uint8_t row, uint8_t col){
 	LCD_I2C_SetCursor(row, 0);
-	I2CDelay(5);
+	I2CDelay(2);
 	LCD_I2C_WriteString("                ");
-	I2CDelay(5);
+	I2CDelay(2);
 	LCD_I2C_SetCursor(row,col);
-	I2CDelay(5);
+	I2CDelay(2);
 	LCD_I2C_WriteString(str);
-	I2CDelay(5);
+	I2CDelay(2);
 }
 
 /*Sets the cursor. Declared in header file*/

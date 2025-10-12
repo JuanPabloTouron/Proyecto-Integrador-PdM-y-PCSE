@@ -12,7 +12,10 @@
 #include "ds3231.h"
 #include "lcd_i2c.h"
 #include "stdio.h"
+#include "string.h"
 #include "portButtons.h"
+
+extern UART_HandleTypeDef huart2;
 
 #define MAX_BUFFER 100
 #define rightButton GPIO_PIN_6 //PA6, D12
