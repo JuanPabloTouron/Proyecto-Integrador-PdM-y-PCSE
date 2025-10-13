@@ -8,16 +8,6 @@
  */
 #include "app.h"
 
-typedef enum {
-	Sun,
-	Mon,
-	Tue,
-	Wed,
-	Thu,
-	Fri,
-	Sat
-}day_t;
-
 typedef enum{
 	SHOWTIME,
 	SETTIME,
@@ -35,6 +25,7 @@ typedef enum{
 	HOUR_DT,
 	MINUTE_DT,
 	SECOND_DT,
+	DAY_DT,
 	DATE_DT,
 	MONTH_DT,
 	YEAR_DT
@@ -48,6 +39,8 @@ char datetext[64];
 char timetext[64];
 char lastTime[64] = "";
 char lastDate[64] = "";
+
+char *dayOfWeek[4] = {"Sun","Mon","Tue","Wed","Thu","Fri","Sat"};
 
 uint16_t buttonBuffer[100];
 
@@ -144,9 +137,22 @@ bool_t checkLeapYear(uint8_t year){
 	else return false;
 }
 
+void switchCursor(datetime_t dt){
+	switch(dt){
+	case HOUR_DT: LCD_I2C_SetCursor(0,3); break;
+	case MINUTE_DT: LCD_I2C_SetCursor(0,6); break;
+	case SECOND_DT: LCD_I2C_SetCursor(0,9); break;
+	case DAY_DT: LCD_I2C_SetCursor(1,0); break;
+	case DATE_DT: LCD_I2C_SetCursor(1,4); break;
+	case MONTH_DT: LCD_I2C_SetCursor(1,7); break;
+	case YEAR_DT: LCD_I2C_SetCursor(1,10); break;
+	}
+}
+
 bool_t timeSetUpdate(DS3231_DateTime *timeSet, uint16_t button){
 	uint8_t maxDay[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
 	if (checkLeapYear(timeSet->Year)) maxDay[1] = 29;
+	switchCursor(datetimeSet);
 	switch(datetimeSet){
 	case HOUR_DT:
 		if (button == enterButton) datetimeSet = MINUTE_DT;
@@ -224,7 +230,7 @@ bool_t timeSetUpdate(DS3231_DateTime *timeSet, uint16_t button){
 		}
 		break;
 	case DATE_DT:
-		if (button == enterButton) return true;
+		if (button == enterButton) datetimeSet = DAY_DT;
 		else if (button == rightButton){
 			if (timeSet->Date == maxDay[(timeSet->Month)-1]){
 				timeSet->Date = 1;
@@ -238,6 +244,22 @@ bool_t timeSetUpdate(DS3231_DateTime *timeSet, uint16_t button){
 			else timeSet->Date--;
 		}
 		break;
+	case DAY_DT:
+		if (button == enterButton) return true;
+		else if (button == rightButton){
+			if (timeSet->Day == 7){
+				timeSet->Day = 1;
+			}
+			else timeSet->Day++;
+		}
+		else if (button == leftButton){
+			if (timeSet->Day == 1){
+				timeSet->Day = 7;
+			}
+			else timeSet->Day--;
+		}
+		break;
+	default:
 		break;
 	}
 	return false;
@@ -281,12 +303,13 @@ void appUpdate(){
 	removeFromQueue();
 }
 
+
 static void showTimeMode(){
 	  GetTime(&time);
 
 
 	  sprintf(timetext, "%02d:%02d:%02d",time.Hours, time.Minutes, time.Seconds);
-	  sprintf(datetext, "%02d/%02d/%04d",time.Date, time.Month, time.Year);
+	  sprintf(datetext, "%s %02d/%02d/%04d",dayOfWeek[time.Day-1],time.Date, time.Month, time.Year);
 
 	  if (strcmp(timetext, lastTime) != 0) {
 		  LCD_Clear_Write(timetext, 0, 4);
@@ -294,7 +317,7 @@ static void showTimeMode(){
 	  }
 
 	  if (strcmp(datetext, lastDate) != 0) {
-	      LCD_Clear_Write(datetext, 1, 3);
+	      LCD_Clear_Write(datetext, 1, 1);
 	      strcpy(lastDate, datetext);
 	  }
 }
@@ -302,10 +325,10 @@ static void showTimeMode(){
 static void setTimeMode(uint16_t currentButton){
 
 	sprintf(timetext, "%02d:%02d:%02d",timeToSet.Hours, timeToSet.Minutes, timeToSet.Seconds);
-	sprintf(datetext, "%02d/%02d/%04d",timeToSet.Date, timeToSet.Month, timeToSet.Year);
+	sprintf(datetext, "%s %02d/%02d/%04d",dayOfWeek[timeToSet.Day-1],timeToSet.Date, timeToSet.Month, timeToSet.Year);
 
 	LCD_Clear_Write(timetext, 0, 4);
-	LCD_Clear_Write(datetext, 1, 3);
+	LCD_Clear_Write(datetext, 1, 1);
 
 	if (timeSetUpdate(&timeToSet,currentButton)){
 		SetTime(&timeToSet);
