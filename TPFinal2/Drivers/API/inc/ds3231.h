@@ -13,6 +13,7 @@
  * @brief Includes integer type definitions.
  */
 #include <portI2C.h>
+#include <stdbool.h>
 #include <stdint.h>
 
 /**
@@ -26,9 +27,14 @@
 #define DS3231_ADDR (0x68 << 1)
 
 /**
- * @brief Size (in bytes) of the buffer to transmit/receive data
+ * @brief Size (in bytes) of the buffer to transmit/receive data for time
  */
-#define BUFFER_SIZE 8
+#define TIME_SIZE 8
+
+/**
+ * @brief Size (in bytes) of the buffer to transmit/receive data for alarms
+ */
+#define ALARM_SIZE 4
 
 /**
  * @brief Size (in bits) of a nibble
@@ -51,10 +57,16 @@
 #define MODE24_MASK 0x3F
 
 /**
- * @brief Register to start to write to or read from. In the DS3231, it contains data
+ * @brief Register to start to write to or read from to set the alarm. In the DS3231, it contains data
  * about the seconds.
  */
-#define START_REGISTER 0x00
+#define ALARM_START_REGISTER 0x08
+
+/**
+ * @brief Register to start to write to or read from to set datetime. In the DS3231, it contains data
+ * about the seconds.
+ */
+#define TIME_START_REGISTER 0x00
 
 /**
  * @brief Register to start to write to or read from. In the DS3231, it contains data
@@ -98,7 +110,31 @@ uint8_t BcdToDec(uint8_t val);
 uint8_t DecToBcd(uint8_t val);
 
 /**
- * @function DecToBcd
+ * @function IsAlarmEmpty
+ * @brief Function that checks whether an alarm is set.
+ * @param alarm: pointer to the DateTime with the alarm
+ * @retval boolean that indicates if an alarm is set
+ */
+bool isAlarmEmpty(DS3231_DateTime *alarm);
+
+/**
+ * @function SetAlarm
+ * @brief Function that sets an alarm of the DS3231.
+ * @param time: pointer to the DateTime struct that store the alarm to set
+ * @retval none
+ */
+void SetAlarm(DS3231_DateTime *time);
+
+/**
+ * @function SetAlarm
+ * @brief Function that gets an alarm of the DS3231.
+ * @param time: pointer to the DateTime struct that will store the alarm to get
+ * @retval none
+ */
+void GetAlarm(DS3231_DateTime *time);
+
+/**
+ * @function SetTime
  * @brief Function that sets the date and time of the DS3231.
  * @param time: pointer to the DateTime struct that store the date and time to set
  * @retval none
@@ -121,5 +157,13 @@ void GetTime(DS3231_DateTime *time);
  * @retval none
  */
 void CopyTime(DS3231_DateTime *timeToCopy, DS3231_DateTime *timeToPaste);
+
+/**
+ * @function InitTime
+ * @brief Function that initialize the fields of one Datetime object.
+ * @param time: pointer to the DS3231_DateTime to initialize
+ * @retval none
+ */
+void InitTime(DS3231_DateTime *time);
 
 #endif

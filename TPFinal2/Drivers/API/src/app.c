@@ -34,13 +34,16 @@ typedef enum{
 static app_t app;
 static menu_t menu;
 static datetime_t datetimeSet;
+static datetime_t alarmSet;
+
+bool_t alarmIsSet;
 
 char datetext[64];
 char timetext[64];
 char lastTime[64] = "";
 char lastDate[64] = "";
 
-char *dayOfWeek[4] = {"Sun","Mon","Tue","Wed","Thu","Fri","Sat"};
+char *dayOfWeek[7] = {"Dom","Lun","Mar","Mie","Jue","Vie","Sab"};
 
 uint16_t buttonBuffer[100];
 
@@ -50,7 +53,9 @@ static void setAlarmMode(uint16_t currentButton);
 static void showOptions();
 
 DS3231_DateTime time;
+DS3231_DateTime alarm;
 DS3231_DateTime timeToSet;
+DS3231_DateTime alarmToSet;
 
 
 uint16_t buffer[MAX_BUFFER];
@@ -94,7 +99,8 @@ static void menuInit(){
 }
 
 static void timeSetInit(){
-	datetimeSet = HOUR_DT;
+	if (app == SETTIME)	datetimeSet = HOUR_DT;
+	if (app == SETALARM) alarmSet = HOUR_DT;
 }
 
 static void menuUpdate(uint16_t button){
@@ -105,8 +111,8 @@ static void menuUpdate(uint16_t button){
 		else if (button == leftButton) menu = SETALARM_M;
 		else if (button == enterButton){
 			app = SHOWTIME;
-			lastTime[64] = " "; //
-			lastDate[64] = " "; //Porque la fecha queda guardada y si no
+			lastTime[64] = ""; //
+			lastDate[64] = ""; //Porque la fecha queda guardada y si no
 		}
 		break;
 	case SETTIME_M:
@@ -124,7 +130,11 @@ static void menuUpdate(uint16_t button){
 		showOptions();
 		if (button == rightButton) menu = SHOWTIME_M;
 		else if (button == leftButton) menu = SETTIME_M;
-		else if (button == enterButton)	app = SETALARM;
+		else if (button == enterButton){
+			app = SETALARM;
+			timeSetInit();
+			InitTime(&alarmToSet);
+		}
 		break;
 	default:
 		break;
@@ -132,17 +142,25 @@ static void menuUpdate(uint16_t button){
 }
 
 bool_t checkLeapYear(uint8_t year){
-	//chequear año bisiesto
 	if ((year%400 ==0)|((year%4==0)&(year%100 !=0))) return true;
 	else return false;
 }
 
 void switchCursor(datetime_t dt){
 	switch(dt){
-	case HOUR_DT: LCD_I2C_SetCursor(0,3); break;
-	case MINUTE_DT: LCD_I2C_SetCursor(0,6); break;
+	case HOUR_DT:
+		if (app == SETTIME) LCD_I2C_SetCursor(0,3);
+		else LCD_I2C_SetCursor(0,4);
+		break;
+	case MINUTE_DT:
+		if (app == SETTIME) LCD_I2C_SetCursor(0,6);
+		else LCD_I2C_SetCursor(0,7);
+		break;
 	case SECOND_DT: LCD_I2C_SetCursor(0,9); break;
-	case DAY_DT: LCD_I2C_SetCursor(1,0); break;
+	case DAY_DT:
+		if (app == SETTIME) LCD_I2C_SetCursor(1,0);
+		else LCD_I2C_SetCursor(1,5);
+		break;
 	case DATE_DT: LCD_I2C_SetCursor(1,4); break;
 	case MONTH_DT: LCD_I2C_SetCursor(1,7); break;
 	case YEAR_DT: LCD_I2C_SetCursor(1,10); break;
@@ -170,7 +188,10 @@ bool_t timeSetUpdate(DS3231_DateTime *timeSet, uint16_t button){
 		}
 		break;
 	case MINUTE_DT:
-		if (button == enterButton) datetimeSet = SECOND_DT;
+		if (button == enterButton){
+			if (app == SETTIME) datetimeSet = SECOND_DT;
+			if (app == SETALARM) datetimeSet = DAY_DT;
+		}
 		else if (button == rightButton){
 			if (timeSet->Minutes == 59){
 				timeSet->Minutes = 0;
@@ -275,6 +296,8 @@ void appInit(){
 	LCD_Clear_Write("",0,0);
 	LCD_Clear_Write("",1,0);
 	menuInit();
+	GetAlarm(&alarm);
+	alarmIsSet = isAlarmEmpty(&alarm);
 	app = SHOWTIME;
 }
 
@@ -306,13 +329,21 @@ void appUpdate(){
 
 static void showTimeMode(){
 	  GetTime(&time);
+	  uint8_t col;
 
+	  if (alarmSet){
+		  sprintf(timetext, "A   %02d:%02d:%02d",time.Hours, time.Minutes, time.Seconds);
+		  col = 0;
+	  }
+	  else{
+		  sprintf(timetext, "%02d:%02d:%02d",time.Hours, time.Minutes, time.Seconds);
+		  col=4;
+	  }
 
-	  sprintf(timetext, "%02d:%02d:%02d",time.Hours, time.Minutes, time.Seconds);
 	  sprintf(datetext, "%s %02d/%02d/%04d",dayOfWeek[time.Day-1],time.Date, time.Month, time.Year);
 
 	  if (strcmp(timetext, lastTime) != 0) {
-		  LCD_Clear_Write(timetext, 0, 4);
+		  LCD_Clear_Write(timetext, 0, col);
 	      strcpy(lastTime, timetext);
 	  }
 
@@ -348,8 +379,28 @@ static void setTimeMode(uint16_t currentButton){
 }
 
 static void setAlarmMode(uint16_t currentButton){
-	  LCD_Clear_Write("Por el momento",0,0);
-	  LCD_Clear_Write("no disponible.",1,1);
+	sprintf(timetext, "%02d:%02d",alarmToSet.Hours, alarmToSet.Minutes);
+	sprintf(datetext, "%s",dayOfWeek[alarmToSet.Day-1]);
+
+	LCD_Clear_Write(timetext, 0, 5);
+	LCD_Clear_Write(datetext, 1, 6);
+
+	if (timeSetUpdate(&alarmToSet,currentButton)){
+		SetAlarm(&alarmToSet);
+		LCD_Clear_Write("Alarma",0,5);
+		LCD_Clear_Write("guardada.",1,4);
+		I2CDelay(1000);
+
+		char msg[20];
+		int len = snprintf(msg, sizeof(msg), "Alarma guardad\r\n");	HAL_UART_Transmit(&huart2, (uint8_t*)msg, len, HAL_MAX_DELAY);
+
+		app = SHOWTIME;
+		menu = SHOWTIME_M;
+		lastTime[64] = " "; //
+		lastDate[64] = " ";//Porque la fecha queda guardada y si no
+		alarmSet = true;
+	}
+
 }
 
 static void showOptions(){

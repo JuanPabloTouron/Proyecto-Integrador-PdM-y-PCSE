@@ -1,5 +1,9 @@
 ../Drivers/API/src/ds3231.c:16:9:BcdToDec	1
 ../Drivers/API/src/ds3231.c:21:9:DecToBcd	1
-../Drivers/API/src/ds3231.c:26:6:SetTime	1
-../Drivers/API/src/ds3231.c:42:6:GetTime	1
-../Drivers/API/src/ds3231.c:55:6:CopyTime	1
+../Drivers/API/src/ds3231.c:25:6:isAlarmEmpty	4
+../Drivers/API/src/ds3231.c:30:6:SetAlarm	1
+../Drivers/API/src/ds3231.c:42:6:GetAlarm	1
+../Drivers/API/src/ds3231.c:52:6:SetTime	1
+../Drivers/API/src/ds3231.c:68:6:GetTime	1
+../Drivers/API/src/ds3231.c:81:6:CopyTime	1
+../Drivers/API/src/ds3231.c:91:6:InitTime	1
