@@ -88,8 +88,8 @@ int main(void)
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
   I2CInit();
-  buttonsInit();
-  appInit();
+  ButtonsInit();
+  AppInit();
 
   /* USER CODE END 2 */
 
@@ -101,7 +101,7 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-	  appUpdate();
+	  AppUpdate();
 	  I2CDelay(100);
   }
   /* USER CODE END 3 */

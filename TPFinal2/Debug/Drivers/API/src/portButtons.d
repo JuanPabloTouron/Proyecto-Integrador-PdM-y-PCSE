@@ -1,5 +1,6 @@
 Drivers/API/src/portButtons.o: ../Drivers/API/src/portButtons.c \
  C:/Users/Juan\ Pablo/Desktop/Proyecto\ Integrador\ PdM\ y\ PCSE/TPFinal2/Drivers/API/inc/portButtons.h \
+ C:/Users/Juan\ Pablo/Desktop/Proyecto\ Integrador\ PdM\ y\ PCSE/TPFinal2/Drivers/API/inc/API_delay.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -27,9 +28,9 @@ Drivers/API/src/portButtons.o: ../Drivers/API/src/portButtons.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_i2c_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h \
- ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- C:/Users/Juan\ Pablo/Desktop/Proyecto\ Integrador\ PdM\ y\ PCSE/TPFinal2/Drivers/API/inc/API_delay.h
+ ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 C:/Users/Juan\ Pablo/Desktop/Proyecto\ Integrador\ PdM\ y\ PCSE/TPFinal2/Drivers/API/inc/portButtons.h:
+C:/Users/Juan\ Pablo/Desktop/Proyecto\ Integrador\ PdM\ y\ PCSE/TPFinal2/Drivers/API/inc/API_delay.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h:
@@ -58,4 +59,3 @@ C:/Users/Juan\ Pablo/Desktop/Proyecto\ Integrador\ PdM\ y\ PCSE/TPFinal2/Drivers
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
-C:/Users/Juan\ Pablo/Desktop/Proyecto\ Integrador\ PdM\ y\ PCSE/TPFinal2/Drivers/API/inc/API_delay.h:

@@ -1,18 +1,23 @@
-#ifndef PORT_H
-#define PORT_H
 /**
- * @file port.h
+ * @file portI2C.h
  * @brief Declarations for the wrapper I2C HAL functions.
  *
  * This file contains function prototypes and constants for interfacing
  * with any integrated circuit via I2C. It relies on the HAL functions
  * provided by stm32f4xx_hal.h.
  */
+#ifndef PORT_H
+#define PORT_H
 
 /**
  * @brief Includes STM32 HAL functions.
  */
 #include "stm32f4xx_hal.h"
+
+/**
+ * @brief Speed of the clock for the I2C communication.
+ */
+#define CLOCKSPEED 100000
 
 /**
  * @brief Timeout for the HAL I2C functions.
@@ -28,6 +33,14 @@
 extern void Error_Handler();
 
 /**
+ * @function I2CDelay
+ * @brief Function that delays the main program for a specified number of miliseconds in a blocking way.
+ * @param delayTime: time (in miliseconds) for delay
+ * @retval None
+ */
+void I2CDelay(uint32_t delayTime);
+
+/**
  * @function I2CInit
  * @brief Function that initializes the I2C protocol handle.
  * @param None
@@ -35,13 +48,6 @@ extern void Error_Handler();
  */
 void I2CInit(void);
 
-/**
- * @function I2CDelay
- * @brief Function that delays the main program for a specified number of ms.
- * @param delayTime: time for delay
- * @retval None
- */
-void I2CDelay(uint32_t delayTime);
 
 /**
  * @function I2CMasterTransmit
@@ -55,9 +61,9 @@ void I2CMasterTransmit(uint16_t devAddr, uint8_t *buffer, uint16_t size);
 
 /**
  * @function I2CReadMemory
- * @brief Function to read specific memory registers for a given IC.
- * @param devAddr: number of the I2C device address
+ * @brief Reads specific memory registers for a given IC.
  * @param startReg: memory register address to start reading
+ * @param devAddr: number of the I2C device address
  * @param buffer: pointer to buffer to store the read data
  * @param size: size of the buffer
  * @retval none

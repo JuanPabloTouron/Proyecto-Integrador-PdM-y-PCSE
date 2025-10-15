@@ -1,7 +1,7 @@
-../Drivers/API/src/lcd_i2c.c:28:6:LCD_I2C_Send	1
-../Drivers/API/src/lcd_i2c.c:41:6:LCD_I2C_SendControlByte	1
-../Drivers/API/src/lcd_i2c.c:46:6:LCD_I2C_Init	1
-../Drivers/API/src/lcd_i2c.c:76:6:LCD_I2C_Clear	1
-../Drivers/API/src/lcd_i2c.c:84:6:LCD_I2C_WriteString	2
-../Drivers/API/src/lcd_i2c.c:91:6:LCD_Clear_Write	1
-../Drivers/API/src/lcd_i2c.c:103:6:LCD_I2C_SetCursor	2
+../Drivers/API/src/lcd_i2c.c:16:6:LCD_I2C_Clear	1
+../Drivers/API/src/lcd_i2c.c:24:6:LCD_I2C_ClearWrite	1
+../Drivers/API/src/lcd_i2c.c:36:6:LCD_I2C_Init	1
+../Drivers/API/src/lcd_i2c.c:66:6:LCD_I2C_Send	1
+../Drivers/API/src/lcd_i2c.c:79:6:LCD_I2C_SendControlByte	1
+../Drivers/API/src/lcd_i2c.c:84:6:LCD_I2C_SetCursor	2
+../Drivers/API/src/lcd_i2c.c:95:6:LCD_I2C_WriteString	2

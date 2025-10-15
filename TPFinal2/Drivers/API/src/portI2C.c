@@ -1,8 +1,8 @@
 /**
- * @file port.c
+ * @file portI2C.c
  * @brief Implementation of the wrapper I2C HAL functions.
  *
- * Contains the function definitions declared in port.h.
+ * This file contains the function definitions declared in portI2C.h.
  * Implements I2C read/write operations for any integrated circuit.
  * Wraps HAL functions for other libraries' access.
  */
@@ -12,16 +12,20 @@
  */
 #include <portI2C.h>
 
-/* Declaration of the I2C external handle. Declared in the main */
+/* Declaration of the I2C handle (defined in the stm32f4xx_hal.h library).*/
 I2C_HandleTypeDef hi2c1;
+
+/*Delays the app for delayTime miliseconds. Declared in header file*/
+void I2CDelay(uint32_t delayTime){
+	HAL_Delay(delayTime);
+}
 
 /*Initialize the I2C protocol handle. Declared in header file*/
 void I2CInit(){
-
   __HAL_RCC_I2C1_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
   hi2c1.Instance = I2C1;
-  hi2c1.Init.ClockSpeed = 100000;
+  hi2c1.Init.ClockSpeed = CLOCKSPEED;
   hi2c1.Init.DutyCycle = I2C_DUTYCYCLE_2;
   hi2c1.Init.OwnAddress1 = 0;
   hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
@@ -33,11 +37,6 @@ void I2CInit(){
   {
     Error_Handler();
   }
-}
-
-/*Delays the app for delayTime miliseconds. Declared in header file*/
-void I2CDelay(uint32_t delayTime){
-	HAL_Delay(delayTime);
 }
 
 /*Writes the data buffer to the slave. Declared in header file*/

@@ -6,8 +6,17 @@
  * Implements MEFs to read buttons and switch display text or
  * configure datetime or alarms. Uses lcd_i2c.h and ds3231.h functions.
  */
+
+/**
+ * @brief Includes definitions and declarations for this module.
+ */
 #include "app.h"
 
+/**
+ * @brief States of the main FSM
+ *
+ * The main app has four possible states (corresponding to the screens to display): ShowTime, SetTime, SetAlarm and Menu.
+ */
 typedef enum{
 	SHOWTIME,
 	SETTIME,
@@ -15,12 +24,23 @@ typedef enum{
 	MENU
 } app_t;
 
+/**
+ * @brief States of the menu FSM
+ *
+ * The menu has three possible states (corresponding to the modes of functioning): ShowTimeMode, SetTimeMode and SetAlarmMode.
+ */
 typedef enum{
 	SHOWTIME_M,
 	SETTIME_M,
 	SETALARM_M
 } menu_t;
 
+/**
+ * @brief States of the datetime (for time or alarm) setting FSM
+ *
+ * The datetime has seven possible states (corresponding to a value to set): Hours, Minutes, Seconds, Day, Date, Month and Year.
+ * Alarm setting FSM only uses Hours, Minutes and Day.
+ */
 typedef enum{
 	HOUR_DT,
 	MINUTE_DT,
@@ -31,108 +51,201 @@ typedef enum{
 	YEAR_DT
 }datetime_t;
 
+/**
+ * @brief Instance of app_t for the main FSM.
+ */
 static app_t app;
+
+/**
+ * @brief Instance of menu_t for the menu FSM.
+ */
 static menu_t menu;
+
+/**
+ * @brief Instance of datetime_t for datetime setting in SetTimeMode.
+ */
 static datetime_t datetimeSet;
+
+/**
+ * @brief Instance of datetime_t for alarm setting in SetAlarmMode.
+ */
 static datetime_t alarmSet;
 
-bool_t alarmIsSet;
+/**
+ * @brief Flag to check whether an alarm is set
+ */
+static bool_t alarmIsSet;
 
-char datetext[64];
-char timetext[64];
-char lastTime[64] = "";
-char lastDate[64] = "";
+/**
+ * @brief Variable to store the date before displaying it in the LCD.
+ */
+static char datetext[MAX_CHARS];
 
-char *dayOfWeek[7] = {"Dom","Lun","Mar","Mie","Jue","Vie","Sab"};
+/**
+ * @brief Variable to store the time before displaying it in the LCD.
+ */
+static char timetext[MAX_CHARS];
 
-uint16_t buttonBuffer[100];
+/**
+ * @brief Variable to store the last time. In this way, I can avoid printing again the same string again.
+ */
+static char lastTime[MAX_CHARS] = "";
 
-static void showTimeMode();
-static void setTimeMode(uint16_t currentButton);
-static void setAlarmMode(uint16_t currentButton);
-static void showOptions();
+/**
+ * @brief Variable to store the last date. In this way, I can avoid printing again the same string again.
+ */
+static char lastDate[MAX_CHARS] = "";
 
+/**
+ * @brief Array of strings (array of chars) to display in the LCD.
+ */
+static char *dayOfWeek[LAST_DAY] = {"Dom","Lun","Mar","Mie","Jue","Vie","Sab"};
+
+/**
+ * @brief Variable to store the buttons pressed in order.
+ */
+static uint16_t buttonBuffer[MAX_BUFFER];
+
+/**
+ * @brief DS3231 datetime object to store current time.
+ */
 DS3231_DateTime time;
+
+/**
+ * @brief DS3231 datetime object to store current alarm.
+ */
 DS3231_DateTime alarm;
+
+/**
+ * @brief DS3231 datetime object to store time to set.
+ */
 DS3231_DateTime timeToSet;
+
+/**
+ * @brief DS3231 datetime object to store alarm to set.
+ */
 DS3231_DateTime alarmToSet;
 
-
-uint16_t buffer[MAX_BUFFER];
+/**
+ * @brief DS3231 datetime object to store alarm to set.
+ */
 int head = 0, tail = 0;
 
-//Agrego un valor al buffer
-int addToQueue(uint16_t value) {
+/**
+ * @function ShowTimeMode.
+ * @brief Displays time in the first row in "hh:mm:ss" format and date in the second row in "day dd/mm/aaaa" format.
+ * @param none
+ * @retval none
+ */
+static void ShowTimeMode();
+
+/**
+ * @function SetTimeMode.
+ * @brief Allow to set date and time. The cursor blinks to the left of the unit to set.
+ * @param currentButton: button pressed
+ * @retval none
+ */
+static void SetTimeMode(uint16_t currentButton);
+
+/**
+ * @function SetAlarmMode.
+ * @brief Allow to set hour, minutes and day for alarm. The cursor blinks to the left of the unit to set.
+ * @param currentButton: button pressed
+ * @retval none
+ */
+static void SetAlarmMode(uint16_t currentButton);
+
+/**
+ * @function ShowOptions.
+ * @brief Shows menu options according to menu current state.
+ * @param none
+ * @retval none
+ */
+static void ShowOptions();
+
+/**
+ * @function AddToQueue
+ * @brief Adds button pressed to button buffer.
+ * @param value: button pressed
+ * @retval none
+ */
+static void AddToQueue(uint16_t value) {
     int nextTail = (tail + 1) % MAX_BUFFER;
-    if (nextTail == head) {
-        // Buffer full
-        return -1;
-    }
-    buffer[tail] = value;
+    if (nextTail == head) return; /*If buffer is full*/
+    buttonBuffer[tail] = value;
     tail = nextTail;
-    return 0;
+    return;
 }
 
-// Saco un valor de la fila
-int removeFromQueue(void) {
-    if (head == tail) {
-        // Buffer empty
-        return -1;
-    }
-    uint16_t val = buffer[head];
+/**
+ * @function GetFromQueue
+ * @brief Gets the next value from a queue and removes it.
+ * @param none
+ * @retval val: the next value of the queue
+ */
+static uint16_t GetFromQueue(void) {
+    if (head == tail) return -1; /*If buffer is empty, return -1*/
+    uint16_t val = buttonBuffer[head];
     head = (head + 1) % MAX_BUFFER;
     return val;
 }
 
-// Obtengo un valor de la fila
-int getFromQueue(uint16_t* value) {
-    if (head == tail) {
-        return -1; // empty
-    }
-    *value = buffer[head];
-    return 0;
-}
-
-
-static void menuInit(){
+/**
+ * @function MenuInit
+ * @brief Initializes the menu to show time state.
+ * @param none
+ * @retval none
+ */
+static void MenuInit(){
 	menu = SHOWTIME_M;
 }
 
-static void timeSetInit(){
-	if (app == SETTIME)	datetimeSet = HOUR_DT;
-	if (app == SETALARM) alarmSet = HOUR_DT;
+/**
+ * @function TimeSetInit
+ * @brief Initializes the time set object to hour setting.
+ * @param none
+ * @retval none
+ */
+static void TimeSetInit(datetime_t dt){
+	dt = HOUR_DT;
 }
 
-static void menuUpdate(uint16_t button){
+/**
+ * @function MenuUpdate
+ * @brief Updates the menu state according to the button pressed.
+ * @param button: button pressed
+ * @retval none
+ */
+static void MenuUpdate(uint16_t button){
 	switch(menu){
 	case SHOWTIME_M:
-		showOptions();
-		if (button == rightButton) menu = SETTIME_M;
-		else if (button == leftButton) menu = SETALARM_M;
-		else if (button == enterButton){
+		ShowOptions();
+		if (button == RIGHT_BUTTON) menu = SETTIME_M;
+		else if (button == LEFT_BUTTON) menu = SETALARM_M;
+		else if (button == ENTER_BUTTON){
 			app = SHOWTIME;
-			lastTime[64] = ""; //
-			lastDate[64] = ""; //Porque la fecha queda guardada y si no
+			lastTime[MAX_CHARS] = "";
+			lastDate[MAX_CHARS] = ""; /*Restart these two variables so that they are printed to the LCD*/
 		}
 		break;
 	case SETTIME_M:
-		showOptions();
-		if (button == rightButton) menu = SETALARM_M;
-		else if (button == leftButton) menu = SHOWTIME_M;
-		else if (button == enterButton){
+		ShowOptions();
+		if (button == RIGHT_BUTTON) menu = SETALARM_M;
+		else if (button == LEFT_BUTTON) menu = SHOWTIME_M;
+		else if (button == ENTER_BUTTON){
 			app = SETTIME;
-			timeSetInit();
+			TimeSetInit(datetimeSet);
 			GetTime(&time);
 			CopyTime(&time,&timeToSet);
 		}
 		break;
 	case SETALARM_M:
-		showOptions();
-		if (button == rightButton) menu = SHOWTIME_M;
-		else if (button == leftButton) menu = SETTIME_M;
-		else if (button == enterButton){
+		ShowOptions();
+		if (button == RIGHT_BUTTON) menu = SHOWTIME_M;
+		else if (button == LEFT_BUTTON) menu = SETTIME_M;
+		else if (button == ENTER_BUTTON){
 			app = SETALARM;
-			timeSetInit();
+			TimeSetInit(alarmSet);
 			InitTime(&alarmToSet);
 		}
 		break;
@@ -141,12 +254,12 @@ static void menuUpdate(uint16_t button){
 	}
 }
 
-bool_t checkLeapYear(uint8_t year){
+bool_t CheckLeapYear(uint8_t year){
 	if ((year%400 ==0)|((year%4==0)&(year%100 !=0))) return true;
 	else return false;
 }
 
-void switchCursor(datetime_t dt){
+void SwitchCursor(datetime_t dt){
 	switch(dt){
 	case HOUR_DT:
 		if (app == SETTIME) LCD_I2C_SetCursor(0,3);
@@ -167,20 +280,20 @@ void switchCursor(datetime_t dt){
 	}
 }
 
-bool_t timeSetUpdate(DS3231_DateTime *timeSet, uint16_t button){
+bool_t TimeSetUpdate(DS3231_DateTime *timeSet, uint16_t button){
 	uint8_t maxDay[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
-	if (checkLeapYear(timeSet->Year)) maxDay[1] = 29;
-	switchCursor(datetimeSet);
+	if (CheckLeapYear(timeSet->Year)) maxDay[1] = 29;
+	SwitchCursor(datetimeSet);
 	switch(datetimeSet){
 	case HOUR_DT:
-		if (button == enterButton) datetimeSet = MINUTE_DT;
-		else if (button == rightButton){
+		if (button == ENTER_BUTTON) datetimeSet = MINUTE_DT;
+		else if (button == RIGHT_BUTTON){
 			if (timeSet->Hours == 23){
 				timeSet->Hours = 0;
 			}
 			else timeSet->Hours++;
 		}
-		else if (button == leftButton){
+		else if (button == LEFT_BUTTON){
 			if (timeSet->Hours == 0){
 				timeSet->Hours = 23;
 			}
@@ -188,17 +301,17 @@ bool_t timeSetUpdate(DS3231_DateTime *timeSet, uint16_t button){
 		}
 		break;
 	case MINUTE_DT:
-		if (button == enterButton){
+		if (button == ENTER_BUTTON){
 			if (app == SETTIME) datetimeSet = SECOND_DT;
 			if (app == SETALARM) datetimeSet = DAY_DT;
 		}
-		else if (button == rightButton){
+		else if (button == RIGHT_BUTTON){
 			if (timeSet->Minutes == 59){
 				timeSet->Minutes = 0;
 			}
 			else timeSet->Minutes++;
 		}
-		else if (button == leftButton){
+		else if (button == LEFT_BUTTON){
 			if (timeSet->Minutes == 0){
 				timeSet->Minutes = 59;
 			}
@@ -206,14 +319,14 @@ bool_t timeSetUpdate(DS3231_DateTime *timeSet, uint16_t button){
 		}
 		break;
 	case SECOND_DT:
-		if (button == enterButton) datetimeSet = YEAR_DT;
-		else if (button == rightButton){
+		if (button == ENTER_BUTTON) datetimeSet = YEAR_DT;
+		else if (button == RIGHT_BUTTON){
 			if (timeSet->Seconds == 59){
 				timeSet->Seconds = 0;
 			}
 			else timeSet->Seconds++;
 		}
-		else if (button == leftButton){
+		else if (button == LEFT_BUTTON){
 			if (timeSet->Seconds == 0){
 				timeSet->Seconds = 59;
 			}
@@ -221,14 +334,14 @@ bool_t timeSetUpdate(DS3231_DateTime *timeSet, uint16_t button){
 		}
 		break;
 	case YEAR_DT:
-		if (button == enterButton) datetimeSet = MONTH_DT;
-		else if (button == rightButton){
+		if (button == ENTER_BUTTON) datetimeSet = MONTH_DT;
+		else if (button == RIGHT_BUTTON){
 			if (timeSet->Year == 99){
 				timeSet->Year = 0;
 			}
 			else timeSet->Year++;
 		}
-		else if (button == leftButton){
+		else if (button == LEFT_BUTTON){
 			if (timeSet->Year == 0){
 				timeSet->Year = 99;
 			}
@@ -236,14 +349,14 @@ bool_t timeSetUpdate(DS3231_DateTime *timeSet, uint16_t button){
 		}
 		break;
 	case MONTH_DT:
-		if (button == enterButton) datetimeSet = DATE_DT;
-		else if (button == rightButton){
+		if (button == ENTER_BUTTON) datetimeSet = DATE_DT;
+		else if (button == RIGHT_BUTTON){
 			if (timeSet->Month == 12){
 				timeSet->Month = 1;
 			}
 			else timeSet->Month++;
 		}
-		else if (button == leftButton){
+		else if (button == LEFT_BUTTON){
 			if (timeSet->Month == 1){
 				timeSet->Month = 12;
 			}
@@ -251,14 +364,14 @@ bool_t timeSetUpdate(DS3231_DateTime *timeSet, uint16_t button){
 		}
 		break;
 	case DATE_DT:
-		if (button == enterButton) datetimeSet = DAY_DT;
-		else if (button == rightButton){
+		if (button == ENTER_BUTTON) datetimeSet = DAY_DT;
+		else if (button == RIGHT_BUTTON){
 			if (timeSet->Date == maxDay[(timeSet->Month)-1]){
 				timeSet->Date = 1;
 			}
 			else timeSet->Date++;
 		}
-		else if (button == leftButton){
+		else if (button == LEFT_BUTTON){
 			if (timeSet->Date == 1){
 				timeSet->Date = maxDay[(timeSet->Month)-1];
 			}
@@ -266,14 +379,14 @@ bool_t timeSetUpdate(DS3231_DateTime *timeSet, uint16_t button){
 		}
 		break;
 	case DAY_DT:
-		if (button == enterButton) return true;
-		else if (button == rightButton){
+		if (button == ENTER_BUTTON) return true;
+		else if (button == RIGHT_BUTTON){
 			if (timeSet->Day == 7){
 				timeSet->Day = 1;
 			}
 			else timeSet->Day++;
 		}
-		else if (button == leftButton){
+		else if (button == LEFT_BUTTON){
 			if (timeSet->Day == 1){
 				timeSet->Day = 7;
 			}
@@ -286,48 +399,50 @@ bool_t timeSetUpdate(DS3231_DateTime *timeSet, uint16_t button){
 	return false;
 }
 
-void appInit(){
+void AppInit(){
 
 	LCD_I2C_Init();
-	HAL_Delay(1000);
+	I2CDelay(1000);
 
-	LCD_Clear_Write("Bienvenido",0,3);
-	HAL_Delay(2000);
-	LCD_Clear_Write("",0,0);
-	LCD_Clear_Write("",1,0);
-	menuInit();
+	LCD_I2C_ClearWrite("Bienvenido",0,3);
+	I2CDelay(2000);
+	LCD_I2C_ClearWrite("",0,0);
+	LCD_I2C_ClearWrite("",1,0);
+	MenuInit();
 	GetAlarm(&alarm);
-	alarmIsSet = isAlarmEmpty(&alarm);
+	alarmIsSet = IsAlarmEmpty(&alarm);
 	app = SHOWTIME;
 }
 
-void appUpdate(){
+void AppUpdate(){
 	uint16_t currentButton;
-	if (getFromQueue(&currentButton)) currentButton = 0;
+	currentButton = GetFromQueue();
+	//if (GetFromQueue(&currentButton)) currentButton = 0;
+	if (currentButton == -1) currentButton = 0;
 	switch(app){
 	case SHOWTIME:
-		if (currentButton == menuButton) app = MENU;
-		else showTimeMode();
+		if (currentButton == MENU_BUTTON) app = MENU;
+		else ShowTimeMode();
 		break;
 	case SETTIME:
-		if (currentButton == menuButton) app = MENU;
-		else setTimeMode(currentButton);
+		if (currentButton == MENU_BUTTON) app = MENU;
+		else SetTimeMode(currentButton);
 		break;
 	case SETALARM:
-		if (currentButton == menuButton) app = MENU;
-		else setAlarmMode(currentButton);
+		if (currentButton == MENU_BUTTON) app = MENU;
+		else SetAlarmMode(currentButton);
 		break;
 	case MENU:
-		menuUpdate(currentButton);
+		MenuUpdate(currentButton);
 		break;
 	default:
 		break;
 	}
-	removeFromQueue();
+	//RemoveFromQueue();
 }
 
 
-static void showTimeMode(){
+static void ShowTimeMode(){
 	  GetTime(&time);
 	  uint8_t col;
 
@@ -343,28 +458,28 @@ static void showTimeMode(){
 	  sprintf(datetext, "%s %02d/%02d/%04d",dayOfWeek[time.Day-1],time.Date, time.Month, time.Year);
 
 	  if (strcmp(timetext, lastTime) != 0) {
-		  LCD_Clear_Write(timetext, 0, col);
+		  LCD_I2C_ClearWrite(timetext, 0, col);
 	      strcpy(lastTime, timetext);
 	  }
 
 	  if (strcmp(datetext, lastDate) != 0) {
-	      LCD_Clear_Write(datetext, 1, 1);
+		  LCD_I2C_ClearWrite(datetext, 1, 1);
 	      strcpy(lastDate, datetext);
 	  }
 }
 
-static void setTimeMode(uint16_t currentButton){
+static void SetTimeMode(uint16_t currentButton){
 
 	sprintf(timetext, "%02d:%02d:%02d",timeToSet.Hours, timeToSet.Minutes, timeToSet.Seconds);
 	sprintf(datetext, "%s %02d/%02d/%04d",dayOfWeek[timeToSet.Day-1],timeToSet.Date, timeToSet.Month, timeToSet.Year);
 
-	LCD_Clear_Write(timetext, 0, 4);
-	LCD_Clear_Write(datetext, 1, 1);
+	LCD_I2C_ClearWrite(timetext, 0, 4);
+	LCD_I2C_ClearWrite(datetext, 1, 1);
 
-	if (timeSetUpdate(&timeToSet,currentButton)){
+	if (TimeSetUpdate(&timeToSet,currentButton)){
 		SetTime(&timeToSet);
-		LCD_Clear_Write("Hora",0,6);
-		LCD_Clear_Write("actualizada.",1,2);
+		LCD_I2C_ClearWrite("Hora",0,6);
+		LCD_I2C_ClearWrite("actualizada.",1,2);
 		I2CDelay(1000);
 
 		char msg[20];
@@ -372,58 +487,60 @@ static void setTimeMode(uint16_t currentButton){
 
 		app = SHOWTIME;
 		menu = SHOWTIME_M;
-		lastTime[64] = " "; //
-		lastDate[64] = " "; //Porque la fecha queda guardada y si no
+		lastTime[MAX_CHARS] = " "; //
+		lastDate[MAX_CHARS] = " "; //Porque la fecha queda guardada y si no
 	}
 
 }
 
-static void setAlarmMode(uint16_t currentButton){
+static void SetAlarmMode(uint16_t currentButton){
 	sprintf(timetext, "%02d:%02d",alarmToSet.Hours, alarmToSet.Minutes);
 	sprintf(datetext, "%s",dayOfWeek[alarmToSet.Day-1]);
 
-	LCD_Clear_Write(timetext, 0, 5);
-	LCD_Clear_Write(datetext, 1, 6);
+	LCD_I2C_ClearWrite(timetext, 0, 5);
+	LCD_I2C_ClearWrite(datetext, 1, 6);
 
-	if (timeSetUpdate(&alarmToSet,currentButton)){
+	if (TimeSetUpdate(&alarmToSet,currentButton)){
 		SetAlarm(&alarmToSet);
-		LCD_Clear_Write("Alarma",0,5);
-		LCD_Clear_Write("guardada.",1,4);
+		LCD_I2C_ClearWrite("Alarma",0,5);
+		LCD_I2C_ClearWrite("guardada.",1,4);
 		I2CDelay(1000);
 
-		char msg[20];
+		char msg[MAX_CHARS];
 		int len = snprintf(msg, sizeof(msg), "Alarma guardad\r\n");	HAL_UART_Transmit(&huart2, (uint8_t*)msg, len, HAL_MAX_DELAY);
 
 		app = SHOWTIME;
 		menu = SHOWTIME_M;
-		lastTime[64] = " "; //
-		lastDate[64] = " ";//Porque la fecha queda guardada y si no
+		lastTime[MAX_CHARS] = " "; //
+		lastDate[MAX_CHARS] = " ";//Porque la fecha queda guardada y si no
 		alarmSet = true;
 	}
 
 }
 
-static void showOptions(){
+static void ShowOptions(){
 	switch(menu){
 	case SHOWTIME_M:
-		LCD_Clear_Write("1) Ver",0,5);
-		LCD_Clear_Write("fecha y hora",1,2);
+		LCD_I2C_ClearWrite("1) Ver",0,5);
+		LCD_I2C_ClearWrite("fecha y hora",1,2);
 		break;
 	case SETTIME_M:
-		LCD_Clear_Write("2) Ajustar",0,2);
-		LCD_Clear_Write("hora y fecha",1,2);
+		LCD_I2C_ClearWrite("2) Ajustar",0,2);
+		LCD_I2C_ClearWrite("hora y fecha",1,2);
 		break;
 	case SETALARM_M:
-		LCD_Clear_Write("3) Poner",0,4);
-		LCD_Clear_Write("alarma",1,5);
+		LCD_I2C_ClearWrite("3) Poner",0,4);
+		LCD_I2C_ClearWrite("alarma",1,5);
 		break;
 	default:
 		break;
 	}
 }
 
-void buttonPressed(uint16_t GPIO_Pin){
-	char msg[50];
-	int len = snprintf(msg, sizeof(msg), "GPIO_Pin: %u, Menu: %d, App: %d\r\n", GPIO_Pin, menu, app);	HAL_UART_Transmit(&huart2, (uint8_t*)msg, len, HAL_MAX_DELAY);
-	addToQueue(GPIO_Pin);
+void ButtonPressed(uint16_t GPIO_Pin){
+	/*BORRAR*/
+	//char msg[MAX_CHARS];
+	//int len = snprintf(msg, sizeof(msg), "GPIO_Pin: %u, Menu: %d, App: %d\r\n", GPIO_Pin, menu, app);	HAL_UART_Transmit(&huart2, (uint8_t*)msg, len, HAL_MAX_DELAY);
+	/*FIN BORRAR*/
+	AddToQueue(GPIO_Pin);
 }

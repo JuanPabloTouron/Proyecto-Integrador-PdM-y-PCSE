@@ -1,32 +1,118 @@
+/**
+ * @file portButtons.h
+ * @brief Declarations for the wrapper GPIO HAL functions.
+ *
+ * This file contains function prototypes and constants for defining GPIO
+ * for buttons with external interrupts. It relies on the HAL functions
+ * provided by stm32f4xx_hal.h.
+ */
 #ifndef PORTBUTTONS_H
 #define PORTBUTTONS_H
 
-#include "stm32f4xx_hal.h"
+/**
+ * @brief Includes functions for non-blocking delaysd.
+ */
 #include "API_delay.h"
 
-#define NUMBER_OF_BUTTONS 4
+/**
+ * @brief Includes STM32 HAL functions.
+ */
+#include "stm32f4xx_hal.h"
 
-#define MIN_DEPHASE 6
 
+/**
+ * @brief Time for debounce delay.
+ */
 #define DELAY 40
 
-#define Right_Pin GPIO_PIN_6
-#define Right_GPIO_Port GPIOA
-#define Right_EXTI_IRQn EXTI9_5_IRQn
-#define Menu_Pin GPIO_PIN_7
-#define Menu_GPIO_Port GPIOA
-#define Menu_EXTI_IRQn EXTI9_5_IRQn
-#define Left_Pin GPIO_PIN_8
-#define Left_GPIO_Port GPIOA
-#define Left_EXTI_IRQn EXTI9_5_IRQn
-#define Enter_Pin GPIO_PIN_9
-#define Enter_GPIO_Port GPIOA
-#define Enter_EXTI_IRQn EXTI9_5_IRQn
+/**
+ * @brief Definition of the external interruption line for Enter button.
+ */
+#define ENTER_EXTI_IRQN EXTI9_5_IRQn
 
-extern void buttonPressed(uint16_t GPIO_Pin);
+/**
+ * @brief Definition of the port of the GPIO Pin for Enter button.
+ */
+#define ENTER_GPIO_PORT GPIOA
 
-void buttonsInit(void);
+/**
+ * @brief Definition of the GPIO Pin for Enter button.
+ */
+#define ENTER_PIN GPIO_PIN_9
 
+/**
+ * @brief Definition of the external interruption line for Left button.
+ */
+#define LEFT_EXTI_IRQN EXTI9_5_IRQn
+
+/**
+ * @brief Definition of the port of the GPIO Pin for Left button.
+ */
+#define LEFT_GPIO_PORT GPIOA
+
+/**
+ * @brief Definition of the GPIO Pin for Left button.
+ */
+#define LEFT_PIN GPIO_PIN_8
+
+/**
+ * @brief Definition of the external interruption line for Menu button.
+ */
+#define MENU_EXTI_IRQN EXTI9_5_IRQn
+
+/**
+ * @brief Definition of the port of the GPIO Pin for Menu button.
+ */
+#define MENU_GPIO_PORT GPIOA
+
+/**
+ * @brief Definition of the GPIO Pin for Menu button.
+ */
+#define MENU_PIN GPIO_PIN_7
+
+/**
+ * @brief Number of buttons defined.
+ */
+#define NUMBER_OF_BUTTONS 4
+
+/**
+ * @brief Definition of the external interruption line for Right button.
+ */
+#define RIGHT_EXTI_IRQN EXTI9_5_IRQn
+
+/**
+ * @brief Definition of the port of the GPIO Pin for Right button.
+ */
+#define RIGHT_GPIO_PORT GPIOA
+
+/**
+ * @brief Definition of the GPIO Pin for Right button.
+ */
+#define RIGHT_PIN GPIO_PIN_6
+
+
+/**
+ * @function ButtonPressed
+ * @brief External function that is called when a button is pressed (after considering debounce)
+ * @param GPIO_Pin: number of the Pin that was pressed
+ * @retval none
+ */
+extern void ButtonPressed(uint16_t GPIO_Pin);
+
+/**
+ * @function ButtonsInit
+ * @brief Function that initializes GPIO as buttons
+ * @param none
+ * @retval none
+ */
+void ButtonsInit(void);
+
+/**
+ * @function HAL_GPIO_EXTI_Callback
+ * @brief Function that activate when a button is pressed
+ * @param GPIO_Pin: number of the Pin that triggered the interruption function
+ * @retval none
+ */
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin);
 
 #endif // PORTBUTTONS_H

@@ -24,6 +24,26 @@
 #include <portI2C.h>
 
 /**
+ * @brief Mask for turning the backlight on
+ */
+#define BACKLIGHT  (1<<3)
+
+/**
+ * @brief Amount of bytes sent to the PCF8574T per byte sent to the LCD
+ */
+#define BYTES_PER_BYTE 4
+
+/**
+ * @brief Mask for LCD enable bit
+ */
+#define ENABLE  (1<<2)
+
+/**
+ * @brief Mask for keeping the high nibble
+ */
+#define HIGH_NIBBLE_MASK 0xF0
+
+/**
  * @brief I2C address of the PCF8574T device, right-shifted for HAL compatibility.
  */
 #define LCD_ADDR (0x27 << 1)
@@ -32,32 +52,12 @@
 /**
  * @brief Mask for LCD data register
  */
-#define RS  (1<<0)
+#define REGISTER_SELECT  (1<<0)
 
 /**
  * @brief Mask for LCD write operation
  */
-#define RW  (0<<1)
-
-/**
- * @brief Mask for LCD enable bit
- */
-#define EN  (1<<2)
-
-/**
- * @brief Mask for turning the backlight on
- */
-#define BL  (1<<3)
-
-/**
- * @brief Amount of bytes sent to the PCF8574T per byte sent to the LCD
- */
-#define BYTES_PER_BYTE 4
-
-/**
- * @brief Mask for keeping the high nibble
- */
-#define HIGH_NIBBLE_MASK 0xF0
+#define READWRITE  (0<<1)
 
 /**
  * @brief Mask for setting the cursor in the second column
@@ -70,21 +70,22 @@
 #define SET_DDRAM 0x80
 
 /**
- * @function LCD_I2C_Send
- * @brief Function to send data to the LCD.
- * @param data: Byte of data to send to the LCD
- * @param rs: Register select (instruction or data)
+ * @function LCD_I2C_Clear
+ * @brief Function to clear the display.
+ * @param None
  * @retval None
  */
-void LCD_I2C_Send(uint8_t data, uint8_t rs);
+void LCD_I2C_Clear();
 
 /**
- * @function LCD_I2C_SendByte
- * @brief Function to send one control byte to the LCD.
- * @param data: control byte to send
+ * @function LCD_I2C_ClearWrite
+ * @brief Function to clear a row and print a new string in it
+ * @param str: pointer to the string to show
+ * @param row: number of row to clear and write
+ * @param col: col to start the printing of the string
  * @retval None
  */
-void LCD_I2C_SendControlByte(uint8_t data);
+void LCD_I2C_ClearWrite(char *str,uint8_t row, uint8_t col);
 
 /**
  * @function LCD_I2C_Init
@@ -95,22 +96,21 @@ void LCD_I2C_SendControlByte(uint8_t data);
 void LCD_I2C_Init();
 
 /**
- * @function LCD_I2C_Clear
- * @brief Function to clear the display.
- * @param None
+ * @function LCD_I2C_Send
+ * @brief Function to send data to the LCD.
+ * @param data: Byte of data to send to the LCD
+ * @param rs: Register select (instruction or data)
  * @retval None
  */
-void LCD_I2C_Clear();
+void LCD_I2C_Send(uint8_t data, uint8_t rs);
 
 /**
- * @function LCD_I2C_WriteString
- * @brief Function to show a string on the LCD
- * @param str: pointer to the string to show
+ * @function LCD_I2C_SendControlByte
+ * @brief Function to send one control/instruction byte to the LCD.
+ * @param data: control byte to send
  * @retval None
  */
-void LCD_I2C_WriteString(char *str);
-
-void LCD_Clear_Write(char *str,uint8_t row, uint8_t col);
+void LCD_I2C_SendControlByte(uint8_t data);
 
 /**
  * @function LCD_I2C_SetCursor
@@ -120,5 +120,13 @@ void LCD_Clear_Write(char *str,uint8_t row, uint8_t col);
  * @retval None
  */
 void LCD_I2C_SetCursor(uint8_t row, uint8_t col);
+
+/**
+ * @function LCD_I2C_WriteString
+ * @brief Function to show a string on the LCD
+ * @param str: pointer to the string to show
+ * @retval None
+ */
+void LCD_I2C_WriteString(char *str);
 
 #endif

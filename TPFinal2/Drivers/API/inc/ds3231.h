@@ -10,51 +10,25 @@
 #define DS3231_H
 
 /**
- * @brief Includes integer type definitions.
- */
-#include <portI2C.h>
-#include <stdbool.h>
-#include <stdint.h>
-
-/**
  * @brief Includes HAL wrappers definitions.
  */
-
-
-/**
- * @brief I2C address of the DS3231 RTC device, right-shifted for HAL compatibility.
- */
-#define DS3231_ADDR (0x68 << 1)
+#include <portI2C.h>
 
 /**
- * @brief Size (in bytes) of the buffer to transmit/receive data for time
+ * @brief Includes boolean type definitions.
  */
-#define TIME_SIZE 8
+#include <stdbool.h>
+
+/**
+ * @brief Includes integer type definitions.
+ */
+#include <stdint.h>
+
 
 /**
  * @brief Size (in bytes) of the buffer to transmit/receive data for alarms
  */
 #define ALARM_SIZE 4
-
-/**
- * @brief Size (in bits) of a nibble
- */
-#define NIBBLE_SIZE 4
-
-/**
- * @brief Mask for keeping the low nibble
- */
-#define LOW_NIBBLE_MASK 0x0F
-
-/**
- * @brief Mask for keeping the 5 LSB. Used in month byte to avoid the century bit
- */
-#define CENTURY_MASK 0x1F
-
-/**
- * @brief Mask for keeping the 5 LSB. Used in month byte to avoid the century bit
- */
-#define MODE24_MASK 0x3F
 
 /**
  * @brief Register to start to write to or read from to set the alarm. In the DS3231, it contains data
@@ -63,16 +37,82 @@
 #define ALARM_START_REGISTER 0x08
 
 /**
+ * @brief Mask for keeping the 5 LSB. Used in month byte to avoid the century bit
+ */
+#define CENTURY_MASK 0x1F
+
+/**
+ * @brief Mask for keeping all the bits but the MSB. Used in seconds byte to avoid the control register
+ */
+#define CONTROL_REGISTER_MASK 0x7F
+
+/**
+ * @brief I2C address of the DS3231 RTC device, right-shifted for HAL compatibility.
+ */
+#define DS3231_ADDR (0x68 << 1)
+
+/**
+ * @brief First day of the month. Used to initialize a time struct
+ */
+#define FIRST 1
+
+/**
+ * @brief First month of the year. Used to initialize a time struct
+ */
+#define JANUARY 1
+
+/**
+ * @brief Mask for keeping the low nibble
+ */
+#define LOW_NIBBLE_MASK 0x0F
+
+/**
+ * @brief Midnight hour. Used to initialize a time struct
+ */
+#define MIDNIGHT 0
+
+/**
+ * @brief Mask for keeping the 5 LSB. Used in month byte to avoid the century bit
+ */
+#define MODE24_MASK 0x3F
+
+/**
+ * @brief Size (in bits) of a nibble
+ */
+#define NIBBLE_SIZE 4
+
+/**
+ * @brief Saturday in the time struct.
+ */
+#define LAST_DAY 7
+
+/**
+ * @brief Sunday in the time struct. Used to initialize a time struct
+ */
+#define FIRST_DAY 1
+
+/**
+ * @brief Size (in bytes) of the buffer to transmit/receive data for time
+ */
+#define TIME_SIZE 8
+
+/**
  * @brief Register to start to write to or read from to set datetime. In the DS3231, it contains data
  * about the seconds.
  */
 #define TIME_START_REGISTER 0x00
 
 /**
+ * @brief First year of the 2000s. Used to initialize a time struct
+ */
+#define Y2K 0
+
+/**
  * @brief Register to start to write to or read from. In the DS3231, it contains data
  * about the seconds.
  */
 #define YEAR_CORRECTION 2000
+
 
 /**
  * @typedef DateTime
@@ -90,8 +130,6 @@ typedef struct {
     uint16_t Year;  /**< Complete year (e.g.: 2025) */
 } DS3231_DateTime;
 
-/* Declaration of the UART external handle. Declared in the main */
-extern UART_HandleTypeDef huart2;
 
 /**
  * @function bcd2dec
@@ -100,54 +138,6 @@ extern UART_HandleTypeDef huart2;
  * @retval value converted to decimal
  */
 uint8_t BcdToDec(uint8_t val);
-
-/**
- * @function BcdToDec
- * @brief Function to convert a number in decimal to BCD.
- * @param val: value to convert in decimal
- * @retval value converted to BCD format
- */
-uint8_t DecToBcd(uint8_t val);
-
-/**
- * @function IsAlarmEmpty
- * @brief Function that checks whether an alarm is set.
- * @param alarm: pointer to the DateTime with the alarm
- * @retval boolean that indicates if an alarm is set
- */
-bool isAlarmEmpty(DS3231_DateTime *alarm);
-
-/**
- * @function SetAlarm
- * @brief Function that sets an alarm of the DS3231.
- * @param time: pointer to the DateTime struct that store the alarm to set
- * @retval none
- */
-void SetAlarm(DS3231_DateTime *time);
-
-/**
- * @function SetAlarm
- * @brief Function that gets an alarm of the DS3231.
- * @param time: pointer to the DateTime struct that will store the alarm to get
- * @retval none
- */
-void GetAlarm(DS3231_DateTime *time);
-
-/**
- * @function SetTime
- * @brief Function that sets the date and time of the DS3231.
- * @param time: pointer to the DateTime struct that store the date and time to set
- * @retval none
- */
-void SetTime(DS3231_DateTime *time);
-
-/**
- * @function GetTime
- * @brief Function that get the date and time from the DS3231.
- * @param time: pointer to the DateTime struct that will store the date and time
- * @retval none
- */
-void GetTime(DS3231_DateTime *time);
 
 /**
  * @function CopyTime
@@ -159,11 +149,59 @@ void GetTime(DS3231_DateTime *time);
 void CopyTime(DS3231_DateTime *timeToCopy, DS3231_DateTime *timeToPaste);
 
 /**
+ * @function BcdToDec
+ * @brief Function to convert a number in decimal to BCD.
+ * @param val: value to convert in decimal
+ * @retval value converted to BCD format
+ */
+uint8_t DecToBcd(uint8_t val);
+
+/**
+ * @function SetAlarm
+ * @brief Function that gets an alarm of the DS3231.
+ * @param time: pointer to the DateTime struct that will store the alarm to get
+ * @retval none
+ */
+void GetAlarm(DS3231_DateTime *time);
+
+/**
+ * @function GetTime
+ * @brief Function that get the date and time from the DS3231.
+ * @param time: pointer to the DateTime struct that will store the date and time
+ * @retval none
+ */
+void GetTime(DS3231_DateTime *time);
+
+/**
  * @function InitTime
  * @brief Function that initialize the fields of one Datetime object.
  * @param time: pointer to the DS3231_DateTime to initialize
  * @retval none
  */
 void InitTime(DS3231_DateTime *time);
+
+/**
+ * @function IsAlarmEmpty
+ * @brief Function that checks whether an alarm is set.
+ * @param alarm: pointer to the DateTime with the alarm
+ * @retval boolean that indicates if an alarm is set
+ */
+bool IsAlarmEmpty(DS3231_DateTime *alarm);
+
+/**
+ * @function SetAlarm
+ * @brief Function that sets an alarm of the DS3231.
+ * @param time: pointer to the DateTime struct that store the alarm to set
+ * @retval none
+ */
+void SetAlarm(DS3231_DateTime *time);
+
+/**
+ * @function SetTime
+ * @brief Function that sets the date and time of the DS3231.
+ * @param time: pointer to the DateTime struct that store the date and time to set
+ * @retval none
+ */
+void SetTime(DS3231_DateTime *time);
 
 #endif

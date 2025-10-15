@@ -1,4 +1,4 @@
-../Drivers/API/src/portI2C.c:19:6:I2CInit	2
-../Drivers/API/src/portI2C.c:39:6:I2CDelay	1
-../Drivers/API/src/portI2C.c:44:6:I2CMasterTransmit	1
-../Drivers/API/src/portI2C.c:49:6:I2CReadMemory	1
+../Drivers/API/src/portI2C.c:19:6:I2CDelay	1
+../Drivers/API/src/portI2C.c:24:6:I2CInit	2
+../Drivers/API/src/portI2C.c:43:6:I2CMasterTransmit	1
+../Drivers/API/src/portI2C.c:48:6:I2CReadMemory	1

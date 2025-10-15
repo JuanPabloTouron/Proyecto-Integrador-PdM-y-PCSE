@@ -1,4 +1,4 @@
-../Drivers/API/src/portButtons.c:13:13:buttonReset	1
-../Drivers/API/src/portButtons.c:18:13:buttonsReset	2
-../Drivers/API/src/portButtons.c:26:6:buttonsInit	1
-../Drivers/API/src/portButtons.c:54:6:HAL_GPIO_EXTI_Callback	8
+../Drivers/API/src/portButtons.c:48:13:buttonReset	1
+../Drivers/API/src/portButtons.c:56:13:buttonsReset	2
+../Drivers/API/src/portButtons.c:63:6:ButtonsInit	1
+../Drivers/API/src/portButtons.c:84:6:HAL_GPIO_EXTI_Callback	8

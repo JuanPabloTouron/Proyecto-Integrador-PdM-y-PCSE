@@ -1,9 +1,9 @@
 ../Drivers/API/src/ds3231.c:16:9:BcdToDec	16	static
-../Drivers/API/src/ds3231.c:21:9:DecToBcd	16	static
-../Drivers/API/src/ds3231.c:25:6:isAlarmEmpty	16	static
-../Drivers/API/src/ds3231.c:30:6:SetAlarm	24	static
-../Drivers/API/src/ds3231.c:42:6:GetAlarm	24	static
-../Drivers/API/src/ds3231.c:52:6:SetTime	24	static
-../Drivers/API/src/ds3231.c:68:6:GetTime	24	static
-../Drivers/API/src/ds3231.c:81:6:CopyTime	16	static
-../Drivers/API/src/ds3231.c:91:6:InitTime	16	static
+../Drivers/API/src/ds3231.c:21:6:CopyTime	16	static
+../Drivers/API/src/ds3231.c:32:9:DecToBcd	16	static
+../Drivers/API/src/ds3231.c:37:6:GetAlarm	24	static
+../Drivers/API/src/ds3231.c:47:6:GetTime	24	static
+../Drivers/API/src/ds3231.c:61:6:InitTime	16	static
+../Drivers/API/src/ds3231.c:72:6:IsAlarmEmpty	16	static
+../Drivers/API/src/ds3231.c:77:6:SetAlarm	24	static
+../Drivers/API/src/ds3231.c:89:6:SetTime	24	static
