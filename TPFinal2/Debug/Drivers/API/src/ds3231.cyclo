@@ -4,6 +4,6 @@
 ../Drivers/API/src/ds3231.c:37:6:GetAlarm	1
 ../Drivers/API/src/ds3231.c:47:6:GetTime	1
 ../Drivers/API/src/ds3231.c:61:6:InitTime	1
-../Drivers/API/src/ds3231.c:72:6:IsAlarmEmpty	3
+../Drivers/API/src/ds3231.c:72:6:IsAlarmSet	3
 ../Drivers/API/src/ds3231.c:77:6:SetAlarm	1
 ../Drivers/API/src/ds3231.c:89:6:SetTime	1

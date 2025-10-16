@@ -24,20 +24,7 @@
  */
 #include "portButtons.h"
 
-
-/*BORRAR*/
-/**
- * @brief Includes functions for non-blocking delaysd.
- */
-#include "stdio.h"
-
-/**
- * @brief Includes functions for non-blocking delaysd.
- */
-#include "string.h"
-
-extern UART_HandleTypeDef huart2;
-/*FIN BORRAR*/
+#include <stdio.h>
 
 
 /**

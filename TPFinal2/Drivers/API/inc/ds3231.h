@@ -181,12 +181,12 @@ void GetTime(DS3231_DateTime *time);
 void InitTime(DS3231_DateTime *time);
 
 /**
- * @function IsAlarmEmpty
+ * @function IsAlarmSet
  * @brief Function that checks whether an alarm is set.
  * @param alarm: pointer to the DateTime with the alarm
  * @retval boolean that indicates if an alarm is set
  */
-bool IsAlarmEmpty(DS3231_DateTime *alarm);
+bool IsAlarmSet(DS3231_DateTime *alarm);
 
 /**
  * @function SetAlarm

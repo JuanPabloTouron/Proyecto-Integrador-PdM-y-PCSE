@@ -69,8 +69,8 @@ void InitTime(DS3231_DateTime *time){
 }
 
 /*Checks whether there is an alarm set to the DS3231 RTC. Declared in header file*/
-bool IsAlarmEmpty(DS3231_DateTime *alarm) {
-    return !((alarm->Day >= FIRST_DAY)&&(alarm->Day <= LAST_DAY)); /**< If alarm is set, Day byte varies from 1 to 7. Otherwise, no alarm is set*/
+bool IsAlarmSet(DS3231_DateTime *alarm) {
+    return ((alarm->Day >= FIRST_DAY)&&(alarm->Day <= LAST_DAY)); /**< If alarm is set, Day byte varies from 1 to 7. Otherwise, no alarm is set*/
 }
 
 /*Sets the alarm of the DS3231 RTC. Declared in header file*/
