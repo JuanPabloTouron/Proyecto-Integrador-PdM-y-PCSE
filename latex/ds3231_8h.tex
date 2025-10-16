@@ -1,0 +1,315 @@
+\doxysection{TPFinal2/\+Drivers/\+API/inc/ds3231.h File Reference}
+\hypertarget{ds3231_8h}{}\label{ds3231_8h}\index{TPFinal2/Drivers/API/inc/ds3231.h@{TPFinal2/Drivers/API/inc/ds3231.h}}
+
+
+Declarations for DS3231 RTC device driver.  
+
+
+{\ttfamily \#include $<$port\+I2\+C.\+h$>$}\newline
+{\ttfamily \#include $<$stdbool.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_d_s3231___date_time}{DS3231\+\_\+\+Date\+Time}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{ds3231_8h_a06070270615d20595b569418b04b919d}{ALARM\+\_\+\+SIZE}}~4
+\begin{DoxyCompactList}\small\item\em Includes HAL wrappers definitions. \end{DoxyCompactList}\item 
+\Hypertarget{ds3231_8h_a2c0f31a6ad29a52ec0c91ee7ce022397}\label{ds3231_8h_a2c0f31a6ad29a52ec0c91ee7ce022397} 
+\#define {\bfseries ALARM\+\_\+\+START\+\_\+\+REGISTER}~0x08
+\begin{DoxyCompactList}\small\item\em Register to start to write to or read from to set the alarm. In the DS3231, it contains data about the seconds. \end{DoxyCompactList}\item 
+\Hypertarget{ds3231_8h_a7d86e9590c9830ca8664ab7d0e050ef6}\label{ds3231_8h_a7d86e9590c9830ca8664ab7d0e050ef6} 
+\#define {\bfseries CENTURY\+\_\+\+MASK}~0x1F
+\begin{DoxyCompactList}\small\item\em Mask for keeping the 5 LSB. Used in month byte to avoid the century bit. \end{DoxyCompactList}\item 
+\Hypertarget{ds3231_8h_a102ca5aa10922045116f19824d1b62bf}\label{ds3231_8h_a102ca5aa10922045116f19824d1b62bf} 
+\#define {\bfseries CONTROL\+\_\+\+REGISTER\+\_\+\+MASK}~0x7F
+\begin{DoxyCompactList}\small\item\em Mask for keeping all the bits but the MSB. Used in seconds byte to avoid the control register. \end{DoxyCompactList}\item 
+\Hypertarget{ds3231_8h_a807ca712a5ee10a56cf420c420c42524}\label{ds3231_8h_a807ca712a5ee10a56cf420c420c42524} 
+\#define {\bfseries DS3231\+\_\+\+ADDR}~(0x68 $<$$<$ 1)
+\begin{DoxyCompactList}\small\item\em I2C address of the DS3231 RTC device, right-\/shifted for HAL compatibility. \end{DoxyCompactList}\item 
+\Hypertarget{ds3231_8h_a492c6ccf2bde2bebcd32e73e0933ee92}\label{ds3231_8h_a492c6ccf2bde2bebcd32e73e0933ee92} 
+\#define {\bfseries FIRST}~1
+\begin{DoxyCompactList}\small\item\em First day of the month. Used to initialize a time struct. \end{DoxyCompactList}\item 
+\Hypertarget{ds3231_8h_a828e0d3dc63102cb9085c2a30e0401b1}\label{ds3231_8h_a828e0d3dc63102cb9085c2a30e0401b1} 
+\#define {\bfseries JANUARY}~1
+\begin{DoxyCompactList}\small\item\em First month of the year. Used to initialize a time struct. \end{DoxyCompactList}\item 
+\Hypertarget{ds3231_8h_a99d287e3d76b5dc3cbc987f8ba912ca3}\label{ds3231_8h_a99d287e3d76b5dc3cbc987f8ba912ca3} 
+\#define {\bfseries LOW\+\_\+\+NIBBLE\+\_\+\+MASK}~0x0F
+\begin{DoxyCompactList}\small\item\em Mask for keeping the low nibble. \end{DoxyCompactList}\item 
+\Hypertarget{ds3231_8h_abc7899affd386ef7900c847dbeeab4a3}\label{ds3231_8h_abc7899affd386ef7900c847dbeeab4a3} 
+\#define {\bfseries MIDNIGHT}~0
+\begin{DoxyCompactList}\small\item\em Midnight hour. Used to initialize a time struct. \end{DoxyCompactList}\item 
+\Hypertarget{ds3231_8h_a06e9bc011d12858e1ad702b71845b21b}\label{ds3231_8h_a06e9bc011d12858e1ad702b71845b21b} 
+\#define {\bfseries MODE24\+\_\+\+MASK}~0x3F
+\begin{DoxyCompactList}\small\item\em Mask for keeping the 5 LSB. Used in month byte to avoid the century bit. \end{DoxyCompactList}\item 
+\Hypertarget{ds3231_8h_a4fbc469af98568803a7855d02b2f1304}\label{ds3231_8h_a4fbc469af98568803a7855d02b2f1304} 
+\#define {\bfseries NIBBLE\+\_\+\+SIZE}~4
+\begin{DoxyCompactList}\small\item\em Size (in bits) of a nibble. \end{DoxyCompactList}\item 
+\Hypertarget{ds3231_8h_a0a2d7e1dec7af3dab09c4b14ef3f6732}\label{ds3231_8h_a0a2d7e1dec7af3dab09c4b14ef3f6732} 
+\#define {\bfseries LAST\+\_\+\+DAY}~7
+\begin{DoxyCompactList}\small\item\em Saturday in the time struct. \end{DoxyCompactList}\item 
+\Hypertarget{ds3231_8h_af088afbb119a5143ada4bc443d7ab3e7}\label{ds3231_8h_af088afbb119a5143ada4bc443d7ab3e7} 
+\#define {\bfseries FIRST\+\_\+\+DAY}~1
+\begin{DoxyCompactList}\small\item\em Sunday in the time struct. Used to initialize a time struct. \end{DoxyCompactList}\item 
+\Hypertarget{ds3231_8h_ac1c7bc76dbfd8378fc96541a6243afd1}\label{ds3231_8h_ac1c7bc76dbfd8378fc96541a6243afd1} 
+\#define {\bfseries TIME\+\_\+\+SIZE}~8
+\begin{DoxyCompactList}\small\item\em Size (in bytes) of the buffer to transmit/receive data for time. \end{DoxyCompactList}\item 
+\Hypertarget{ds3231_8h_aa3bb136836f1439feb39965e795006bc}\label{ds3231_8h_aa3bb136836f1439feb39965e795006bc} 
+\#define {\bfseries TIME\+\_\+\+START\+\_\+\+REGISTER}~0x00
+\begin{DoxyCompactList}\small\item\em Register to start to write to or read from to set datetime. In the DS3231, it contains data about the seconds. \end{DoxyCompactList}\item 
+\Hypertarget{ds3231_8h_a1ce574b5072f07fb29c9b67880b350b2}\label{ds3231_8h_a1ce574b5072f07fb29c9b67880b350b2} 
+\#define {\bfseries Y2K}~0
+\begin{DoxyCompactList}\small\item\em First year of the 2000s. Used to initialize a time struct. \end{DoxyCompactList}\item 
+\Hypertarget{ds3231_8h_adfa429b35b415f99441d1315dd75573f}\label{ds3231_8h_adfa429b35b415f99441d1315dd75573f} 
+\#define {\bfseries YEAR\+\_\+\+CORRECTION}~2000
+\begin{DoxyCompactList}\small\item\em Register to start to write to or read from. In the DS3231, it contains data about the seconds. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{ds3231_8h_ad0ee4d55782a63fe828d1572522a6a51}{Bcd\+To\+Dec}} (uint8\+\_\+t val)
+\begin{DoxyCompactList}\small\item\em Function to convert a number in BCD to decimal. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{ds3231_8h_a00e2989cc3ad720a0b502fe8a5f34664}{Copy\+Time}} (\mbox{\hyperlink{struct_d_s3231___date_time}{DS3231\+\_\+\+Date\+Time}} \texorpdfstring{$\ast$}{*}time\+To\+Copy, \mbox{\hyperlink{struct_d_s3231___date_time}{DS3231\+\_\+\+Date\+Time}} \texorpdfstring{$\ast$}{*}time\+To\+Paste)
+\begin{DoxyCompactList}\small\item\em Function that copies the fields of one Datetime object to another. \end{DoxyCompactList}\item 
+uint8\+\_\+t \mbox{\hyperlink{ds3231_8h_a996c6d35421f04cddf3d3f64bc6660de}{Dec\+To\+Bcd}} (uint8\+\_\+t val)
+\begin{DoxyCompactList}\small\item\em Function to convert a number in decimal to BCD. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{ds3231_8h_a0505927fd0a02df406e05f77d9c13df2}{Get\+Alarm}} (\mbox{\hyperlink{struct_d_s3231___date_time}{DS3231\+\_\+\+Date\+Time}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{app_8c_a21c3a1c25eda0f795b4439ef28d4b077}{time}})
+\begin{DoxyCompactList}\small\item\em Function that gets an alarm of the DS3231. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{ds3231_8h_a25659d90b8b81407a1a5f50fe1895e39}{Get\+Time}} (\mbox{\hyperlink{struct_d_s3231___date_time}{DS3231\+\_\+\+Date\+Time}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{app_8c_a21c3a1c25eda0f795b4439ef28d4b077}{time}})
+\begin{DoxyCompactList}\small\item\em Function that get the date and time from the DS3231. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{ds3231_8h_ad421d906827c72d0efa249fdc9609b5e}{Init\+Time}} (\mbox{\hyperlink{struct_d_s3231___date_time}{DS3231\+\_\+\+Date\+Time}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{app_8c_a21c3a1c25eda0f795b4439ef28d4b077}{time}})
+\begin{DoxyCompactList}\small\item\em Function that initialize the fields of one Datetime object. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{ds3231_8h_a5708e93267062249125306ba6fea0802}{Is\+Alarm\+Set}} (\mbox{\hyperlink{struct_d_s3231___date_time}{DS3231\+\_\+\+Date\+Time}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{app_8c_a79eb0dbf0f46f0062b6ce6c16bc44072}{alarm}})
+\begin{DoxyCompactList}\small\item\em Function that checks whether an alarm is set. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{ds3231_8h_a25ebe3a6a858934a2c76708e4a03660b}{Set\+Alarm}} (\mbox{\hyperlink{struct_d_s3231___date_time}{DS3231\+\_\+\+Date\+Time}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{app_8c_a21c3a1c25eda0f795b4439ef28d4b077}{time}})
+\begin{DoxyCompactList}\small\item\em Function that sets an alarm of the DS3231. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{ds3231_8h_a69db12232a02dc58683cd0d9a945b5f6}{Set\+Time}} (\mbox{\hyperlink{struct_d_s3231___date_time}{DS3231\+\_\+\+Date\+Time}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{app_8c_a21c3a1c25eda0f795b4439ef28d4b077}{time}})
+\begin{DoxyCompactList}\small\item\em Function that sets the date and time of the DS3231. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Declarations for DS3231 RTC device driver. 
+
+This file contains function prototypes, constants, and data structures for interfacing with the DS3231 real-\/time clock via I2C. It relies on the hardware abstraction layer provided by port.\+h. 
+
+\label{doc-define-members}
+\Hypertarget{ds3231_8h_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{ds3231_8h_a06070270615d20595b569418b04b919d}\index{ds3231.h@{ds3231.h}!ALARM\_SIZE@{ALARM\_SIZE}}
+\index{ALARM\_SIZE@{ALARM\_SIZE}!ds3231.h@{ds3231.h}}
+\doxysubsubsection{\texorpdfstring{ALARM\_SIZE}{ALARM\_SIZE}}
+{\footnotesize\ttfamily \label{ds3231_8h_a06070270615d20595b569418b04b919d} 
+\#define ALARM\+\_\+\+SIZE~4}
+
+
+
+Includes HAL wrappers definitions. 
+
+Includes boolean type definitions.
+
+Includes integer type definitions.
+
+Size (in bytes) of the buffer to transmit/receive data for alarms 
+
+\label{doc-func-members}
+\Hypertarget{ds3231_8h_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{ds3231_8h_ad0ee4d55782a63fe828d1572522a6a51}\index{ds3231.h@{ds3231.h}!BcdToDec@{BcdToDec}}
+\index{BcdToDec@{BcdToDec}!ds3231.h@{ds3231.h}}
+\doxysubsubsection{\texorpdfstring{BcdToDec()}{BcdToDec()}}
+{\footnotesize\ttfamily \label{ds3231_8h_ad0ee4d55782a63fe828d1572522a6a51} 
+uint8\+\_\+t Bcd\+To\+Dec (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{val}{}\end{DoxyParamCaption})}
+
+
+
+Function to convert a number in BCD to decimal. 
+
+@function bcd2dec 
+\begin{DoxyParams}{Parameters}
+{\em val} & value to convert in BCD format \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em value} & converted to decimal\\
+\hline
+\end{DoxyRetVals}
+Function to convert a number in BCD to decimal. \texorpdfstring{$<$}{<} Not necessary to consider special cases because of the solution addressed\Hypertarget{ds3231_8h_a00e2989cc3ad720a0b502fe8a5f34664}\index{ds3231.h@{ds3231.h}!CopyTime@{CopyTime}}
+\index{CopyTime@{CopyTime}!ds3231.h@{ds3231.h}}
+\doxysubsubsection{\texorpdfstring{CopyTime()}{CopyTime()}}
+{\footnotesize\ttfamily \label{ds3231_8h_a00e2989cc3ad720a0b502fe8a5f34664} 
+void Copy\+Time (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_d_s3231___date_time}{DS3231\+\_\+\+Date\+Time}} \texorpdfstring{$\ast$}{*}}]{time\+To\+Copy}{, }\item[{\mbox{\hyperlink{struct_d_s3231___date_time}{DS3231\+\_\+\+Date\+Time}} \texorpdfstring{$\ast$}{*}}]{time\+To\+Paste}{}\end{DoxyParamCaption})}
+
+
+
+Function that copies the fields of one Datetime object to another. 
+
+@function Copy\+Time 
+\begin{DoxyParams}{Parameters}
+{\em time\+To\+Copy} & pointer to the \doxylink{struct_d_s3231___date_time}{DS3231\+\_\+\+Date\+Time} to be copied \\
+\hline
+{\em time\+To\+Paste} & pointer to the \doxylink{struct_d_s3231___date_time}{DS3231\+\_\+\+Date\+Time} to complete \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em none} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{ds3231_8h_a996c6d35421f04cddf3d3f64bc6660de}\index{ds3231.h@{ds3231.h}!DecToBcd@{DecToBcd}}
+\index{DecToBcd@{DecToBcd}!ds3231.h@{ds3231.h}}
+\doxysubsubsection{\texorpdfstring{DecToBcd()}{DecToBcd()}}
+{\footnotesize\ttfamily \label{ds3231_8h_a996c6d35421f04cddf3d3f64bc6660de} 
+uint8\+\_\+t Dec\+To\+Bcd (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{val}{}\end{DoxyParamCaption})}
+
+
+
+Function to convert a number in decimal to BCD. 
+
+@function Bcd\+To\+Dec 
+\begin{DoxyParams}{Parameters}
+{\em val} & value to convert in decimal \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em value} & converted to BCD format \\
+\hline
+\end{DoxyRetVals}
+\texorpdfstring{$<$}{<} Not necessary to consider special cases because of the solution addressed\Hypertarget{ds3231_8h_a0505927fd0a02df406e05f77d9c13df2}\index{ds3231.h@{ds3231.h}!GetAlarm@{GetAlarm}}
+\index{GetAlarm@{GetAlarm}!ds3231.h@{ds3231.h}}
+\doxysubsubsection{\texorpdfstring{GetAlarm()}{GetAlarm()}}
+{\footnotesize\ttfamily \label{ds3231_8h_a0505927fd0a02df406e05f77d9c13df2} 
+void Get\+Alarm (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_d_s3231___date_time}{DS3231\+\_\+\+Date\+Time}} \texorpdfstring{$\ast$}{*}}]{time}{}\end{DoxyParamCaption})}
+
+
+
+Function that gets an alarm of the DS3231. 
+
+@function Set\+Alarm 
+\begin{DoxyParams}{Parameters}
+{\em time} & pointer to the Date\+Time struct that will store the alarm to get \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em none} & \\
+\hline
+\end{DoxyRetVals}
+\texorpdfstring{$<$}{<} In this case, it is not necessary to indicate start register in the data to transmit cause Mem\+Read is used
+
+\texorpdfstring{$<$}{<} Implemented only in 24H mode
+
+\texorpdfstring{$<$}{<} Implemented only in Day of the week alarm mode\Hypertarget{ds3231_8h_a25659d90b8b81407a1a5f50fe1895e39}\index{ds3231.h@{ds3231.h}!GetTime@{GetTime}}
+\index{GetTime@{GetTime}!ds3231.h@{ds3231.h}}
+\doxysubsubsection{\texorpdfstring{GetTime()}{GetTime()}}
+{\footnotesize\ttfamily \label{ds3231_8h_a25659d90b8b81407a1a5f50fe1895e39} 
+void Get\+Time (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_d_s3231___date_time}{DS3231\+\_\+\+Date\+Time}} \texorpdfstring{$\ast$}{*}}]{time}{}\end{DoxyParamCaption})}
+
+
+
+Function that get the date and time from the DS3231. 
+
+@function Get\+Time 
+\begin{DoxyParams}{Parameters}
+{\em time} & pointer to the Date\+Time struct that will store the date and time \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em none} & \\
+\hline
+\end{DoxyRetVals}
+\texorpdfstring{$<$}{<} In this case, it is not necesary to indicate start register in the data to transmit cause Mem\+Read is used
+
+\texorpdfstring{$<$}{<} Implemented only in 24H mode
+
+\texorpdfstring{$<$}{<} Cleans the MSB that is associated to the century change\Hypertarget{ds3231_8h_ad421d906827c72d0efa249fdc9609b5e}\index{ds3231.h@{ds3231.h}!InitTime@{InitTime}}
+\index{InitTime@{InitTime}!ds3231.h@{ds3231.h}}
+\doxysubsubsection{\texorpdfstring{InitTime()}{InitTime()}}
+{\footnotesize\ttfamily \label{ds3231_8h_ad421d906827c72d0efa249fdc9609b5e} 
+void Init\+Time (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_d_s3231___date_time}{DS3231\+\_\+\+Date\+Time}} \texorpdfstring{$\ast$}{*}}]{time}{}\end{DoxyParamCaption})}
+
+
+
+Function that initialize the fields of one Datetime object. 
+
+@function Init\+Time 
+\begin{DoxyParams}{Parameters}
+{\em time} & pointer to the \doxylink{struct_d_s3231___date_time}{DS3231\+\_\+\+Date\+Time} to initialize \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em none} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{ds3231_8h_a5708e93267062249125306ba6fea0802}\index{ds3231.h@{ds3231.h}!IsAlarmSet@{IsAlarmSet}}
+\index{IsAlarmSet@{IsAlarmSet}!ds3231.h@{ds3231.h}}
+\doxysubsubsection{\texorpdfstring{IsAlarmSet()}{IsAlarmSet()}}
+{\footnotesize\ttfamily \label{ds3231_8h_a5708e93267062249125306ba6fea0802} 
+bool Is\+Alarm\+Set (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_d_s3231___date_time}{DS3231\+\_\+\+Date\+Time}} \texorpdfstring{$\ast$}{*}}]{alarm}{}\end{DoxyParamCaption})}
+
+
+
+Function that checks whether an alarm is set. 
+
+@function Is\+Alarm\+Set 
+\begin{DoxyParams}{Parameters}
+{\em alarm} & pointer to the Date\+Time with the alarm \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em boolean} & that indicates if an alarm is set \\
+\hline
+\end{DoxyRetVals}
+\texorpdfstring{$<$}{<} If alarm is set, Day byte varies from 1 to 7. Otherwise, no alarm is set\Hypertarget{ds3231_8h_a25ebe3a6a858934a2c76708e4a03660b}\index{ds3231.h@{ds3231.h}!SetAlarm@{SetAlarm}}
+\index{SetAlarm@{SetAlarm}!ds3231.h@{ds3231.h}}
+\doxysubsubsection{\texorpdfstring{SetAlarm()}{SetAlarm()}}
+{\footnotesize\ttfamily \label{ds3231_8h_a25ebe3a6a858934a2c76708e4a03660b} 
+void Set\+Alarm (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_d_s3231___date_time}{DS3231\+\_\+\+Date\+Time}} \texorpdfstring{$\ast$}{*}}]{time}{}\end{DoxyParamCaption})}
+
+
+
+Function that sets an alarm of the DS3231. 
+
+@function Set\+Alarm 
+\begin{DoxyParams}{Parameters}
+{\em time} & pointer to the Date\+Time struct that store the alarm to set \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em none} & \\
+\hline
+\end{DoxyRetVals}
+\texorpdfstring{$<$}{<} Implemented only in 24H mode
+
+\texorpdfstring{$<$}{<} Implemented only in Day of the week alarm mode\Hypertarget{ds3231_8h_a69db12232a02dc58683cd0d9a945b5f6}\index{ds3231.h@{ds3231.h}!SetTime@{SetTime}}
+\index{SetTime@{SetTime}!ds3231.h@{ds3231.h}}
+\doxysubsubsection{\texorpdfstring{SetTime()}{SetTime()}}
+{\footnotesize\ttfamily \label{ds3231_8h_a69db12232a02dc58683cd0d9a945b5f6} 
+void Set\+Time (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_d_s3231___date_time}{DS3231\+\_\+\+Date\+Time}} \texorpdfstring{$\ast$}{*}}]{time}{}\end{DoxyParamCaption})}
+
+
+
+Function that sets the date and time of the DS3231. 
+
+@function Set\+Time 
+\begin{DoxyParams}{Parameters}
+{\em time} & pointer to the Date\+Time struct that store the date and time to set \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em none} & \\
+\hline
+\end{DoxyRetVals}
+\texorpdfstring{$<$}{<} Cleans the MSB that if set to 1 indicates to reset RTC
+
+\texorpdfstring{$<$}{<} Implemented only in 24H mode
+
+\texorpdfstring{$<$}{<} Cleans the MSB that is associated to the century change

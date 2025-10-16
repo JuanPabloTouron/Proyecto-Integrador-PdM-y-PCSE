@@ -1,0 +1,162 @@
+\doxysection{TPFinal2/\+Drivers/\+API/inc/port\+I2C.h File Reference}
+\hypertarget{port_i2_c_8h}{}\label{port_i2_c_8h}\index{TPFinal2/Drivers/API/inc/portI2C.h@{TPFinal2/Drivers/API/inc/portI2C.h}}
+
+
+Declarations for the wrapper I2C HAL functions.  
+
+
+{\ttfamily \#include "{}stm32f4xx\+\_\+hal.\+h"{}}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{port_i2_c_8h_afc9c92421baf5ae8be536e5ae31eb5c1}{CLOCKSPEED}}~100000
+\begin{DoxyCompactList}\small\item\em Includes STM32 HAL functions. \end{DoxyCompactList}\item 
+\Hypertarget{port_i2_c_8h_a45ba202b05caf39795aeca91b0ae547e}\label{port_i2_c_8h_a45ba202b05caf39795aeca91b0ae547e} 
+\#define {\bfseries TIMEOUT}~HAL\+\_\+\+MAX\+\_\+\+DELAY
+\begin{DoxyCompactList}\small\item\em Timeout for the HAL I2C functions. \end{DoxyCompactList}\item 
+\Hypertarget{port_i2_c_8h_aa4201eda80810663e28bb80fab8d5c82}\label{port_i2_c_8h_aa4201eda80810663e28bb80fab8d5c82} 
+\#define {\bfseries REG\+\_\+\+SIZE}~I2\+C\+\_\+\+MEMADD\+\_\+\+SIZE\+\_\+8\+BIT
+\begin{DoxyCompactList}\small\item\em Size (in bits) of the memory address. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{port_i2_c_8h_ad4e07955fadfeb416e9620ddb42f8fe9}{Error\+\_\+\+Handler}} ()
+\begin{DoxyCompactList}\small\item\em This function is executed in case of error occurrence. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{port_i2_c_8h_a761fb498665813f3697ea617b38d9473}{I2\+CDelay}} (uint32\+\_\+t delay\+Time)
+\begin{DoxyCompactList}\small\item\em Function that delays the main program for a specified number of miliseconds in a blocking way. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{port_i2_c_8h_a7d23473bd5eb72909c1a3588a70bb237}{I2\+CInit}} (void)
+\begin{DoxyCompactList}\small\item\em Function that initializes the I2C protocol handle. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{port_i2_c_8h_abc47565c7d2b0158180180c3e172c62a}{I2\+CMaster\+Transmit}} (uint16\+\_\+t dev\+Addr, uint8\+\_\+t \texorpdfstring{$\ast$}{*}buffer, uint16\+\_\+t size)
+\begin{DoxyCompactList}\small\item\em Function to transmit data to a specified slave. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{port_i2_c_8h_af60bdf2cb6b0eb036cd33ad8f474a349}{I2\+CRead\+Memory}} (uint16\+\_\+t start\+Reg, uint16\+\_\+t dev\+Addr, uint8\+\_\+t \texorpdfstring{$\ast$}{*}buffer, uint16\+\_\+t size)
+\begin{DoxyCompactList}\small\item\em Reads specific memory registers for a given IC. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Declarations for the wrapper I2C HAL functions. 
+
+This file contains function prototypes and constants for interfacing with any integrated circuit via I2C. It relies on the HAL functions provided by \doxylink{stm32f4xx__hal_8h}{stm32f4xx\+\_\+hal.\+h}. 
+
+\label{doc-define-members}
+\Hypertarget{port_i2_c_8h_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{port_i2_c_8h_afc9c92421baf5ae8be536e5ae31eb5c1}\index{portI2C.h@{portI2C.h}!CLOCKSPEED@{CLOCKSPEED}}
+\index{CLOCKSPEED@{CLOCKSPEED}!portI2C.h@{portI2C.h}}
+\doxysubsubsection{\texorpdfstring{CLOCKSPEED}{CLOCKSPEED}}
+{\footnotesize\ttfamily \label{port_i2_c_8h_afc9c92421baf5ae8be536e5ae31eb5c1} 
+\#define CLOCKSPEED~100000}
+
+
+
+Includes STM32 HAL functions. 
+
+Speed of the clock for the I2C communication. 
+
+\label{doc-func-members}
+\Hypertarget{port_i2_c_8h_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{port_i2_c_8h_ad4e07955fadfeb416e9620ddb42f8fe9}\index{portI2C.h@{portI2C.h}!Error\_Handler@{Error\_Handler}}
+\index{Error\_Handler@{Error\_Handler}!portI2C.h@{portI2C.h}}
+\doxysubsubsection{\texorpdfstring{Error\_Handler()}{Error\_Handler()}}
+{\footnotesize\ttfamily \label{port_i2_c_8h_ad4e07955fadfeb416e9620ddb42f8fe9} 
+void Error\+\_\+\+Handler (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+This function is executed in case of error occurrence. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{port_i2_c_8h_a761fb498665813f3697ea617b38d9473}\index{portI2C.h@{portI2C.h}!I2CDelay@{I2CDelay}}
+\index{I2CDelay@{I2CDelay}!portI2C.h@{portI2C.h}}
+\doxysubsubsection{\texorpdfstring{I2CDelay()}{I2CDelay()}}
+{\footnotesize\ttfamily \label{port_i2_c_8h_a761fb498665813f3697ea617b38d9473} 
+void I2\+CDelay (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{delay\+Time}{}\end{DoxyParamCaption})}
+
+
+
+Function that delays the main program for a specified number of miliseconds in a blocking way. 
+
+@function I2\+CDelay 
+\begin{DoxyParams}{Parameters}
+{\em delay\+Time} & time (in miliseconds) for delay \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{port_i2_c_8h_a7d23473bd5eb72909c1a3588a70bb237}\index{portI2C.h@{portI2C.h}!I2CInit@{I2CInit}}
+\index{I2CInit@{I2CInit}!portI2C.h@{portI2C.h}}
+\doxysubsubsection{\texorpdfstring{I2CInit()}{I2CInit()}}
+{\footnotesize\ttfamily \label{port_i2_c_8h_a7d23473bd5eb72909c1a3588a70bb237} 
+void I2\+CInit (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Function that initializes the I2C protocol handle. 
+
+@function I2\+CInit 
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{port_i2_c_8h_abc47565c7d2b0158180180c3e172c62a}\index{portI2C.h@{portI2C.h}!I2CMasterTransmit@{I2CMasterTransmit}}
+\index{I2CMasterTransmit@{I2CMasterTransmit}!portI2C.h@{portI2C.h}}
+\doxysubsubsection{\texorpdfstring{I2CMasterTransmit()}{I2CMasterTransmit()}}
+{\footnotesize\ttfamily \label{port_i2_c_8h_abc47565c7d2b0158180180c3e172c62a} 
+void I2\+CMaster\+Transmit (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{dev\+Addr}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{buffer}{, }\item[{uint16\+\_\+t}]{size}{}\end{DoxyParamCaption})}
+
+
+
+Function to transmit data to a specified slave. 
+
+@function I2\+CMaster\+Transmit 
+\begin{DoxyParams}{Parameters}
+{\em dev\+Addr} & number of the I2C device address \\
+\hline
+{\em buffer} & pointer to data buffer to be written. The first element is the memory register \\
+\hline
+{\em size} & size of the buffer \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em none} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{port_i2_c_8h_af60bdf2cb6b0eb036cd33ad8f474a349}\index{portI2C.h@{portI2C.h}!I2CReadMemory@{I2CReadMemory}}
+\index{I2CReadMemory@{I2CReadMemory}!portI2C.h@{portI2C.h}}
+\doxysubsubsection{\texorpdfstring{I2CReadMemory()}{I2CReadMemory()}}
+{\footnotesize\ttfamily \label{port_i2_c_8h_af60bdf2cb6b0eb036cd33ad8f474a349} 
+void I2\+CRead\+Memory (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{start\+Reg}{, }\item[{uint16\+\_\+t}]{dev\+Addr}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{buffer}{, }\item[{uint16\+\_\+t}]{size}{}\end{DoxyParamCaption})}
+
+
+
+Reads specific memory registers for a given IC. 
+
+@function I2\+CRead\+Memory 
+\begin{DoxyParams}{Parameters}
+{\em start\+Reg} & memory register address to start reading \\
+\hline
+{\em dev\+Addr} & number of the I2C device address \\
+\hline
+{\em buffer} & pointer to buffer to store the read data \\
+\hline
+{\em size} & size of the buffer \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em none} & \\
+\hline
+\end{DoxyRetVals}

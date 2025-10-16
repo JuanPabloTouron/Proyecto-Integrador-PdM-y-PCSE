@@ -1,0 +1,51 @@
+\doxysection{port\+Buttons.\+h}
+\hypertarget{port_buttons_8h_source}{}\label{port_buttons_8h_source}\index{TPFinal2/Drivers/API/inc/portButtons.h@{TPFinal2/Drivers/API/inc/portButtons.h}}
+\mbox{\hyperlink{port_buttons_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#ifndef\ PORTBUTTONS\_H}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ PORTBUTTONS\_H}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ "{}API\_delay.h"{}}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{stm32f4xx__hal_8h}{stm32f4xx\_hal.h}}"{}}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#define\ DELAY\ 40}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#define\ ENTER\_EXTI\_IRQN\ EXTI9\_5\_IRQn}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#define\ ENTER\_GPIO\_PORT\ GPIOA}}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#define\ ENTER\_PIN\ GPIO\_PIN\_9}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\#define\ LEFT\_EXTI\_IRQN\ EXTI9\_5\_IRQn}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\#define\ LEFT\_GPIO\_PORT\ GPIOA}}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\#define\ LEFT\_PIN\ GPIO\_PIN\_8}}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\#define\ MENU\_EXTI\_IRQN\ EXTI9\_5\_IRQn}}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#define\ MENU\_GPIO\_PORT\ GPIOA}}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\#define\ MENU\_PIN\ GPIO\_PIN\_7}}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00076\ \textcolor{preprocessor}{\#define\ NUMBER\_OF\_BUTTONS\ 4}}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00081\ \textcolor{preprocessor}{\#define\ RIGHT\_EXTI\_IRQN\ EXTI9\_5\_IRQn}}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00086\ \textcolor{preprocessor}{\#define\ RIGHT\_GPIO\_PORT\ GPIOA}}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00091\ \textcolor{preprocessor}{\#define\ RIGHT\_PIN\ GPIO\_PIN\_6}}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00100\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{port_buttons_8h_a19bd9578768c3ae852f468c14e6265d1}{ButtonPressed}}(uint16\_t\ GPIO\_Pin);}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00108\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{port_buttons_8h_ac479c9466379bee2e17d33edf3a7162c}{ButtonsInit}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00116\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{port_buttons_8h_a0cd91fd3a9608559c2a87a8ba6cba55f}{HAL\_GPIO\_EXTI\_Callback}}(uint16\_t\ GPIO\_Pin);}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ PORTBUTTONS\_H}}
+
+\end{DoxyCode}

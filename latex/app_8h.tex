@@ -1,0 +1,165 @@
+\doxysection{TPFinal2/\+Drivers/\+API/inc/app.h File Reference}
+\hypertarget{app_8h}{}\label{app_8h}\index{TPFinal2/Drivers/API/inc/app.h@{TPFinal2/Drivers/API/inc/app.h}}
+
+
+Declarations for MEF functions.  
+
+
+{\ttfamily \#include "{}ds3231.\+h"{}}\newline
+{\ttfamily \#include "{}lcd\+\_\+i2c.\+h"{}}\newline
+{\ttfamily \#include "{}port\+Buttons.\+h"{}}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{app_8h_af4747ea3f475135e3c7e90ec73f91ca3}{ENTER\+\_\+\+BUTTON}}~\mbox{\hyperlink{port_buttons_8h_a5c819789b6d1dff20d99d0b3079daed9}{ENTER\+\_\+\+PIN}}
+\begin{DoxyCompactList}\small\item\em Includes functions for interfacing with DS3231. \end{DoxyCompactList}\item 
+\Hypertarget{app_8h_abbc8382ae4ea521f03c119a14478b759}\label{app_8h_abbc8382ae4ea521f03c119a14478b759} 
+\#define {\bfseries LEFT\+\_\+\+BUTTON}~\mbox{\hyperlink{port_buttons_8h_ad8ebfa6095c6a7fccd9c88536cb1259d}{LEFT\+\_\+\+PIN}}
+\begin{DoxyCompactList}\small\item\em Definition of the Left button. \end{DoxyCompactList}\item 
+\Hypertarget{app_8h_a1d5dab30b404fab91608086105afc78c}\label{app_8h_a1d5dab30b404fab91608086105afc78c} 
+\#define {\bfseries MAX\+\_\+\+BUFFER}~100
+\begin{DoxyCompactList}\small\item\em Maximum amount of buttons to store. \end{DoxyCompactList}\item 
+\Hypertarget{app_8h_a8adbf2b1e0569dded992fee665e86e70}\label{app_8h_a8adbf2b1e0569dded992fee665e86e70} 
+\#define {\bfseries MAX\+\_\+\+CHARS}~25
+\begin{DoxyCompactList}\small\item\em Maximum amount of buttons to store. \end{DoxyCompactList}\item 
+\Hypertarget{app_8h_ade24d5b0ddaba191261c3122e9b2e926}\label{app_8h_ade24d5b0ddaba191261c3122e9b2e926} 
+\#define {\bfseries MENU\+\_\+\+BUTTON}~\mbox{\hyperlink{port_buttons_8h_a9fbb5cdf5fa50d1adf251f21dd329e74}{MENU\+\_\+\+PIN}}
+\begin{DoxyCompactList}\small\item\em Definition of the Menu button. \end{DoxyCompactList}\item 
+\Hypertarget{app_8h_aeb17351958162535ab6af2cd6b030955}\label{app_8h_aeb17351958162535ab6af2cd6b030955} 
+\#define {\bfseries RIGHT\+\_\+\+BUTTON}~\mbox{\hyperlink{port_buttons_8h_af3c23286f9e12c72ec6219428f66a745}{RIGHT\+\_\+\+PIN}}
+\begin{DoxyCompactList}\small\item\em Definition of the Right button. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{app_8h_a14ccdfd587396b1af1b90fa9271c0c2b}{App\+Init}} ()
+\begin{DoxyCompactList}\small\item\em Initializes the main app FSM. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{app_8h_abb8d3a97ab4184ff845818063b9c650e}{App\+Update}} ()
+\begin{DoxyCompactList}\small\item\em Updates the main app FSM. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{app_8h_aa8eadff295e833d39f65ee2a525e6b7e}{Button\+Pressed}} (uint16\+\_\+t GPIO\+\_\+\+PIN)
+\begin{DoxyCompactList}\small\item\em This function is called when a button is pressed (after considering debounce) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Declarations for MEF functions. 
+
+This file contains function prototypes, constants, and data structures for running the main application. According to the LCD with RTC. It relies on the \doxylink{ds3231_8h}{ds3231.\+h} and \doxylink{lcd__i2c_8h}{lcd\+\_\+i2c.\+h}. 
+
+\label{doc-define-members}
+\Hypertarget{app_8h_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{app_8h_af4747ea3f475135e3c7e90ec73f91ca3}\index{app.h@{app.h}!ENTER\_BUTTON@{ENTER\_BUTTON}}
+\index{ENTER\_BUTTON@{ENTER\_BUTTON}!app.h@{app.h}}
+\doxysubsubsection{\texorpdfstring{ENTER\_BUTTON}{ENTER\_BUTTON}}
+{\footnotesize\ttfamily \label{app_8h_af4747ea3f475135e3c7e90ec73f91ca3} 
+\#define ENTER\+\_\+\+BUTTON~\mbox{\hyperlink{port_buttons_8h_a5c819789b6d1dff20d99d0b3079daed9}{ENTER\+\_\+\+PIN}}}
+
+
+
+Includes functions for interfacing with DS3231. 
+
+Includes functions for interfacing with LCD display.
+
+Includes functions for defining GPIO as buttons.
+
+Definition of the Enter button. 
+
+\label{doc-func-members}
+\Hypertarget{app_8h_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{app_8h_a14ccdfd587396b1af1b90fa9271c0c2b}\index{app.h@{app.h}!AppInit@{AppInit}}
+\index{AppInit@{AppInit}!app.h@{app.h}}
+\doxysubsubsection{\texorpdfstring{AppInit()}{AppInit()}}
+{\footnotesize\ttfamily \label{app_8h_a14ccdfd587396b1af1b90fa9271c0c2b} 
+void App\+Init (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Initializes the main app FSM. 
+
+@function App\+Init 
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em none} & \\
+\hline
+\end{DoxyRetVals}
+Initializes the main app FSM.
+
+@function App\+Init 
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em none} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{app_8h_abb8d3a97ab4184ff845818063b9c650e}\index{app.h@{app.h}!AppUpdate@{AppUpdate}}
+\index{AppUpdate@{AppUpdate}!app.h@{app.h}}
+\doxysubsubsection{\texorpdfstring{AppUpdate()}{AppUpdate()}}
+{\footnotesize\ttfamily \label{app_8h_abb8d3a97ab4184ff845818063b9c650e} 
+void App\+Update (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Updates the main app FSM. 
+
+@function App\+Update 
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em none} & \\
+\hline
+\end{DoxyRetVals}
+Updates the main app FSM.
+
+@function App\+Update 
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em none} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{app_8h_aa8eadff295e833d39f65ee2a525e6b7e}\index{app.h@{app.h}!ButtonPressed@{ButtonPressed}}
+\index{ButtonPressed@{ButtonPressed}!app.h@{app.h}}
+\doxysubsubsection{\texorpdfstring{ButtonPressed()}{ButtonPressed()}}
+{\footnotesize\ttfamily \label{app_8h_aa8eadff295e833d39f65ee2a525e6b7e} 
+void Button\+Pressed (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{GPIO\+\_\+\+Pin}{}\end{DoxyParamCaption})}
+
+
+
+This function is called when a button is pressed (after considering debounce) 
+
+@function Button\+Pressed 
+\begin{DoxyParams}{Parameters}
+{\em GPIO\+\_\+\+Pin} & number of the Pin that was pressed \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em none} & \\
+\hline
+\end{DoxyRetVals}
+This function is called when a button is pressed (after considering debounce)
+
+@function Button\+Pressed 
+\begin{DoxyParams}{Parameters}
+{\em GPIO\+\_\+\+Pin} & number of pin pressed \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em none} & \\
+\hline
+\end{DoxyRetVals}

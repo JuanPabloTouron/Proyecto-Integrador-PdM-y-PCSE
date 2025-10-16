@@ -1,0 +1,55 @@
+\doxysection{TPFinal2/\+Drivers/\+API/src/port\+Buttons.c File Reference}
+\hypertarget{port_buttons_8c}{}\label{port_buttons_8c}\index{TPFinal2/Drivers/API/src/portButtons.c@{TPFinal2/Drivers/API/src/portButtons.c}}
+
+
+Implementations of the wrapper GPIO HAL functions.  
+
+
+{\ttfamily \#include "{}port\+Buttons.\+h"{}}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structbutton_debounce}{button\+Debounce}}
+\begin{DoxyCompactList}\small\item\em Type defined for button debounce. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{port_buttons_8c_ac479c9466379bee2e17d33edf3a7162c}{Buttons\+Init}} (void)
+\begin{DoxyCompactList}\small\item\em Function that initializes GPIO as buttons. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group___g_p_i_o___exported___functions___group2_ga0cd91fd3a9608559c2a87a8ba6cba55f}{HAL\+\_\+\+GPIO\+\_\+\+EXTI\+\_\+\+Callback}} (uint16\+\_\+t GPIO\+\_\+\+Pin)
+\begin{DoxyCompactList}\small\item\em Function that activate when a button is pressed. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implementations of the wrapper GPIO HAL functions. 
+
+This file contains function implementations for defining GPIO for buttons with external interrupts. It relies on the HAL functions provided by \doxylink{stm32f4xx__hal_8h}{stm32f4xx\+\_\+hal.\+h}. 
+
+\label{doc-func-members}
+\Hypertarget{port_buttons_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{port_buttons_8c_ac479c9466379bee2e17d33edf3a7162c}\index{portButtons.c@{portButtons.c}!ButtonsInit@{ButtonsInit}}
+\index{ButtonsInit@{ButtonsInit}!portButtons.c@{portButtons.c}}
+\doxysubsubsection{\texorpdfstring{ButtonsInit()}{ButtonsInit()}}
+{\footnotesize\ttfamily \label{port_buttons_8c_ac479c9466379bee2e17d33edf3a7162c} 
+void Buttons\+Init (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Function that initializes GPIO as buttons. 
+
+@function Buttons\+Init 
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em none} & \\
+\hline
+\end{DoxyRetVals}
+\texorpdfstring{$<$}{<} In this case I use GPIO for Enter button but it\textquotesingle{}s the same for any of them
+
+\texorpdfstring{$<$}{<} In this case I use the EXTI line for Enter button but it\textquotesingle{}s the same for any of them
+
+\texorpdfstring{$<$}{<} If there was more than one EXTI line used, all of them should be initialized

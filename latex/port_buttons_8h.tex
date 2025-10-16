@@ -1,0 +1,167 @@
+\doxysection{TPFinal2/\+Drivers/\+API/inc/port\+Buttons.h File Reference}
+\hypertarget{port_buttons_8h}{}\label{port_buttons_8h}\index{TPFinal2/Drivers/API/inc/portButtons.h@{TPFinal2/Drivers/API/inc/portButtons.h}}
+
+
+Declarations for the wrapper GPIO HAL functions.  
+
+
+{\ttfamily \#include "{}API\+\_\+delay.\+h"{}}\newline
+{\ttfamily \#include "{}stm32f4xx\+\_\+hal.\+h"{}}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{port_buttons_8h_a62249e384b997229a3e2ae74ade334e2}{DELAY}}~40
+\begin{DoxyCompactList}\small\item\em Includes functions for non-\/blocking delaysd. \end{DoxyCompactList}\item 
+\Hypertarget{port_buttons_8h_ab69fb32640bd016194956f2cda06eb4f}\label{port_buttons_8h_ab69fb32640bd016194956f2cda06eb4f} 
+\#define {\bfseries ENTER\+\_\+\+EXTI\+\_\+\+IRQN}~\mbox{\hyperlink{group___peripheral__interrupt__number__definition_gga7e1129cd8a196f4284d41db3e82ad5c8aa3aa50e0353871985facf62d055faa52}{EXTI9\+\_\+5\+\_\+\+IRQn}}
+\begin{DoxyCompactList}\small\item\em Definition of the external interruption line for Enter button. \end{DoxyCompactList}\item 
+\Hypertarget{port_buttons_8h_ae99023c198bbf2ad2bee3406b5ef7965}\label{port_buttons_8h_ae99023c198bbf2ad2bee3406b5ef7965} 
+\#define {\bfseries ENTER\+\_\+\+GPIO\+\_\+\+PORT}~GPIOA
+\begin{DoxyCompactList}\small\item\em Definition of the port of the GPIO Pin for Enter button. \end{DoxyCompactList}\item 
+\Hypertarget{port_buttons_8h_a5c819789b6d1dff20d99d0b3079daed9}\label{port_buttons_8h_a5c819789b6d1dff20d99d0b3079daed9} 
+\#define {\bfseries ENTER\+\_\+\+PIN}~GPIO\+\_\+\+PIN\+\_\+9
+\begin{DoxyCompactList}\small\item\em Definition of the GPIO Pin for Enter button. \end{DoxyCompactList}\item 
+\Hypertarget{port_buttons_8h_adb504c8e8036e9b9cdca34e0d0761992}\label{port_buttons_8h_adb504c8e8036e9b9cdca34e0d0761992} 
+\#define {\bfseries LEFT\+\_\+\+EXTI\+\_\+\+IRQN}~\mbox{\hyperlink{group___peripheral__interrupt__number__definition_gga7e1129cd8a196f4284d41db3e82ad5c8aa3aa50e0353871985facf62d055faa52}{EXTI9\+\_\+5\+\_\+\+IRQn}}
+\begin{DoxyCompactList}\small\item\em Definition of the external interruption line for Left button. \end{DoxyCompactList}\item 
+\Hypertarget{port_buttons_8h_a1fdb51e67bd3e3c3a63343ec8cd37794}\label{port_buttons_8h_a1fdb51e67bd3e3c3a63343ec8cd37794} 
+\#define {\bfseries LEFT\+\_\+\+GPIO\+\_\+\+PORT}~GPIOA
+\begin{DoxyCompactList}\small\item\em Definition of the port of the GPIO Pin for Left button. \end{DoxyCompactList}\item 
+\Hypertarget{port_buttons_8h_ad8ebfa6095c6a7fccd9c88536cb1259d}\label{port_buttons_8h_ad8ebfa6095c6a7fccd9c88536cb1259d} 
+\#define {\bfseries LEFT\+\_\+\+PIN}~GPIO\+\_\+\+PIN\+\_\+8
+\begin{DoxyCompactList}\small\item\em Definition of the GPIO Pin for Left button. \end{DoxyCompactList}\item 
+\Hypertarget{port_buttons_8h_a1270fe2ddecd7ebe96098709a792292d}\label{port_buttons_8h_a1270fe2ddecd7ebe96098709a792292d} 
+\#define {\bfseries MENU\+\_\+\+EXTI\+\_\+\+IRQN}~\mbox{\hyperlink{group___peripheral__interrupt__number__definition_gga7e1129cd8a196f4284d41db3e82ad5c8aa3aa50e0353871985facf62d055faa52}{EXTI9\+\_\+5\+\_\+\+IRQn}}
+\begin{DoxyCompactList}\small\item\em Definition of the external interruption line for Menu button. \end{DoxyCompactList}\item 
+\Hypertarget{port_buttons_8h_ac81325ff96794770985d898dc8b871d9}\label{port_buttons_8h_ac81325ff96794770985d898dc8b871d9} 
+\#define {\bfseries MENU\+\_\+\+GPIO\+\_\+\+PORT}~GPIOA
+\begin{DoxyCompactList}\small\item\em Definition of the port of the GPIO Pin for Menu button. \end{DoxyCompactList}\item 
+\Hypertarget{port_buttons_8h_a9fbb5cdf5fa50d1adf251f21dd329e74}\label{port_buttons_8h_a9fbb5cdf5fa50d1adf251f21dd329e74} 
+\#define {\bfseries MENU\+\_\+\+PIN}~GPIO\+\_\+\+PIN\+\_\+7
+\begin{DoxyCompactList}\small\item\em Definition of the GPIO Pin for Menu button. \end{DoxyCompactList}\item 
+\Hypertarget{port_buttons_8h_a8b5882947b9bdf6ffd31ba94bcc42aef}\label{port_buttons_8h_a8b5882947b9bdf6ffd31ba94bcc42aef} 
+\#define {\bfseries NUMBER\+\_\+\+OF\+\_\+\+BUTTONS}~4
+\begin{DoxyCompactList}\small\item\em Number of buttons defined. \end{DoxyCompactList}\item 
+\Hypertarget{port_buttons_8h_a9e5da8569fa4c139e87e558295e2f89b}\label{port_buttons_8h_a9e5da8569fa4c139e87e558295e2f89b} 
+\#define {\bfseries RIGHT\+\_\+\+EXTI\+\_\+\+IRQN}~\mbox{\hyperlink{group___peripheral__interrupt__number__definition_gga7e1129cd8a196f4284d41db3e82ad5c8aa3aa50e0353871985facf62d055faa52}{EXTI9\+\_\+5\+\_\+\+IRQn}}
+\begin{DoxyCompactList}\small\item\em Definition of the external interruption line for Right button. \end{DoxyCompactList}\item 
+\Hypertarget{port_buttons_8h_a3e6cd8aed376e2f36591c174ba891f25}\label{port_buttons_8h_a3e6cd8aed376e2f36591c174ba891f25} 
+\#define {\bfseries RIGHT\+\_\+\+GPIO\+\_\+\+PORT}~GPIOA
+\begin{DoxyCompactList}\small\item\em Definition of the port of the GPIO Pin for Right button. \end{DoxyCompactList}\item 
+\Hypertarget{port_buttons_8h_af3c23286f9e12c72ec6219428f66a745}\label{port_buttons_8h_af3c23286f9e12c72ec6219428f66a745} 
+\#define {\bfseries RIGHT\+\_\+\+PIN}~GPIO\+\_\+\+PIN\+\_\+6
+\begin{DoxyCompactList}\small\item\em Definition of the GPIO Pin for Right button. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{port_buttons_8h_a19bd9578768c3ae852f468c14e6265d1}{Button\+Pressed}} (uint16\+\_\+t GPIO\+\_\+\+Pin)
+\begin{DoxyCompactList}\small\item\em External function that is called when a button is pressed (after considering debounce) \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{port_buttons_8h_ac479c9466379bee2e17d33edf3a7162c}{Buttons\+Init}} (void)
+\begin{DoxyCompactList}\small\item\em Function that initializes GPIO as buttons. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{port_buttons_8h_a0cd91fd3a9608559c2a87a8ba6cba55f}{HAL\+\_\+\+GPIO\+\_\+\+EXTI\+\_\+\+Callback}} (uint16\+\_\+t GPIO\+\_\+\+Pin)
+\begin{DoxyCompactList}\small\item\em Function that activate when a button is pressed. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Declarations for the wrapper GPIO HAL functions. 
+
+This file contains function prototypes and constants for defining GPIO for buttons with external interrupts. It relies on the HAL functions provided by \doxylink{stm32f4xx__hal_8h}{stm32f4xx\+\_\+hal.\+h}. 
+
+\label{doc-define-members}
+\Hypertarget{port_buttons_8h_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{port_buttons_8h_a62249e384b997229a3e2ae74ade334e2}\index{portButtons.h@{portButtons.h}!DELAY@{DELAY}}
+\index{DELAY@{DELAY}!portButtons.h@{portButtons.h}}
+\doxysubsubsection{\texorpdfstring{DELAY}{DELAY}}
+{\footnotesize\ttfamily \label{port_buttons_8h_a62249e384b997229a3e2ae74ade334e2} 
+\#define DELAY~40}
+
+
+
+Includes functions for non-\/blocking delaysd. 
+
+Includes STM32 HAL functions.
+
+Time for debounce delay. 
+
+\label{doc-func-members}
+\Hypertarget{port_buttons_8h_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{port_buttons_8h_a19bd9578768c3ae852f468c14e6265d1}\index{portButtons.h@{portButtons.h}!ButtonPressed@{ButtonPressed}}
+\index{ButtonPressed@{ButtonPressed}!portButtons.h@{portButtons.h}}
+\doxysubsubsection{\texorpdfstring{ButtonPressed()}{ButtonPressed()}}
+{\footnotesize\ttfamily \label{port_buttons_8h_a19bd9578768c3ae852f468c14e6265d1} 
+void Button\+Pressed (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{GPIO\+\_\+\+Pin}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+External function that is called when a button is pressed (after considering debounce) 
+
+@function Button\+Pressed 
+\begin{DoxyParams}{Parameters}
+{\em GPIO\+\_\+\+Pin} & number of the Pin that was pressed \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em none} & \\
+\hline
+\end{DoxyRetVals}
+External function that is called when a button is pressed (after considering debounce)
+
+This function is called when a button is pressed (after considering debounce)
+
+@function Button\+Pressed 
+\begin{DoxyParams}{Parameters}
+{\em GPIO\+\_\+\+Pin} & number of pin pressed \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em none} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{port_buttons_8h_ac479c9466379bee2e17d33edf3a7162c}\index{portButtons.h@{portButtons.h}!ButtonsInit@{ButtonsInit}}
+\index{ButtonsInit@{ButtonsInit}!portButtons.h@{portButtons.h}}
+\doxysubsubsection{\texorpdfstring{ButtonsInit()}{ButtonsInit()}}
+{\footnotesize\ttfamily \label{port_buttons_8h_ac479c9466379bee2e17d33edf3a7162c} 
+void Buttons\+Init (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Function that initializes GPIO as buttons. 
+
+@function Buttons\+Init 
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em none} & \\
+\hline
+\end{DoxyRetVals}
+\texorpdfstring{$<$}{<} In this case I use GPIO for Enter button but it\textquotesingle{}s the same for any of them
+
+\texorpdfstring{$<$}{<} In this case I use the EXTI line for Enter button but it\textquotesingle{}s the same for any of them
+
+\texorpdfstring{$<$}{<} If there was more than one EXTI line used, all of them should be initialized\Hypertarget{port_buttons_8h_a0cd91fd3a9608559c2a87a8ba6cba55f}\index{portButtons.h@{portButtons.h}!HAL\_GPIO\_EXTI\_Callback@{HAL\_GPIO\_EXTI\_Callback}}
+\index{HAL\_GPIO\_EXTI\_Callback@{HAL\_GPIO\_EXTI\_Callback}!portButtons.h@{portButtons.h}}
+\doxysubsubsection{\texorpdfstring{HAL\_GPIO\_EXTI\_Callback()}{HAL\_GPIO\_EXTI\_Callback()}}
+{\footnotesize\ttfamily \label{port_buttons_8h_a0cd91fd3a9608559c2a87a8ba6cba55f} 
+void HAL\+\_\+\+GPIO\+\_\+\+EXTI\+\_\+\+Callback (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{GPIO\+\_\+\+Pin}{}\end{DoxyParamCaption})}
+
+
+
+Function that activate when a button is pressed. 
+
+@function HAL\+\_\+\+GPIO\+\_\+\+EXTI\+\_\+\+Callback 
+\begin{DoxyParams}{Parameters}
+{\em GPIO\+\_\+\+Pin} & number of the Pin that triggered the interruption function \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em none} & \\
+\hline
+\end{DoxyRetVals}

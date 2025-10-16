@@ -1,0 +1,31 @@
+\doxysection{port\+I2\+C.\+h}
+\hypertarget{port_i2_c_8h_source}{}\label{port_i2_c_8h_source}\index{TPFinal2/Drivers/API/inc/portI2C.h@{TPFinal2/Drivers/API/inc/portI2C.h}}
+\mbox{\hyperlink{port_i2_c_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#ifndef\ PORT\_H}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ PORT\_H}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{stm32f4xx__hal_8h}{stm32f4xx\_hal.h}}"{}}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#define\ CLOCKSPEED\ 100000}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#define\ TIMEOUT\ HAL\_MAX\_DELAY}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#define\ REG\_SIZE\ I2C\_MEMADD\_SIZE\_8BIT}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{comment}{/*\ Declaration\ of\ the\ external\ error\ handler\ function.\ Declared\ in\ the\ main\ */}}
+\DoxyCodeLine{00033\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{port_i2_c_8h_ad4e07955fadfeb416e9620ddb42f8fe9}{Error\_Handler}}();}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00041\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{port_i2_c_8h_a761fb498665813f3697ea617b38d9473}{I2CDelay}}(uint32\_t\ delayTime);}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00049\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{port_i2_c_8h_a7d23473bd5eb72909c1a3588a70bb237}{I2CInit}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00060\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{port_i2_c_8h_abc47565c7d2b0158180180c3e172c62a}{I2CMasterTransmit}}(uint16\_t\ devAddr,\ uint8\_t\ *buffer,\ uint16\_t\ size);}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00071\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{port_i2_c_8h_af60bdf2cb6b0eb036cd33ad8f474a349}{I2CReadMemory}}(uint16\_t\ startReg,\ uint16\_t\ devAddr,\ uint8\_t\ *buffer,\ uint16\_t\ size);}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

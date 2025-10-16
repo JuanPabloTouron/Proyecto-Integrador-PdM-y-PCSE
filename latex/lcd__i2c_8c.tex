@@ -1,0 +1,173 @@
+\doxysection{TPFinal2/\+Drivers/\+API/src/lcd\+\_\+i2c.c File Reference}
+\hypertarget{lcd__i2c_8c}{}\label{lcd__i2c_8c}\index{TPFinal2/Drivers/API/src/lcd\_i2c.c@{TPFinal2/Drivers/API/src/lcd\_i2c.c}}
+
+
+Implementation of the LCD with PCF8574T device driver functions.  
+
+
+{\ttfamily \#include "{}lcd\+\_\+i2c.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{lcd__i2c_8c_a30a03bb7e5d36a704095452b59a70130}{LCD\+\_\+\+I2\+C\+\_\+\+Clear}} ()
+\begin{DoxyCompactList}\small\item\em Includes the header file of this library. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lcd__i2c_8c_a1096fccd9c9a691ea7f052702528b648}{LCD\+\_\+\+I2\+C\+\_\+\+Clear\+Write}} (char \texorpdfstring{$\ast$}{*}str, uint8\+\_\+t row, uint8\+\_\+t col)
+\begin{DoxyCompactList}\small\item\em Function to clear a row and print a new string in it. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lcd__i2c_8c_aed699657426297263056030fea81e6b1}{LCD\+\_\+\+I2\+C\+\_\+\+Init}} ()
+\begin{DoxyCompactList}\small\item\em Function to initialize the display in 4bit mode. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lcd__i2c_8c_a5519b6b46c2770b021db99b2dd7c61ab}{LCD\+\_\+\+I2\+C\+\_\+\+Send}} (uint8\+\_\+t data, uint8\+\_\+t rs)
+\begin{DoxyCompactList}\small\item\em Function to send data to the LCD. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lcd__i2c_8c_aedfcaefefda2462e278bb954614f9ab4}{LCD\+\_\+\+I2\+C\+\_\+\+Send\+Control\+Byte}} (uint8\+\_\+t data)
+\begin{DoxyCompactList}\small\item\em Function to send one control/instruction byte to the LCD. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lcd__i2c_8c_a2eb7770bc3bb7a754c4d9b855c61662a}{LCD\+\_\+\+I2\+C\+\_\+\+Set\+Cursor}} (uint8\+\_\+t row, uint8\+\_\+t col)
+\begin{DoxyCompactList}\small\item\em Function to set the cursor on the display. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lcd__i2c_8c_a3945aa022cb1528b8a238433c5752e40}{LCD\+\_\+\+I2\+C\+\_\+\+Write\+String}} (char \texorpdfstring{$\ast$}{*}str)
+\begin{DoxyCompactList}\small\item\em Function to show a string on the LCD. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implementation of the LCD with PCF8574T device driver functions. 
+
+Contains the function definitions declared in \doxylink{lcd__i2c_8h}{lcd\+\_\+i2c.\+h}. Implements I2C read/write operations specific to LCD with PCF8574T. Uses port.\+h functions for hardware access. 
+
+\label{doc-func-members}
+\Hypertarget{lcd__i2c_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{lcd__i2c_8c_a30a03bb7e5d36a704095452b59a70130}\index{lcd\_i2c.c@{lcd\_i2c.c}!LCD\_I2C\_Clear@{LCD\_I2C\_Clear}}
+\index{LCD\_I2C\_Clear@{LCD\_I2C\_Clear}!lcd\_i2c.c@{lcd\_i2c.c}}
+\doxysubsubsection{\texorpdfstring{LCD\_I2C\_Clear()}{LCD\_I2C\_Clear()}}
+{\footnotesize\ttfamily \label{lcd__i2c_8c_a30a03bb7e5d36a704095452b59a70130} 
+void LCD\+\_\+\+I2\+C\+\_\+\+Clear (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Includes the header file of this library. 
+
+Function to clear the display. \Hypertarget{lcd__i2c_8c_a1096fccd9c9a691ea7f052702528b648}\index{lcd\_i2c.c@{lcd\_i2c.c}!LCD\_I2C\_ClearWrite@{LCD\_I2C\_ClearWrite}}
+\index{LCD\_I2C\_ClearWrite@{LCD\_I2C\_ClearWrite}!lcd\_i2c.c@{lcd\_i2c.c}}
+\doxysubsubsection{\texorpdfstring{LCD\_I2C\_ClearWrite()}{LCD\_I2C\_ClearWrite()}}
+{\footnotesize\ttfamily \label{lcd__i2c_8c_a1096fccd9c9a691ea7f052702528b648} 
+void LCD\+\_\+\+I2\+C\+\_\+\+Clear\+Write (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{str}{, }\item[{uint8\+\_\+t}]{row}{, }\item[{uint8\+\_\+t}]{col}{}\end{DoxyParamCaption})}
+
+
+
+Function to clear a row and print a new string in it. 
+
+@function LCD\+\_\+\+I2\+C\+\_\+\+Clear\+Write 
+\begin{DoxyParams}{Parameters}
+{\em str} & pointer to the string to show \\
+\hline
+{\em row} & number of row to clear and write \\
+\hline
+{\em col} & col to start the printing of the string \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{lcd__i2c_8c_aed699657426297263056030fea81e6b1}\index{lcd\_i2c.c@{lcd\_i2c.c}!LCD\_I2C\_Init@{LCD\_I2C\_Init}}
+\index{LCD\_I2C\_Init@{LCD\_I2C\_Init}!lcd\_i2c.c@{lcd\_i2c.c}}
+\doxysubsubsection{\texorpdfstring{LCD\_I2C\_Init()}{LCD\_I2C\_Init()}}
+{\footnotesize\ttfamily \label{lcd__i2c_8c_aed699657426297263056030fea81e6b1} 
+void LCD\+\_\+\+I2\+C\+\_\+\+Init (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Function to initialize the display in 4bit mode. 
+
+@function LCD\+\_\+\+I2\+C\+\_\+\+Init 
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{lcd__i2c_8c_a5519b6b46c2770b021db99b2dd7c61ab}\index{lcd\_i2c.c@{lcd\_i2c.c}!LCD\_I2C\_Send@{LCD\_I2C\_Send}}
+\index{LCD\_I2C\_Send@{LCD\_I2C\_Send}!lcd\_i2c.c@{lcd\_i2c.c}}
+\doxysubsubsection{\texorpdfstring{LCD\_I2C\_Send()}{LCD\_I2C\_Send()}}
+{\footnotesize\ttfamily \label{lcd__i2c_8c_a5519b6b46c2770b021db99b2dd7c61ab} 
+void LCD\+\_\+\+I2\+C\+\_\+\+Send (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{data}{, }\item[{uint8\+\_\+t}]{rs}{}\end{DoxyParamCaption})}
+
+
+
+Function to send data to the LCD. 
+
+@function LCD\+\_\+\+I2\+C\+\_\+\+Send 
+\begin{DoxyParams}{Parameters}
+{\em data} & Byte of data to send to the LCD \\
+\hline
+{\em rs} & Register select (instruction or data) \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{lcd__i2c_8c_aedfcaefefda2462e278bb954614f9ab4}\index{lcd\_i2c.c@{lcd\_i2c.c}!LCD\_I2C\_SendControlByte@{LCD\_I2C\_SendControlByte}}
+\index{LCD\_I2C\_SendControlByte@{LCD\_I2C\_SendControlByte}!lcd\_i2c.c@{lcd\_i2c.c}}
+\doxysubsubsection{\texorpdfstring{LCD\_I2C\_SendControlByte()}{LCD\_I2C\_SendControlByte()}}
+{\footnotesize\ttfamily \label{lcd__i2c_8c_aedfcaefefda2462e278bb954614f9ab4} 
+void LCD\+\_\+\+I2\+C\+\_\+\+Send\+Control\+Byte (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{data}{}\end{DoxyParamCaption})}
+
+
+
+Function to send one control/instruction byte to the LCD. 
+
+@function LCD\+\_\+\+I2\+C\+\_\+\+Send\+Control\+Byte 
+\begin{DoxyParams}{Parameters}
+{\em data} & control byte to send \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{lcd__i2c_8c_a2eb7770bc3bb7a754c4d9b855c61662a}\index{lcd\_i2c.c@{lcd\_i2c.c}!LCD\_I2C\_SetCursor@{LCD\_I2C\_SetCursor}}
+\index{LCD\_I2C\_SetCursor@{LCD\_I2C\_SetCursor}!lcd\_i2c.c@{lcd\_i2c.c}}
+\doxysubsubsection{\texorpdfstring{LCD\_I2C\_SetCursor()}{LCD\_I2C\_SetCursor()}}
+{\footnotesize\ttfamily \label{lcd__i2c_8c_a2eb7770bc3bb7a754c4d9b855c61662a} 
+void LCD\+\_\+\+I2\+C\+\_\+\+Set\+Cursor (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{row}{, }\item[{uint8\+\_\+t}]{col}{}\end{DoxyParamCaption})}
+
+
+
+Function to set the cursor on the display. 
+
+@function LCD\+\_\+\+I2\+C\+\_\+\+Set\+Cursor 
+\begin{DoxyParams}{Parameters}
+{\em row} & row position for the cursor \\
+\hline
+{\em col} & column position for the cursor \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{lcd__i2c_8c_a3945aa022cb1528b8a238433c5752e40}\index{lcd\_i2c.c@{lcd\_i2c.c}!LCD\_I2C\_WriteString@{LCD\_I2C\_WriteString}}
+\index{LCD\_I2C\_WriteString@{LCD\_I2C\_WriteString}!lcd\_i2c.c@{lcd\_i2c.c}}
+\doxysubsubsection{\texorpdfstring{LCD\_I2C\_WriteString()}{LCD\_I2C\_WriteString()}}
+{\footnotesize\ttfamily \label{lcd__i2c_8c_a3945aa022cb1528b8a238433c5752e40} 
+void LCD\+\_\+\+I2\+C\+\_\+\+Write\+String (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{str}{}\end{DoxyParamCaption})}
+
+
+
+Function to show a string on the LCD. 
+
+@function LCD\+\_\+\+I2\+C\+\_\+\+Write\+String 
+\begin{DoxyParams}{Parameters}
+{\em str} & pointer to the string to show \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}

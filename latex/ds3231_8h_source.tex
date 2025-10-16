@@ -1,0 +1,82 @@
+\doxysection{ds3231.\+h}
+\hypertarget{ds3231_8h_source}{}\label{ds3231_8h_source}\index{TPFinal2/Drivers/API/inc/ds3231.h@{TPFinal2/Drivers/API/inc/ds3231.h}}
+\mbox{\hyperlink{ds3231_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#ifndef\ DS3231\_H}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ DS3231\_H}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{port_i2_c_8h}{portI2C.h}}>}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ <stdbool.h>}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#define\ ALARM\_SIZE\ 4}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#define\ ALARM\_START\_REGISTER\ 0x08}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#define\ CENTURY\_MASK\ 0x1F}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#define\ CONTROL\_REGISTER\_MASK\ 0x7F}}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#define\ DS3231\_ADDR\ (0x68\ <<\ 1)}}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\#define\ FIRST\ 1}}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\#define\ JANUARY\ 1}}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\#define\ LOW\_NIBBLE\_MASK\ 0x0F}}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#define\ MIDNIGHT\ 0}}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\#define\ MODE24\_MASK\ 0x3F}}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00082\ \textcolor{preprocessor}{\#define\ NIBBLE\_SIZE\ 4}}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00087\ \textcolor{preprocessor}{\#define\ LAST\_DAY\ 7}}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00092\ \textcolor{preprocessor}{\#define\ FIRST\_DAY\ 1}}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00097\ \textcolor{preprocessor}{\#define\ TIME\_SIZE\ 8}}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00103\ \textcolor{preprocessor}{\#define\ TIME\_START\_REGISTER\ 0x00}}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00108\ \textcolor{preprocessor}{\#define\ Y2K\ 0}}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00114\ \textcolor{preprocessor}{\#define\ YEAR\_CORRECTION\ 2000}}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00123\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00124\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{struct_d_s3231___date_time_ad8f5667efa328926b838ad9866ebe1ac}{Seconds}};}
+\DoxyCodeLine{00125\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{struct_d_s3231___date_time_af5091ee66d5d2197ceda496cc72a9e06}{Minutes}};}
+\DoxyCodeLine{00126\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{struct_d_s3231___date_time_ae7db788a82713c80b59c8e6f6a4328d3}{Hours}};\ }
+\DoxyCodeLine{00127\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{struct_d_s3231___date_time_ae025c5b7c56331014ed0db701a049d24}{Day}};\ \ \ \ }
+\DoxyCodeLine{00128\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{struct_d_s3231___date_time_a9b9f28de069393219c3d17e792e6213d}{Date}};\ \ \ }
+\DoxyCodeLine{00129\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{struct_d_s3231___date_time_aa7a2c97a24172bf981957d29eae087d3}{Month}};\ \ }
+\DoxyCodeLine{00130\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{struct_d_s3231___date_time_a955ca5e8f46ea8e5f55ea9e976075f80}{Year}};\ \ }
+\DoxyCodeLine{00131\ \}\ \mbox{\hyperlink{struct_d_s3231___date_time}{DS3231\_DateTime}};}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00140\ uint8\_t\ \mbox{\hyperlink{ds3231_8h_ad0ee4d55782a63fe828d1572522a6a51}{BcdToDec}}(uint8\_t\ val);}
+\DoxyCodeLine{00141\ }
+\DoxyCodeLine{00149\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{ds3231_8h_a00e2989cc3ad720a0b502fe8a5f34664}{CopyTime}}(\mbox{\hyperlink{struct_d_s3231___date_time}{DS3231\_DateTime}}\ *timeToCopy,\ \mbox{\hyperlink{struct_d_s3231___date_time}{DS3231\_DateTime}}\ *timeToPaste);}
+\DoxyCodeLine{00150\ }
+\DoxyCodeLine{00157\ uint8\_t\ \mbox{\hyperlink{ds3231_8h_a996c6d35421f04cddf3d3f64bc6660de}{DecToBcd}}(uint8\_t\ val);}
+\DoxyCodeLine{00158\ }
+\DoxyCodeLine{00165\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{ds3231_8h_a0505927fd0a02df406e05f77d9c13df2}{GetAlarm}}(\mbox{\hyperlink{struct_d_s3231___date_time}{DS3231\_DateTime}}\ *\mbox{\hyperlink{app_8c_a21c3a1c25eda0f795b4439ef28d4b077}{time}});}
+\DoxyCodeLine{00166\ }
+\DoxyCodeLine{00173\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{ds3231_8h_a25659d90b8b81407a1a5f50fe1895e39}{GetTime}}(\mbox{\hyperlink{struct_d_s3231___date_time}{DS3231\_DateTime}}\ *\mbox{\hyperlink{app_8c_a21c3a1c25eda0f795b4439ef28d4b077}{time}});}
+\DoxyCodeLine{00174\ }
+\DoxyCodeLine{00181\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{ds3231_8h_ad421d906827c72d0efa249fdc9609b5e}{InitTime}}(\mbox{\hyperlink{struct_d_s3231___date_time}{DS3231\_DateTime}}\ *\mbox{\hyperlink{app_8c_a21c3a1c25eda0f795b4439ef28d4b077}{time}});}
+\DoxyCodeLine{00182\ }
+\DoxyCodeLine{00189\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{ds3231_8h_a5708e93267062249125306ba6fea0802}{IsAlarmSet}}(\mbox{\hyperlink{struct_d_s3231___date_time}{DS3231\_DateTime}}\ *\mbox{\hyperlink{app_8c_a79eb0dbf0f46f0062b6ce6c16bc44072}{alarm}});}
+\DoxyCodeLine{00190\ }
+\DoxyCodeLine{00197\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{ds3231_8h_a25ebe3a6a858934a2c76708e4a03660b}{SetAlarm}}(\mbox{\hyperlink{struct_d_s3231___date_time}{DS3231\_DateTime}}\ *\mbox{\hyperlink{app_8c_a21c3a1c25eda0f795b4439ef28d4b077}{time}});}
+\DoxyCodeLine{00198\ }
+\DoxyCodeLine{00205\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{ds3231_8h_a69db12232a02dc58683cd0d9a945b5f6}{SetTime}}(\mbox{\hyperlink{struct_d_s3231___date_time}{DS3231\_DateTime}}\ *\mbox{\hyperlink{app_8c_a21c3a1c25eda0f795b4439ef28d4b077}{time}});}
+\DoxyCodeLine{00206\ }
+\DoxyCodeLine{00207\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

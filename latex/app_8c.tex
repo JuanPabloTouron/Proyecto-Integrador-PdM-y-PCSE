@@ -1,0 +1,248 @@
+\doxysection{TPFinal2/\+Drivers/\+API/src/app.c File Reference}
+\hypertarget{app_8c}{}\label{app_8c}\index{TPFinal2/Drivers/API/src/app.c@{TPFinal2/Drivers/API/src/app.c}}
+
+
+Implementation of the main app functions.  
+
+
+{\ttfamily \#include "{}app.\+h"{}}\newline
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{app_8c_ae7aa0efbb88ba18c9cfe87dddc9a1c69}{app\+\_\+t}} \{ {\bfseries SHOWTIME}
+, {\bfseries SETTIME}
+, {\bfseries SETALARM}
+, {\bfseries MENU}
+ \}
+\begin{DoxyCompactList}\small\item\em Includes definitions and declarations for this module. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{app_8c_a58f56868ee62be31cd545ca374840152}{datetime\+\_\+t}} \{ \newline
+{\bfseries HOUR\+\_\+\+DT}
+, {\bfseries MINUTE\+\_\+\+DT}
+, {\bfseries SECOND\+\_\+\+DT}
+, {\bfseries DAY\+\_\+\+DT}
+, \newline
+{\bfseries DATE\+\_\+\+DT}
+, {\bfseries MONTH\+\_\+\+DT}
+, {\bfseries YEAR\+\_\+\+DT}
+ \}
+\begin{DoxyCompactList}\small\item\em States of the datetime (for time or alarm) setting FSM. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{app_8c_a44455c5614c38dfadce594b2228fd055}{menu\+\_\+t}} \{ {\bfseries SHOWTIME\+\_\+M}
+, {\bfseries SETTIME\+\_\+M}
+, {\bfseries SETALARM\+\_\+M}
+ \}
+\begin{DoxyCompactList}\small\item\em States of the menu FSM. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool\+\_\+t \mbox{\hyperlink{app_8c_af4511bbec8abc31fff059b87485d20cb}{Time\+Set\+Update}} (uint16\+\_\+t \texorpdfstring{$\ast$}{*}dt, \mbox{\hyperlink{struct_d_s3231___date_time}{DS3231\+\_\+\+Date\+Time}} \texorpdfstring{$\ast$}{*}time\+Set, uint16\+\_\+t button)
+\begin{DoxyCompactList}\small\item\em Updates the time/alarm set FSM according to buttons pressed. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{app_8c_a539112e90f36d16f1b9133d5b291af53}{Time\+Set\+Init}} (\mbox{\hyperlink{app_8c_a58f56868ee62be31cd545ca374840152}{datetime\+\_\+t}} \texorpdfstring{$\ast$}{*}dt)
+\begin{DoxyCompactList}\small\item\em Initializes the time set object to hour setting. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{app_8c_a14ccdfd587396b1af1b90fa9271c0c2b}{App\+Init}} ()
+\begin{DoxyCompactList}\small\item\em Initializes the main app FSM. Initializes the LCD, clears the screen, initializes the menu FSM. Also gets alarm from DS3231 to check whether an alarm is set. If so, turns alarm\+Is\+Set to true, to display an indicator on screen. Finally, initializes the main app FSM in Show\+Time mode. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{app_8c_abb8d3a97ab4184ff845818063b9c650e}{App\+Update}} ()
+\begin{DoxyCompactList}\small\item\em Updates the main app FSM according to the current button pressed. It switches between modes and menu states. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{app_8c_a19bd9578768c3ae852f468c14e6265d1}{Button\+Pressed}} (uint16\+\_\+t GPIO\+\_\+\+Pin)
+\begin{DoxyCompactList}\small\item\em Callback function triggered by button interruption. Adds button pressed to a queue. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{app_8c_a5df4778dd54ddbdce2823263a6ea1e0d}{Switch\+Cursor}} (uint16\+\_\+t \texorpdfstring{$\ast$}{*}dt)
+\begin{DoxyCompactList}\small\item\em Switches cursor according to the state of the time/alarm set FSM. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{app_8c_a79eb0dbf0f46f0062b6ce6c16bc44072}\label{app_8c_a79eb0dbf0f46f0062b6ce6c16bc44072} 
+\mbox{\hyperlink{struct_d_s3231___date_time}{DS3231\+\_\+\+Date\+Time}} {\bfseries alarm}
+\begin{DoxyCompactList}\small\item\em DS3231 datetime object to store current alarm. \end{DoxyCompactList}\item 
+\Hypertarget{app_8c_ab37bb0db972b981779a7c9918fed0a43}\label{app_8c_ab37bb0db972b981779a7c9918fed0a43} 
+\mbox{\hyperlink{struct_d_s3231___date_time}{DS3231\+\_\+\+Date\+Time}} {\bfseries alarm\+To\+Set}
+\begin{DoxyCompactList}\small\item\em DS3231 datetime object to store alarm to set. \end{DoxyCompactList}\item 
+\Hypertarget{app_8c_a20358970b1abaf992eb85e071e454653}\label{app_8c_a20358970b1abaf992eb85e071e454653} 
+int {\bfseries head} = 0
+\begin{DoxyCompactList}\small\item\em Head and tail of the queue. \end{DoxyCompactList}\item 
+\Hypertarget{app_8c_aff39d864a6594bc5f4a5e365282e00fe}\label{app_8c_aff39d864a6594bc5f4a5e365282e00fe} 
+int {\bfseries tail} = 0
+\item 
+\Hypertarget{app_8c_a21c3a1c25eda0f795b4439ef28d4b077}\label{app_8c_a21c3a1c25eda0f795b4439ef28d4b077} 
+\mbox{\hyperlink{struct_d_s3231___date_time}{DS3231\+\_\+\+Date\+Time}} {\bfseries time}
+\begin{DoxyCompactList}\small\item\em DS3231 datetime object to store current time. \end{DoxyCompactList}\item 
+\Hypertarget{app_8c_a40021cdbf0dbcf551fdf0ff4442c4b09}\label{app_8c_a40021cdbf0dbcf551fdf0ff4442c4b09} 
+\mbox{\hyperlink{struct_d_s3231___date_time}{DS3231\+\_\+\+Date\+Time}} {\bfseries time\+To\+Set}
+\begin{DoxyCompactList}\small\item\em DS3231 datetime object to store time to set. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implementation of the main app functions. 
+
+Contains the function definitions declared in \doxylink{app_8h}{app.\+h}. Implements MEFs to read buttons and switch display text or configure datetime or alarms. Uses \doxylink{lcd__i2c_8h}{lcd\+\_\+i2c.\+h} and \doxylink{ds3231_8h}{ds3231.\+h} functions. 
+
+\label{doc-enum-members}
+\Hypertarget{app_8c_doc-enum-members}
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{app_8c_ae7aa0efbb88ba18c9cfe87dddc9a1c69}\index{app.c@{app.c}!app\_t@{app\_t}}
+\index{app\_t@{app\_t}!app.c@{app.c}}
+\doxysubsubsection{\texorpdfstring{app\_t}{app\_t}}
+{\footnotesize\ttfamily \label{app_8c_ae7aa0efbb88ba18c9cfe87dddc9a1c69} 
+enum \mbox{\hyperlink{app_8c_ae7aa0efbb88ba18c9cfe87dddc9a1c69}{app\+\_\+t}}}
+
+
+
+Includes definitions and declarations for this module. 
+
+States of the main FSM
+
+The main app has four possible states (corresponding to the screens to display)\+: Show\+Time, Set\+Time, Set\+Alarm and Menu. \Hypertarget{app_8c_a58f56868ee62be31cd545ca374840152}\index{app.c@{app.c}!datetime\_t@{datetime\_t}}
+\index{datetime\_t@{datetime\_t}!app.c@{app.c}}
+\doxysubsubsection{\texorpdfstring{datetime\_t}{datetime\_t}}
+{\footnotesize\ttfamily \label{app_8c_a58f56868ee62be31cd545ca374840152} 
+enum \mbox{\hyperlink{app_8c_a58f56868ee62be31cd545ca374840152}{datetime\+\_\+t}}}
+
+
+
+States of the datetime (for time or alarm) setting FSM. 
+
+The datetime has seven possible states (corresponding to a value to set)\+: Hours, Minutes, Seconds, Day, Date, Month and Year. Alarm setting FSM only uses Hours, Minutes and Day. \Hypertarget{app_8c_a44455c5614c38dfadce594b2228fd055}\index{app.c@{app.c}!menu\_t@{menu\_t}}
+\index{menu\_t@{menu\_t}!app.c@{app.c}}
+\doxysubsubsection{\texorpdfstring{menu\_t}{menu\_t}}
+{\footnotesize\ttfamily \label{app_8c_a44455c5614c38dfadce594b2228fd055} 
+enum \mbox{\hyperlink{app_8c_a44455c5614c38dfadce594b2228fd055}{menu\+\_\+t}}}
+
+
+
+States of the menu FSM. 
+
+The menu has three possible states (corresponding to the modes of functioning)\+: Show\+Time\+Mode, Set\+Time\+Mode and Set\+Alarm\+Mode. 
+
+\label{doc-func-members}
+\Hypertarget{app_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{app_8c_a14ccdfd587396b1af1b90fa9271c0c2b}\index{app.c@{app.c}!AppInit@{AppInit}}
+\index{AppInit@{AppInit}!app.c@{app.c}}
+\doxysubsubsection{\texorpdfstring{AppInit()}{AppInit()}}
+{\footnotesize\ttfamily \label{app_8c_a14ccdfd587396b1af1b90fa9271c0c2b} 
+void App\+Init (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Initializes the main app FSM. Initializes the LCD, clears the screen, initializes the menu FSM. Also gets alarm from DS3231 to check whether an alarm is set. If so, turns alarm\+Is\+Set to true, to display an indicator on screen. Finally, initializes the main app FSM in Show\+Time mode. 
+
+Initializes the main app FSM.
+
+@function App\+Init 
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em none} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{app_8c_abb8d3a97ab4184ff845818063b9c650e}\index{app.c@{app.c}!AppUpdate@{AppUpdate}}
+\index{AppUpdate@{AppUpdate}!app.c@{app.c}}
+\doxysubsubsection{\texorpdfstring{AppUpdate()}{AppUpdate()}}
+{\footnotesize\ttfamily \label{app_8c_abb8d3a97ab4184ff845818063b9c650e} 
+void App\+Update (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Updates the main app FSM according to the current button pressed. It switches between modes and menu states. 
+
+Updates the main app FSM.
+
+@function App\+Update 
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em none} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{app_8c_a19bd9578768c3ae852f468c14e6265d1}\index{app.c@{app.c}!ButtonPressed@{ButtonPressed}}
+\index{ButtonPressed@{ButtonPressed}!app.c@{app.c}}
+\doxysubsubsection{\texorpdfstring{ButtonPressed()}{ButtonPressed()}}
+{\footnotesize\ttfamily \label{app_8c_a19bd9578768c3ae852f468c14e6265d1} 
+void Button\+Pressed (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{GPIO\+\_\+\+Pin}{}\end{DoxyParamCaption})}
+
+
+
+Callback function triggered by button interruption. Adds button pressed to a queue. 
+
+External function that is called when a button is pressed (after considering debounce)
+
+This function is called when a button is pressed (after considering debounce)
+
+@function Button\+Pressed 
+\begin{DoxyParams}{Parameters}
+{\em GPIO\+\_\+\+Pin} & number of pin pressed \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em none} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{app_8c_a5df4778dd54ddbdce2823263a6ea1e0d}\index{app.c@{app.c}!SwitchCursor@{SwitchCursor}}
+\index{SwitchCursor@{SwitchCursor}!app.c@{app.c}}
+\doxysubsubsection{\texorpdfstring{SwitchCursor()}{SwitchCursor()}}
+{\footnotesize\ttfamily \label{app_8c_a5df4778dd54ddbdce2823263a6ea1e0d} 
+void Switch\+Cursor (\begin{DoxyParamCaption}\item[{uint16\+\_\+t \texorpdfstring{$\ast$}{*}}]{dt}{}\end{DoxyParamCaption})}
+
+
+
+Switches cursor according to the state of the time/alarm set FSM. 
+
+@function Switch\+Cursor 
+\begin{DoxyParams}{Parameters}
+{\em dt} & pointer to the timeset object to be analized \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em none} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{app_8c_a539112e90f36d16f1b9133d5b291af53}\index{app.c@{app.c}!TimeSetInit@{TimeSetInit}}
+\index{TimeSetInit@{TimeSetInit}!app.c@{app.c}}
+\doxysubsubsection{\texorpdfstring{TimeSetInit()}{TimeSetInit()}}
+{\footnotesize\ttfamily \label{app_8c_a539112e90f36d16f1b9133d5b291af53} 
+void Time\+Set\+Init (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{app_8c_a58f56868ee62be31cd545ca374840152}{datetime\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{dt}{}\end{DoxyParamCaption})}
+
+
+
+Initializes the time set object to hour setting. 
+
+@function Time\+Set\+Init 
+\begin{DoxyParams}{Parameters}
+{\em none} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em none} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{app_8c_af4511bbec8abc31fff059b87485d20cb}\index{app.c@{app.c}!TimeSetUpdate@{TimeSetUpdate}}
+\index{TimeSetUpdate@{TimeSetUpdate}!app.c@{app.c}}
+\doxysubsubsection{\texorpdfstring{TimeSetUpdate()}{TimeSetUpdate()}}
+{\footnotesize\ttfamily \label{app_8c_af4511bbec8abc31fff059b87485d20cb} 
+bool\+\_\+t Time\+Set\+Update (\begin{DoxyParamCaption}\item[{uint16\+\_\+t \texorpdfstring{$\ast$}{*}}]{dt}{, }\item[{\mbox{\hyperlink{struct_d_s3231___date_time}{DS3231\+\_\+\+Date\+Time}} \texorpdfstring{$\ast$}{*}}]{time\+Set}{, }\item[{uint16\+\_\+t}]{button}{}\end{DoxyParamCaption})}
+
+
+
+Updates the time/alarm set FSM according to buttons pressed. 
+
+@function Time\+Set\+Update 
+\begin{DoxyParams}{Parameters}
+{\em dt} & pointer to the \doxylink{app_8c_a58f56868ee62be31cd545ca374840152}{datetime\+\_\+t} object to be analized \\
+\hline
+{\em time\+Set} & pointer to the \doxylink{struct_d_s3231___date_time}{DS3231\+\_\+\+Date\+Time} object to be filled \\
+\hline
+{\em button} & button pressed \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em boolean} & to indicate whether the time/alarm set is complete \\
+\hline
+\end{DoxyRetVals}
