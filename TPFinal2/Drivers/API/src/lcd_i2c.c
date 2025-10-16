@@ -44,18 +44,18 @@ void LCD_I2C_Init() {
     LCD_I2C_SendControlByte(0x30);
     I2CDelay(5);
 
-    LCD_I2C_SendControlByte(0x20);
+    LCD_I2C_SendControlByte(0x20);	/*LCD is set to 4-bit mode. PCF8574T has 8 GPIO pins and would need 10 to 12 to transmit 8 data bits at once*/
     I2CDelay(1);
 
-    LCD_I2C_SendControlByte(0x20);  // Function set: 4-bit, 2 lines, 5x8 font
+    LCD_I2C_SendControlByte(0x20);  /*Function set: 4-bit, 2 lines, 5x8 font*/
     LCD_I2C_SendControlByte(0x80);
     I2CDelay(1);
 
-    LCD_I2C_SendControlByte(0x00);  // Display control: Display off, Cursor off, Blink off
+    LCD_I2C_SendControlByte(0x00);  /*Display control: Display off, Cursor off, Blink off*/
     LCD_I2C_SendControlByte(0xF0);
     I2CDelay(1);
 
-    LCD_I2C_SendControlByte(0x00);  // Entry mode set: Increment, no shift
+    LCD_I2C_SendControlByte(0x00);  /*Entry mode set: Increment, no shift*/
     LCD_I2C_SendControlByte(0x60);
     I2CDelay(1);
 
@@ -65,7 +65,8 @@ void LCD_I2C_Init() {
 /*Send one 8-bit byte to the display. It sends each nibble twice, latching the enable bit. Declared in header file*/
 void LCD_I2C_Send(uint8_t data, uint8_t rs) {
     uint8_t data_u, data_l;
-    uint8_t data_t[BYTES_PER_BYTE];
+    uint8_t data_t[BYTES_PER_BYTE];	/* 4 bytes are sent per each byte of data. Data bytes are separated in upper and lower nibble due to 4-bit mode.
+    Then each nibble is sent twice, with enable in high, then low. This is to latch enable bit which triggers the transmission of data*/
     data_u = (data&HIGH_NIBBLE_MASK)|rs|BACKLIGHT|READWRITE; /* masking the upper nibble and adding the control, backlight and write command */
     data_l = ((data<<4)&HIGH_NIBBLE_MASK)|rs|BACKLIGHT|READWRITE;  /* masking the lower nibble and adding the control, backlight and write command */
     data_t[0] = data_u|ENABLE;
